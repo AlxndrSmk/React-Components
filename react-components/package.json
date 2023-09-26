@@ -11,8 +11,7 @@
     "lint:fix": "eslint --fix --ext .ts,.tsx ./src",
     "pretty": "prettier --check \"./src/**/*.{ts,tsx,json}\"",
     "fix": "prettier --write \"./src/**/*.{ts,tsx,json}\"",
-    "prepare": "cd .. && husky install react-components/.husky",
-    "lint-staged": "npx lint-staged"
+    "prepare": "cd .. && husky install react-components/.husky"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.0.3",
