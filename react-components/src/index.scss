@@ -12,9 +12,26 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-.App {
-  background-color: #ebedf0;
+.wrapper {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+.section {
+  &__top {
+    background-color: #ff7d7d;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__bottom {
+    background-color: #ececec;
+    display: flex;
+    flex: 2;
+    align-items: center;
+    justify-content: center;
+  }
 }
