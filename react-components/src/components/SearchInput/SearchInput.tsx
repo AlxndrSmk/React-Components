@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import getData from '../../services/api/getData';
 
 class SearchInput extends Component {
   constructor(props) {
@@ -7,22 +8,24 @@ class SearchInput extends Component {
     this.state = {
       inputValue: '',
       data: null,
+      isDisabled: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  async handleSubmit(event) {
+  async handleSubmit(event: { preventDefault: () => void }) {
     event.preventDefault();
+    const endpoint = this.state.inputValue.trim();
 
-    try {
-      const responce = await fetch('https://pokeapi.co/api/v2/ability/hp/');
-      const data = await responce.json();
+    this.setState({ isDisabled: true });
+    await getData(endpoint);
+    this.setState({ isDisabled: false });
+  }
 
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
+  handleChange(event) {
+    this.setState({ inputValue: event.target.value });
   }
 
   render() {
@@ -30,9 +33,14 @@ class SearchInput extends Component {
       <form onSubmit={this.handleSubmit}>
         <label>
           Search pokemon
-          <input type="text" name="name" value={this.state.inputValue} />
+          <input
+            type="text"
+            name="name"
+            value={this.state.inputValue}
+            onChange={this.handleChange}
+          />
         </label>
-        <input type="submit" value="Search" />
+        <input type="submit" value="Search" disabled={this.state.isDisabled} />
       </form>
     );
   }
