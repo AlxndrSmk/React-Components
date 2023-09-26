@@ -10,8 +10,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint --fix --ext .ts,.tsx ./src",
     "pretty": "prettier --check \"./src/**/*.{ts,tsx,json}\"",
-    "fix": "prettier --write \"./src/**/*.{ts,tsx,json}\"",
-    "prepare": "cd .. && husky install react-components/.husky"
+    "fix": "prettier --write \"./src/**/*.{ts,tsx,json}\""
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.0.3",
@@ -51,7 +50,7 @@
     "typescript": "^5.2.2"
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx,json,scss}": "npm run fix",
+    "src/**/*.{json,scss}": "npm run fix",
     "src/**/*.{ts,tsx}": "npm run lint:fix"
   }
 }
