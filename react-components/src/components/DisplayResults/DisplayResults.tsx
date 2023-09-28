@@ -10,16 +10,17 @@ class DisplayResults extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    // console.log('prevProps', prevProps.data);
+    // console.log('Props', this.props.data);
     if (prevProps.data !== this.props.data) {
       this.setState({ data: this.props.data });
     }
   }
 
   render() {
-    console.log('Display this: ', this);
-    console.log('Display props data: ', this.props.data);
+    // console.log('propsdata', this.props.data);
 
-    return <div>{JSON.stringify(this.state.data)}</div>;
+    return <div>{JSON.stringify(this.props.data)}</div>;
   }
 }
 
