@@ -1,4 +1,6 @@
-class DisplayResults extends Component {
+import React from 'react';
+
+class DisplayResults extends React.Component {
   constructor(props) {
     super(props);
 
@@ -7,8 +9,17 @@ class DisplayResults extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.data !== this.props.data) {
+      this.setState({ data: this.props.data });
+    }
+  }
+
   render() {
-    return <div>{this.props.data}</div>;
+    console.log('Display this: ', this);
+    console.log('Display props data: ', this.props.data);
+
+    return <div>{JSON.stringify(this.state.data)}</div>;
   }
 }
 

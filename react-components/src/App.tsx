@@ -1,26 +1,33 @@
 import React from 'react';
+import DisplayResults from './components/DisplayResults/DisplayResults';
 import SearchInput from './components/SearchInput/SearchInput';
-import getData from './services/api/getData';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      results: [],
+      data: null,
     };
+
+    this.updateData = this.updateData.bind(this);
   }
 
-  componentDidMount(): void {
-    this.setState({ results: getData('') });
+  updateData(data) {
+    this.setState({ data });
   }
 
   render() {
+    console.log('Appdata', this.state.data);
+
     return (
       <div className="wrapper">
         <div className="section__top">
-          <SearchInput />
+          <SearchInput updateData={this.updateData} />
         </div>
-        <div className="section__bottom">Main page</div>
+        <div className="section__bottom">
+          <DisplayResults data={this.state.data} />
+        </div>
       </div>
     );
   }
