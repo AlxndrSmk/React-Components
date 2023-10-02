@@ -1,0 +1,47 @@
+.form {
+  align-items: flex-end;
+  border-bottom: 1px solid #000;
+  display: flex;
+
+  &__input {
+    border: none;
+    font-family: 'Urbanist', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans';
+    font-size: 1em;
+    height: 35px;
+    padding: 7px;
+    transition: width 0.5s;
+    width: 170px;
+
+    &:focus {
+      outline: none;
+      transition: width 0.5s !important;
+      width: 230px;
+    }
+  }
+
+  &__button {
+    background-color: #fff;
+    border: 0;
+    box-sizing: border-box;
+    height: 35px;
+    padding: 8px;
+    width: 35px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+//   box-sizing: inherit;
+//   margin: 0;
+//   font: inherit;
+//   line-height: inherit;
+//   height: 40px;
+//   padding: 0 10px 0 8px;
+//   border: 0;
+//   transition: width 0.5s;
+//   width: 130px;
+//   color: #231f20;
+//   font-size: 1em;
+//   font-family: 'humanist-521-light';

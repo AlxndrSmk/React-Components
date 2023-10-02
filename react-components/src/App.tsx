@@ -1,7 +1,9 @@
 import React from 'react';
 import DisplayResults from './components/DisplayResults/DisplayResults';
 import SearchInput from './components/SearchInput/SearchInput';
-import getData from './services/api/getData';
+import getDataByValue from './services/api/getDataByValue';
+import getDataByLink from './services/api/getDataByLink';
+import Pokemon from './components/Pokemon/Pokemon';
 
 class App extends React.Component {
   constructor(props) {
@@ -10,35 +12,39 @@ class App extends React.Component {
     this.state = {
       data: null,
       isDisabled: true,
+      isPokemonShow: false,
+      link: '',
     };
-
-    this.updateData = this.updateData.bind(this);
   }
 
-  async componentDidMount() {
+  componentDidMount = async () => {
     const value = localStorage.getItem('inputValue') || '';
-    await this.getData(value);
-  }
+    await this.getDataByValue(value);
+  };
 
-  async getData(value) {
-    const apiData = await getData(value);
+  getDataByValue = async (value) => {
+    value ? this.setState({ isPokemonShow: true }) : this.setState({ isPokemonShow: false });
+
+    const apiData = await getDataByValue(value);
     this.setState({ data: apiData, isDisabled: false });
-    console.log(this.state.data);
-  }
+  };
 
-  updateData(data) {
+  getDataByLink = async (value) => {
+    const apiData = await getDataByLink(value);
+    this.setState({ data: apiData, isDisabled: false });
+  };
+
+  updateData = (data) => {
     this.setState({ data });
-  }
+  };
 
-  handleSubmit = async (event) => {
-    console.log(event);
-    this.setState({ ...this.state, isDisabled: true });
-    await this.getData(event);
+  handleSubmit = async (value) => {
+    localStorage.setItem('inputValue', value);
+    this.setState({ isDisabled: true });
+    await this.getDataByValue(value);
   };
 
   render() {
-    // console.log('Appdata', this.state.data);
-
     return (
       <div className="wrapper">
         <div className="section__top">
@@ -49,7 +55,15 @@ class App extends React.Component {
           />
         </div>
         <div className="section__bottom">
-          <DisplayResults data={this.state.data} />
+          {this.state.isPokemonShow ? (
+            <Pokemon data={this.state.data} getDataByValue={this.getDataByValue} />
+          ) : (
+            <DisplayResults
+              getDataByLink={this.getDataByLink}
+              data={this.state.data}
+              getDataByValue={this.getDataByValue}
+            />
+          )}
         </div>
       </div>
     );

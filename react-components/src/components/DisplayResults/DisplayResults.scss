@@ -1,0 +1,21 @@
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  max-width: 300px;
+}
+
+.data-list {
+  padding-left: 0;
+
+  &__item {
+    cursor: pointer;
+    margin: 1px;
+    padding: 3px;
+    transition: 0.1s ease;
+
+    &:hover {
+      transform: scale(105%);
+    }
+  }
+}

@@ -10,7 +10,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint --fix --ext .ts,.tsx ./src",
     "pretty": "prettier --check \"./src/**/*.{ts,tsx,json}\"",
-    "fix": "prettier --write \"./src/**/*.{ts,tsx,json}\"",
+    "fix": "prettier --write \"./src/**/*.{ts,tsx,json,scss}\"",
     "prepare": "cd .. && husky install react-components/.husky"
   },
   "dependencies": {

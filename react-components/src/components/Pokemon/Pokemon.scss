@@ -1,0 +1,19 @@
+.pokemon {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+
+  &__name {
+    font-size: 40px;
+    text-transform: uppercase;
+  }
+
+  &__img {
+    max-width: 300px;
+  }
+
+  &__description {
+    text-align: justify;
+  }
+}
