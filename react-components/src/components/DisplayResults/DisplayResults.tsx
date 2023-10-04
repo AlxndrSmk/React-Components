@@ -1,5 +1,6 @@
 import React from 'react';
 import './DisplayResults.scss';
+import Loader from '../Loader/Loader';
 
 class DisplayResults extends React.Component {
   constructor(props) {
@@ -17,14 +18,12 @@ class DisplayResults extends React.Component {
   }
 
   handleUrlClick = (e) => {
-    console.log(e);
     this.props.getDataByLink(e);
   };
 
   render() {
-    // TODO: loader
     if (!this.props.data) {
-      return <div>No data to display</div>;
+      return <Loader />;
     }
 
     if (this.props.data.results) {
@@ -33,19 +32,24 @@ class DisplayResults extends React.Component {
 
       return (
         <>
-          <ul className="data-list">
+          <div className="items__wrapper">
             {this.props.data.results.map((data) => {
+              const imgSrc = `/images/items/${parseInt(data.url.match(/\d+/))}.jpg`;
+
               return (
-                <li
+                <div
                   key={data.name}
                   onClick={() => this.handleUrlClick(data.url)}
-                  className="data-list__item"
+                  className="item__wrapper"
                 >
+                  <div className="item__img__wrapper">
+                    <img className="item__img" src={imgSrc} alt={data.name} />
+                  </div>
                   {data.name}
-                </li>
+                </div>
               );
             })}
-          </ul>
+          </div>
           <div className="buttons">
             <button
               className="button button__prev"

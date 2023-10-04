@@ -2,7 +2,7 @@ import React from 'react';
 import DisplayResults from './components/DisplayResults/DisplayResults';
 import SearchInput from './components/SearchInput/SearchInput';
 import getDataByValue from './services/api/getDataByValue';
-import Pokemon from './components/Pokemon/Pokemon';
+import Item from './components/Item/Item';
 import getDataByLink from './services/api/getDataByLink';
 
 class App extends React.Component {
@@ -12,7 +12,7 @@ class App extends React.Component {
     this.state = {
       data: null,
       isDisabled: true,
-      isPokemonShow: false,
+      isItemShow: false,
       link: '',
     };
   }
@@ -30,7 +30,7 @@ class App extends React.Component {
 
   getDataByLink = async (value) => {
     const apiData = await getDataByLink(value);
-    this.setState({ data: apiData, isDisabled: false, isPokemonShow: true });
+    this.setState({ data: apiData, isDisabled: false, isItemShow: false });
   };
 
   updateData = (data) => {
@@ -53,8 +53,8 @@ class App extends React.Component {
           />
         </div>
         <div className="section__bottom">
-          {this.state.isPokemonShow ? (
-            <Pokemon getDataByValue={this.getDataByValue} data={this.state.data} />
+          {this.state.isItemShow ? (
+            <Item getDataByValue={this.getDataByValue} data={this.state.data} />
           ) : (
             <DisplayResults
               getDataByLink={this.getDataByLink}

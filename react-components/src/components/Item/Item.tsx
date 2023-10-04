@@ -1,8 +1,8 @@
 import React from 'react';
-import './Pokemon.scss';
+import './Item.scss';
 import Loader from '../Loader/Loader';
 
-class Pokemon extends React.Component {
+class Item extends React.Component {
   constructor(props) {
     super(props);
 
@@ -26,19 +26,16 @@ class Pokemon extends React.Component {
       console.log('the data has arrived');
       console.log(this.props.data);
 
+      const imgSrc = `/images/items/${parseInt(this.props.data.url.match(/\d+/))}.jpg`;
+
       return (
-        <div className="pokemon">
-          <div className="pokemon__name">{this.props.data.name}</div>
-          <img
-            className="pokemon__img"
-            alt={this.props.data.name}
-            src={this.props.data.sprites.other.home.front_default}
-          />
-          <div className="pokemon__height">Weight: {this.props.data.weight / 10} kg</div>
-          <div className="pokemon__height">Height: {this.props.data.height * 10} sm</div>
+        <div className="item__wrapper">
+          <div className="item__title">{this.props.data.name}</div>
+          <img className="item__img" alt={this.props.data.name} src={imgSrc} />
+          <div className="item__weight">Weight: {this.props.data.mass / 10} kg</div>
 
           <button onClick={() => this.props.getDataByValue('')} className="button button__back">
-            Back to pokemons
+            Back to menu
           </button>
         </div>
       );
@@ -46,4 +43,4 @@ class Pokemon extends React.Component {
   }
 }
 
-export default Pokemon;
+export default Item;

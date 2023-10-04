@@ -28,7 +28,7 @@ class SearchInput extends React.Component {
             type="text"
             value={this.state.inputValue}
             onChange={this.handleChange}
-            placeholder="Find pokemon"
+            placeholder="Search"
           />
         </label>
         <button

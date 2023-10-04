@@ -14,8 +14,17 @@
 
     &:focus {
       outline: none;
-      transition: width 0.5s !important;
+      transition: width 0.5s;
       width: 230px;
+    }
+
+    @media screen and (max-width: 300px) {
+      width: 100px;
+
+      &:focus {
+        transition: none;
+        width: 100px;
+      }
     }
   }
 
