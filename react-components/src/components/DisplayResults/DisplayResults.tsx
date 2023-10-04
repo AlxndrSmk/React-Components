@@ -17,13 +17,8 @@ class DisplayResults extends React.Component {
   }
 
   handleUrlClick = (e) => {
-    if (e.target.className.includes('next')) {
-      this.props.getDataByLink(this.props.data.next);
-    } else if (e.target.className.includes('prev')) {
-      this.props.getDataByLink(this.props.data.previous);
-    } else {
-      this.props.getDataByValue(e.target.innerHTML);
-    }
+    console.log(e);
+    this.props.getDataByLink(e);
   };
 
   render() {
@@ -33,12 +28,19 @@ class DisplayResults extends React.Component {
     }
 
     if (this.props.data.results) {
+      console.log('the data has arrived');
+      console.log(this.props.data);
+
       return (
         <>
           <ul className="data-list">
             {this.props.data.results.map((data) => {
               return (
-                <li key={data.name} onClick={this.handleUrlClick} className="data-list__item">
+                <li
+                  key={data.name}
+                  onClick={() => this.handleUrlClick(data.url)}
+                  className="data-list__item"
+                >
                   {data.name}
                 </li>
               );
@@ -47,14 +49,14 @@ class DisplayResults extends React.Component {
           <div className="buttons">
             <button
               className="button button__prev"
-              onClick={this.handleUrlClick}
+              onClick={() => this.handleUrlClick(this.props.data.previous)}
               disabled={!this.props.data.previous}
             >
               Prev
             </button>
             <button
               className="button button__next"
-              onClick={this.handleUrlClick}
+              onClick={() => this.handleUrlClick(this.props.data.next)}
               disabled={!this.props.data.next}
             >
               Next

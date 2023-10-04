@@ -3,7 +3,6 @@ const getDataByLink = async (link) => {
     const responce = await fetch(link);
     const data = await responce.json();
 
-    console.log('dataByLink', data);
     return data;
   } catch (error) {
     console.log('msg', error);

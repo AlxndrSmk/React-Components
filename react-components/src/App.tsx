@@ -2,8 +2,8 @@ import React from 'react';
 import DisplayResults from './components/DisplayResults/DisplayResults';
 import SearchInput from './components/SearchInput/SearchInput';
 import getDataByValue from './services/api/getDataByValue';
-import getDataByLink from './services/api/getDataByLink';
 import Pokemon from './components/Pokemon/Pokemon';
+import getDataByLink from './services/api/getDataByLink';
 
 class App extends React.Component {
   constructor(props) {
@@ -23,15 +23,14 @@ class App extends React.Component {
   };
 
   getDataByValue = async (value) => {
-    value ? this.setState({ isPokemonShow: true }) : this.setState({ isPokemonShow: false });
-
+    localStorage.clear();
     const apiData = await getDataByValue(value);
     this.setState({ data: apiData, isDisabled: false });
   };
 
   getDataByLink = async (value) => {
     const apiData = await getDataByLink(value);
-    this.setState({ data: apiData, isDisabled: false });
+    this.setState({ data: apiData, isDisabled: false, isPokemonShow: true });
   };
 
   updateData = (data) => {
@@ -40,7 +39,6 @@ class App extends React.Component {
 
   handleSubmit = async (value) => {
     localStorage.setItem('inputValue', value);
-    this.setState({ isDisabled: true });
     await this.getDataByValue(value);
   };
 
@@ -56,7 +54,7 @@ class App extends React.Component {
         </div>
         <div className="section__bottom">
           {this.state.isPokemonShow ? (
-            <Pokemon data={this.state.data} getDataByValue={this.getDataByValue} />
+            <Pokemon getDataByValue={this.getDataByValue} data={this.state.data} />
           ) : (
             <DisplayResults
               getDataByLink={this.getDataByLink}

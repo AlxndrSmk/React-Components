@@ -1,8 +1,8 @@
 const getDataByValue = async (endpoint) => {
   try {
-    const responce = await fetch(`https://pokeapi.co/api/v2/pokemon/${endpoint}`);
+    console.log(endpoint);
+    const responce = await fetch(`https://swapi.dev/api/people/?search=${endpoint}`);
     const data = await responce.json();
-    console.log('data', data);
 
     return data;
   } catch (error) {

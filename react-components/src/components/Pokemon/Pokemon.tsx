@@ -23,6 +23,7 @@ class Pokemon extends React.Component {
     }
 
     if (this.props.data) {
+      console.log('the data has arrived');
       console.log(this.props.data);
 
       return (
@@ -33,6 +34,9 @@ class Pokemon extends React.Component {
             alt={this.props.data.name}
             src={this.props.data.sprites.other.home.front_default}
           />
+          <div className="pokemon__height">Weight: {this.props.data.weight / 10} kg</div>
+          <div className="pokemon__height">Height: {this.props.data.height * 10} sm</div>
+
           <button onClick={() => this.props.getDataByValue('')} className="button button__back">
             Back to pokemons
           </button>
