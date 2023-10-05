@@ -33,6 +33,11 @@ class App extends React.Component {
     this.setState({ data: apiData, isDisabled: false, isItemShow: false });
   };
 
+  getItemData = async (value) => {
+    const apiData = await getDataByLink(value);
+    this.setState({ data: apiData, isDisabled: false, isItemShow: true });
+  };
+
   updateData = (data) => {
     this.setState({ data });
   };
@@ -60,6 +65,7 @@ class App extends React.Component {
               getDataByLink={this.getDataByLink}
               data={this.state.data}
               getDataByValue={this.getDataByValue}
+              getItemData={this.getItemData}
             />
           )}
         </div>
