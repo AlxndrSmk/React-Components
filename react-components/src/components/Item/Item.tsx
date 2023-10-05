@@ -33,7 +33,10 @@ class Item extends React.Component {
           <div className="item__title">{this.props.data.name}</div>
           <img className="item__img" alt={this.props.data.name} src={imgSrc} />
           <div className="item__weight">Weight: {this.props.data.mass / 10} kg</div>
-
+          <div className="item__height">Height: {this.props.data.height / 100} m</div>
+          <div className="item__gender">Gender: {this.props.data.gender}</div>
+          <div className="item__birthdate">Date of birth: {this.props.data.birth_year}</div>
+          <div className="item__birthdate">Homeworld: {this.props.data.homeworld}</div>
           <button onClick={() => this.props.getDataByValue('')} className="button button__back">
             Back to menu
           </button>

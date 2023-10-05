@@ -23,19 +23,18 @@ class App extends React.Component {
   };
 
   getDataByValue = async (value) => {
-    localStorage.clear();
     const apiData = await getDataByValue(value);
-    this.setState({ data: apiData, isDisabled: false });
+    this.setState({ data: apiData, isItemShow: false });
   };
 
   getDataByLink = async (value) => {
     const apiData = await getDataByLink(value);
-    this.setState({ data: apiData, isDisabled: false, isItemShow: false });
+    this.setState({ data: apiData, isItemShow: false });
   };
 
   getItemData = async (value) => {
     const apiData = await getDataByLink(value);
-    this.setState({ data: apiData, isDisabled: false, isItemShow: true });
+    this.setState({ data: apiData, isItemShow: true });
   };
 
   updateData = (data) => {

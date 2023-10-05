@@ -21,6 +21,10 @@ class DisplayResults extends React.Component {
     this.props.getDataByLink(e);
   };
 
+  handleItemClick = (e) => {
+    this.props.getItemData(e);
+  };
+
   render() {
     if (!this.props.data) {
       return <Loader />;
@@ -39,7 +43,7 @@ class DisplayResults extends React.Component {
               return (
                 <div
                   key={data.name}
-                  onClick={() => this.handleUrlClick(data.url)}
+                  onClick={() => this.handleItemClick(data.url)}
                   className="item__wrapper"
                 >
                   <div className="item__img__wrapper">
