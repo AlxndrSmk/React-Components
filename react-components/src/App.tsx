@@ -11,9 +11,9 @@ class App extends React.Component {
 
     this.state = {
       data: null,
-      isDisabled: true,
+      homeworldData: null,
+      isDataLoaded: false,
       isItemShow: false,
-      link: '',
     };
   }
 
@@ -22,23 +22,20 @@ class App extends React.Component {
     await this.getDataByValue(value);
   };
 
-  getDataByValue = async (value) => {
-    const apiData = await getDataByValue(value);
-    this.setState({ data: apiData, isItemShow: false });
-  };
-
-  getDataByLink = async (value) => {
+  getPageData = async (value) => {
     const apiData = await getDataByLink(value);
-    this.setState({ data: apiData, isItemShow: false });
+    this.setState({ data: apiData, isItemShow: false, isDataLoaded: true });
   };
 
   getItemData = async (value) => {
-    const apiData = await getDataByLink(value);
-    this.setState({ data: apiData, isItemShow: true });
+    const itemData = await getDataByLink(value);
+    const homeworldData = await getDataByLink(itemData.homeworld);
+    this.setState({ data: itemData, homeworldData, isItemShow: true, isDataLoaded: true });
   };
 
-  updateData = (data) => {
-    this.setState({ data });
+  getDataByValue = async (value) => {
+    const apiData = await getDataByValue(value);
+    this.setState({ data: apiData, isItemShow: false, isDataLoaded: true });
   };
 
   handleSubmit = async (value) => {
@@ -50,21 +47,22 @@ class App extends React.Component {
     return (
       <div className="wrapper">
         <div className="section__top">
-          <SearchInput
-            updateData={this.updateData}
-            handleSubmit={this.handleSubmit}
-            isDisabled={this.state.isDisabled}
-          />
+          <SearchInput handleSubmit={this.handleSubmit} />
         </div>
         <div className="section__bottom">
           {this.state.isItemShow ? (
-            <Item getDataByValue={this.getDataByValue} data={this.state.data} />
+            <Item
+              data={this.state.data}
+              homeworldData={this.state.homeworldData}
+              isDisabled={this.state.isDataLoaded}
+              getDataByValue={this.getDataByValue}
+            />
           ) : (
             <DisplayResults
-              getDataByLink={this.getDataByLink}
+              getPageData={this.getPageData}
               data={this.state.data}
-              getDataByValue={this.getDataByValue}
               getItemData={this.getItemData}
+              isDataLoaded={this.state.isDataLoaded}
             />
           )}
         </div>

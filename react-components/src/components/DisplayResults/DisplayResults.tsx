@@ -17,20 +17,12 @@ class DisplayResults extends React.Component {
     }
   }
 
-  handleUrlClick = (e) => {
-    this.props.getDataByLink(e);
-  };
-
-  handleItemClick = (e) => {
-    this.props.getItemData(e);
-  };
-
   render() {
-    if (!this.props.data) {
+    if (!this.props.isDataLoaded) {
       return <Loader />;
     }
 
-    if (this.props.data.results) {
+    if (this.props.isDataLoaded) {
       console.log('the data has arrived');
       console.log(this.props.data);
 
@@ -43,7 +35,7 @@ class DisplayResults extends React.Component {
               return (
                 <div
                   key={data.name}
-                  onClick={() => this.handleItemClick(data.url)}
+                  onClick={() => this.props.getItemData(data.url)}
                   className="item__wrapper"
                 >
                   <div className="item__img__wrapper">
@@ -57,14 +49,14 @@ class DisplayResults extends React.Component {
           <div className="buttons">
             <button
               className="button button__prev"
-              onClick={() => this.handleUrlClick(this.props.data.previous)}
+              onClick={() => this.props.getPageData(this.props.data.previous)}
               disabled={!this.props.data.previous}
             >
               Prev
             </button>
             <button
               className="button button__next"
-              onClick={() => this.handleUrlClick(this.props.data.next)}
+              onClick={() => this.props.getPageData(this.props.data.next)}
               disabled={!this.props.data.next}
             >
               Next

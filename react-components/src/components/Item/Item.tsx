@@ -25,6 +25,7 @@ class Item extends React.Component {
     if (this.props.data) {
       console.log('the data has arrived');
       console.log(this.props.data);
+      console.log(this.props.homeworldData);
 
       const imgSrc = `/images/items/${parseInt(this.props.data.url.match(/\d+/))}.jpg`;
 
@@ -36,8 +37,12 @@ class Item extends React.Component {
           <div className="item__height">Height: {this.props.data.height / 100} m</div>
           <div className="item__gender">Gender: {this.props.data.gender}</div>
           <div className="item__birthdate">Date of birth: {this.props.data.birth_year}</div>
-          <div className="item__birthdate">Homeworld: {this.props.data.homeworld}</div>
-          <button onClick={() => this.props.getDataByValue('')} className="button button__back">
+          <div className="item__birthdate">Homeworld: {this.props.homeworldData.name}</div>
+          <button
+            disabled={!this.props.isDisabled}
+            onClick={() => this.props.getDataByValue('')}
+            className="button button__back"
+          >
             Back to menu
           </button>
         </div>
