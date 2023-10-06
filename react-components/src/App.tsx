@@ -14,6 +14,7 @@ class App extends React.Component {
       homeworldData: null,
       isDataLoaded: false,
       isItemShow: false,
+      currentPage: 1,
     };
   }
 
@@ -35,7 +36,8 @@ class App extends React.Component {
 
   getDataByValue = async (value) => {
     const apiData = await getDataByValue(value);
-    this.setState({ data: apiData, isItemShow: false, isDataLoaded: true });
+    const currentPage = parseInt(apiData.next.match(/\d+/));
+    this.setState({ data: apiData, isItemShow: false, isDataLoaded: true, currentPage });
   };
 
   handleSubmit = async (value) => {
@@ -56,6 +58,7 @@ class App extends React.Component {
               homeworldData={this.state.homeworldData}
               isDisabled={this.state.isDataLoaded}
               getDataByValue={this.getDataByValue}
+              currentPage={this.state.currentPage}
             />
           ) : (
             <DisplayResults
