@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700&family=Urbanist:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,500;1,700;1,900&display=swap');
+@import './variables';
 
 * {
   box-sizing: border-box;
   margin: 0;
+  color: $font-color;
 }
 
 html {
@@ -13,20 +15,19 @@ html {
   margin: 0;
 }
 
+body {
+  background-color: #000;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
-
 .section {
   &__top {
+    position: relative;
     align-items: center;
-    background-color: #171717;
+    background-color: #000;
     display: flex;
     height: 100px;
     justify-content: flex-end;
@@ -39,7 +40,8 @@ code {
 
   &__bottom {
     align-items: center;
-    background-color: #ececec;
+    background-attachment: fixed;
+    background-image: url('/images/webp/starwars_background.webp');
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -48,14 +50,18 @@ code {
   }
 }
 
+.logo {
+  height: 100%;
+}
+
 li {
   list-style: none;
 }
 
 .button {
-  background-color: #ffffff;
-  border: 3px solid #000000;
-  color: #000000;
+  background-color: transparent;
+  border: 2px solid $font-color;
+  color: $font-color;
   cursor: pointer;
   font-weight: 600;
   margin: 0 10px;
@@ -65,12 +71,6 @@ li {
 
   &__back {
     white-space: nowrap;
-  }
-
-  &:hover {
-    background-color: #000000;
-    border: 3px solid #ffffff;
-    color: #ffffff;
   }
 
   &:disabled,

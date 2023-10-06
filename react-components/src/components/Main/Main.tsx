@@ -1,8 +1,8 @@
 import React from 'react';
-import './DisplayResults.scss';
+import './Main.scss';
 import Loader from '../Loader/Loader';
 
-class DisplayResults extends React.Component {
+class Main extends React.Component {
   constructor(props) {
     super(props);
 
@@ -39,14 +39,19 @@ class DisplayResults extends React.Component {
                   className="item__wrapper"
                 >
                   <div className="item__img__wrapper">
-                    <img className="item__img" src={imgSrc} alt={data.name} />
+                    <figure className="item__text_effect">
+                      <img className="item__img" src={imgSrc} alt={data.name} />
+                      <figcaption className="item__figcaption">
+                        <p className="item__img__title">{data.name}</p>
+                      </figcaption>
+                    </figure>
                   </div>
-                  {data.name}
                 </div>
               );
             })}
           </div>
           <div className="buttons">
+            <div className="hui"></div>
             <button
               className="button button__prev"
               onClick={() => this.props.getPageData(this.props.data.previous)}
@@ -68,4 +73,4 @@ class DisplayResults extends React.Component {
   }
 }
 
-export default DisplayResults;
+export default Main;

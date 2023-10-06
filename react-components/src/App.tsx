@@ -1,8 +1,7 @@
 import React from 'react';
-import DisplayResults from './components/DisplayResults/DisplayResults';
-import SearchInput from './components/SearchInput/SearchInput';
+import Main from './components/Main/Main';
 import getDataByValue from './services/api/getDataByValue';
-import Item from './components/Item/Item';
+// import Item from './components/Item/Item';
 import getDataByLink from './services/api/getDataByLink';
 
 class App extends React.Component {
@@ -13,7 +12,6 @@ class App extends React.Component {
       data: null,
       homeworldData: null,
       isDataLoaded: false,
-      isItemShow: false,
       currentPage: 1,
     };
   }
@@ -25,19 +23,20 @@ class App extends React.Component {
 
   getPageData = async (value) => {
     const apiData = await getDataByLink(value);
-    this.setState({ data: apiData, isItemShow: false, isDataLoaded: true });
+    this.setState({ data: apiData, isDataLoaded: true });
   };
 
   getItemData = async (value) => {
     const itemData = await getDataByLink(value);
     const homeworldData = await getDataByLink(itemData.homeworld);
-    this.setState({ data: itemData, homeworldData, isItemShow: true, isDataLoaded: true });
+    this.setState({ data: itemData, homeworldData, isDataLoaded: true });
   };
 
   getDataByValue = async (value) => {
     const apiData = await getDataByValue(value);
-    const currentPage = parseInt(apiData.next.match(/\d+/));
-    this.setState({ data: apiData, isItemShow: false, isDataLoaded: true, currentPage });
+    console.log(apiData);
+    const currentPage = parseInt(apiData.next?.match(/\d+/));
+    this.setState({ data: apiData, isDataLoaded: true, currentPage });
   };
 
   handleSubmit = async (value) => {
@@ -47,28 +46,21 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="wrapper">
-        <div className="section__top">
-          <SearchInput handleSubmit={this.handleSubmit} />
-        </div>
-        <div className="section__bottom">
-          {this.state.isItemShow ? (
-            <Item
+      <div className="section__bottom">
+        {/* <Item
               data={this.state.data}
               homeworldData={this.state.homeworldData}
               isDisabled={this.state.isDataLoaded}
               getDataByValue={this.getDataByValue}
               currentPage={this.state.currentPage}
-            />
-          ) : (
-            <DisplayResults
-              getPageData={this.getPageData}
-              data={this.state.data}
-              getItemData={this.getItemData}
-              isDataLoaded={this.state.isDataLoaded}
-            />
-          )}
-        </div>
+            /> */}
+
+        <Main
+          getPageData={this.getPageData}
+          data={this.state.data}
+          getItemData={this.getItemData}
+          isDataLoaded={this.state.isDataLoaded}
+        />
       </div>
     );
   }
