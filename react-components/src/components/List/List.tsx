@@ -1,8 +1,9 @@
 import React from 'react';
-import './Main.scss';
+import './List.scss';
 import Loader from '../Loader/Loader';
+import { Link } from 'react-router-dom';
 
-class Main extends React.Component {
+class List extends React.Component {
   constructor(props) {
     super(props);
 
@@ -33,9 +34,9 @@ class Main extends React.Component {
               const imgSrc = `/images/items/${parseInt(data.url.match(/\d+/))}.jpg`;
 
               return (
-                <div
+                <Link
                   key={data.name}
-                  onClick={() => this.props.getItemData(data.url)}
+                  to={`item/${parseInt(data.url.match(/\d+/))}`}
                   className="item__wrapper"
                 >
                   <div className="item__img__wrapper">
@@ -46,7 +47,7 @@ class Main extends React.Component {
                       </figcaption>
                     </figure>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>
@@ -73,4 +74,4 @@ class Main extends React.Component {
   }
 }
 
-export default Main;
+export default List;

@@ -1,0 +1,26 @@
+@font-face {
+  font-family: Starjout;
+  src: url(/fonts/starjout/Starjout.ttf);
+}
+
+.title {
+  font-size: 8em;
+}
+
+.description {
+  font-size: 3em;
+}
+
+.title,
+.description {
+  font-family: Starjout;
+  text-align: center;
+  z-index: 1;
+}
+
+.img {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 50%;
+}

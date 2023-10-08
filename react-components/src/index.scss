@@ -15,6 +15,10 @@ html {
   margin: 0;
 }
 
+a {
+  text-decoration: none;
+}
+
 body {
   background-color: #000;
 }
@@ -24,20 +28,6 @@ code {
 }
 
 .section {
-  &__top {
-    position: relative;
-    align-items: center;
-    background-color: #000;
-    display: flex;
-    height: 100px;
-    justify-content: flex-end;
-    padding: 20px 50px;
-
-    @media screen and (max-width: 300px) {
-      justify-content: center;
-    }
-  }
-
   &__bottom {
     align-items: center;
     background-attachment: fixed;
@@ -48,10 +38,6 @@ code {
     justify-content: center;
     padding: 10px;
   }
-}
-
-.logo {
-  height: 100%;
 }
 
 li {
@@ -68,6 +54,11 @@ li {
   padding: 5px;
   text-transform: uppercase;
   transition: 0.1s ease;
+  z-index: 1;
+
+  &:hover {
+    outline: 1px solid $font-color;
+  }
 
   &__back {
     white-space: nowrap;
@@ -78,6 +69,6 @@ li {
     background-color: #cccccc;
     border: 3px solid #999999;
     color: #666666;
-    cursor: default;
+    cursor: not-allowed;
   }
 }

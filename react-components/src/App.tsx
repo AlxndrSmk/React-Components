@@ -1,13 +1,12 @@
 import React from 'react';
-import Main from './components/Main/Main';
 import getDataByValue from './services/api/getDataByValue';
-// import Item from './components/Item/Item';
 import getDataByLink from './services/api/getDataByLink';
+import List from './components/List/List';
+import SearchInput from './components/SearchInput/SearchInput';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       data: null,
       homeworldData: null,
@@ -33,10 +32,11 @@ class App extends React.Component {
   };
 
   getDataByValue = async (value) => {
+    this.setState(() => ({ isDataLoaded: false }));
     const apiData = await getDataByValue(value);
     console.log(apiData);
     const currentPage = parseInt(apiData.next?.match(/\d+/));
-    this.setState({ data: apiData, isDataLoaded: true, currentPage });
+    this.setState(() => ({ data: apiData, isDataLoaded: true, currentPage }));
   };
 
   handleSubmit = async (value) => {
@@ -46,7 +46,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="section__bottom">
+      <>
         {/* <Item
               data={this.state.data}
               homeworldData={this.state.homeworldData}
@@ -54,14 +54,14 @@ class App extends React.Component {
               getDataByValue={this.getDataByValue}
               currentPage={this.state.currentPage}
             /> */}
-
-        <Main
+        {this.state.isDataLoaded && <SearchInput handleSubmit={this.handleSubmit} />}
+        <List
           getPageData={this.getPageData}
           data={this.state.data}
           getItemData={this.getItemData}
           isDataLoaded={this.state.isDataLoaded}
         />
-      </div>
+      </>
     );
   }
 }

@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './Item.module.scss';
 import Loader from '../Loader/Loader';
+import getDataByLink from '../../services/api/getDataByLink';
+import withRouter from '../../routes/withRouter';
 
 class Item extends React.Component {
   constructor(props) {
@@ -11,11 +13,16 @@ class Item extends React.Component {
     };
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.data !== this.props.data) {
-      this.setState({ data: this.props.data });
-    }
-  }
+  componentDidMount = async () => {
+    console.log(this.props);
+    await this.getItemData(1);
+  };
+
+  getItemData = async (value) => {
+    const itemData = await getDataByLink(`https://swapi.dev/api/people/${value}`);
+    const homeworldData = await getDataByLink(itemData.homeworld);
+    this.setState({ data: itemData, homeworldData, isDataLoaded: true });
+  };
 
   render() {
     if (!this.props.data) {
@@ -60,4 +67,4 @@ class Item extends React.Component {
   }
 }
 
-export default Item;
+export default withRouter(Item);

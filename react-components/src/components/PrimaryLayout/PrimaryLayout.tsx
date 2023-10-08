@@ -10,7 +10,9 @@ class PrimaryLayout extends React.Component {
     return (
       <div className={styles.wrapper}>
         <Header />
-        <Outlet />
+        <div className="section__bottom">
+          <Outlet />
+        </div>
       </div>
     );
   }
