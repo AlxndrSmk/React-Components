@@ -14,7 +14,9 @@ class Item extends React.Component {
   }
 
   componentDidMount = async () => {
-    console.log(this.props);
+    const id = this.props.match.params.id;
+    console.log(id);
+    // console.log(this.props);
     await this.getItemData(1);
   };
 
@@ -30,9 +32,9 @@ class Item extends React.Component {
     }
 
     if (this.props.data) {
-      console.log('the data has arrived');
       console.log(this.props.data);
       console.log(this.props.homeworldData);
+      console.log(this.props);
 
       const imgSrc = `/images/items/${parseInt(this.props.data.url.match(/\d+/))}.jpg`;
 

@@ -3,6 +3,7 @@ import getDataByValue from './services/api/getDataByValue';
 import getDataByLink from './services/api/getDataByLink';
 import List from './components/List/List';
 import SearchInput from './components/SearchInput/SearchInput';
+import withRouter from './routes/withRouter';
 
 class App extends React.Component {
   constructor(props) {
@@ -16,6 +17,11 @@ class App extends React.Component {
   }
 
   componentDidMount = async () => {
+    const queryParameters = new URLSearchParams(window.location.search);
+    console.log(queryParameters);
+    const type = queryParameters.get('search');
+    console.log(type);
+
     const value = localStorage.getItem('inputValue') || '';
     await this.getDataByValue(value);
   };
@@ -66,4 +72,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withRouter(App);

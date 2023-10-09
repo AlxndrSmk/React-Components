@@ -5,12 +5,12 @@ import styles from './Header.module.scss';
 class Header extends React.Component {
   render() {
     const links = [
-      { name: 'People', src: '/' },
-      { name: 'Planets', src: '' },
-      { name: 'Films', src: '' },
-      { name: 'Species', src: '' },
-      { name: 'Vehicles', src: '' },
-      { name: 'Starships', src: '' },
+      { name: 'People', src: '/people' },
+      { name: 'Planets', src: '/planets' },
+      { name: 'Films', src: '/films' },
+      { name: 'Species', src: '/species' },
+      { name: 'Vehicles', src: '/vehicles' },
+      { name: 'Starships', src: 'starships' },
     ];
 
     return (

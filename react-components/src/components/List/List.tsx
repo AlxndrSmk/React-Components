@@ -36,7 +36,7 @@ class List extends React.Component {
               return (
                 <Link
                   key={data.name}
-                  to={`item/${parseInt(data.url.match(/\d+/))}`}
+                  to={`${data.name.toLowerCase().split(' ').join('-')}`}
                   className="item__wrapper"
                 >
                   <div className="item__img__wrapper">
