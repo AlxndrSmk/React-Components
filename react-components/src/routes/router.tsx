@@ -9,11 +9,11 @@ const router = createBrowserRouter([
     element: <PrimaryLayout />,
     children: [
       {
-        path: '/people',
+        path: '/',
         element: <App />,
       },
       {
-        path: '/',
+        path: '/item/:id',
         element: <Item />,
       },
       {

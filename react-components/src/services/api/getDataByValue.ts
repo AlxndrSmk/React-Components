@@ -1,7 +1,7 @@
-const getDataByValue = async (endpoint) => {
+const getDataByValue = async (endpoint, page) => {
   try {
-    console.log(endpoint);
-    const responce = await fetch(`https://swapi.dev/api/people/?search=${endpoint}`);
+    console.log(endpoint, page);
+    const responce = await fetch(`https://swapi.dev/api/people/?search=${endpoint}&page=${page}`);
     const data = await responce.json();
 
     return data;

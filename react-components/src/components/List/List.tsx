@@ -10,12 +10,17 @@ class List extends React.Component {
     this.state = {
       data: null,
     };
+
+    this.increment = this.increment.bind(this);
+    this.decrement = this.decrement.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.data !== this.props.data) {
-      this.setState({ data: this.props.data });
-    }
+  increment() {
+    this.props.incrementPage();
+  }
+
+  decrement() {
+    this.props.decrementPage();
   }
 
   render() {
@@ -24,9 +29,6 @@ class List extends React.Component {
     }
 
     if (this.props.isDataLoaded) {
-      console.log('the data has arrived');
-      console.log(this.props.data);
-
       return (
         <>
           <div className="items__wrapper">
@@ -36,7 +38,7 @@ class List extends React.Component {
               return (
                 <Link
                   key={data.name}
-                  to={`${data.name.toLowerCase().split(' ').join('-')}`}
+                  to={`item/${parseInt(data.url.match(/\d+/))}`}
                   className="item__wrapper"
                 >
                   <div className="item__img__wrapper">
@@ -55,14 +57,14 @@ class List extends React.Component {
             <div className="hui"></div>
             <button
               className="button button__prev"
-              onClick={() => this.props.getPageData(this.props.data.previous)}
+              onClick={this.decrement}
               disabled={!this.props.data.previous}
             >
               Prev
             </button>
             <button
               className="button button__next"
-              onClick={() => this.props.getPageData(this.props.data.next)}
+              onClick={this.increment}
               disabled={!this.props.data.next}
             >
               Next

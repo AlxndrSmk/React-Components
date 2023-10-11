@@ -3,6 +3,7 @@ import styles from './Item.module.scss';
 import Loader from '../Loader/Loader';
 import getDataByLink from '../../services/api/getDataByLink';
 import withRouter from '../../routes/withRouter';
+import { Link } from 'react-router-dom';
 
 class Item extends React.Component {
   constructor(props) {
@@ -14,10 +15,8 @@ class Item extends React.Component {
   }
 
   componentDidMount = async () => {
-    const id = this.props.match.params.id;
-    console.log(id);
-    // console.log(this.props);
-    await this.getItemData(1);
+    console.log(this.props);
+    await this.getItemData(this.props.params.id);
   };
 
   getItemData = async (value) => {
@@ -27,42 +26,37 @@ class Item extends React.Component {
   };
 
   render() {
-    if (!this.props.data) {
+    if (!this.state.data) {
       return <Loader />;
     }
 
-    if (this.props.data) {
-      console.log(this.props.data);
-      console.log(this.props.homeworldData);
-      console.log(this.props);
+    if (this.state.data) {
+      console.log(this.state.data);
+      console.log(this.state.homeworldData);
+      console.log(this.state);
 
-      const imgSrc = `/images/items/${parseInt(this.props.data.url.match(/\d+/))}.jpg`;
+      const imgSrc = `/images/items/${parseInt(this.state.data.url.match(/\d+/))}.jpg`;
 
       return (
         <div className={styles.item__wrapper}>
-          <div className={styles.item__title}>{this.props.data.name}</div>
+          <div className={styles.item__title}>{this.state.data.name}</div>
           <div className={styles.item__container}>
             <div className={styles.item__container_left}>
-              <p className={styles.item__birthdate}>Birth year: {this.props.data.birth_year}</p>
-              <p className={styles.item__eyeColor}>Eye color: {this.props.data.eye_color}</p>
-              <p className={styles.item__gender}>Gender: {this.props.data.gender}</p>
-              <p className={styles.item__hairColor}>Hair color: {this.props.data.hair_color}</p>
-              <p className={styles.item__weight}>Mass: {this.props.data.mass / 10} kg</p>
-              <p className={styles.item__height}>Height: {this.props.data.height / 100} m</p>
+              <p className={styles.item__birthdate}>Birth year: {this.state.data.birth_year}</p>
+              <p className={styles.item__eyeColor}>Eye color: {this.state.data.eye_color}</p>
+              <p className={styles.item__gender}>Gender: {this.state.data.gender}</p>
+              <p className={styles.item__hairColor}>Hair color: {this.state.data.hair_color}</p>
+              <p className={styles.item__weight}>Mass: {this.state.data.mass / 10} kg</p>
+              <p className={styles.item__height}>Height: {this.state.data.height / 100} m</p>
             </div>
             <div className={styles.item__container_right}>
-              <img className={styles.item__img} alt={this.props.data.name} src={imgSrc} />
-              <p className={styles.item__birthdate}>Homeworld: {this.props.homeworldData.name}</p>
+              <img className={styles.item__img} alt={this.state.data.name} src={imgSrc} />
+              <p className={styles.item__birthdate}>Homeworld: {this.state.homeworldData.name}</p>
             </div>
           </div>
-
-          <button
-            disabled={!this.props.isDisabled}
-            onClick={() => this.props.getDataByValue(`&page=${this.props.currentPage}`)}
-            className="button button__back"
-          >
+          <Link to={`/`} className="button button__back">
             Back to menu
-          </button>
+          </Link>
         </div>
       );
     }
