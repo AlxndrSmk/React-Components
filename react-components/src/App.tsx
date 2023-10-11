@@ -48,6 +48,10 @@ class App extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    console.log('unmounted');
+  }
+
   async setInitState() {
     await this.setState({
       data: null,
@@ -90,7 +94,7 @@ class App extends React.Component {
   render() {
     return (
       <>
-        {/* <Item
+        {/* <Person
               data={this.state.data}
               homeworldData={this.state.homeworldData}
               isDisabled={this.state.isDataLoaded}
