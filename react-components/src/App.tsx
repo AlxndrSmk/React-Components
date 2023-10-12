@@ -7,6 +7,8 @@ import List from './components/List/List';
 import SearchInput from './components/SearchInput/SearchInput';
 
 class App extends React.Component {
+  private mounted = false;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -29,6 +31,8 @@ class App extends React.Component {
   };
 
   componentDidMount = async () => {
+    this.mounted = true;
+
     console.log('her', this.props, this.props.location.search?.match(/\d+/));
     const value = localStorage.getItem('inputValue') || '';
     // TODO забрать page и забрать search
@@ -49,6 +53,7 @@ class App extends React.Component {
   }
 
   componentWillUnmount() {
+    this.mounted = false;
     console.log('unmounted');
   }
 
@@ -77,12 +82,13 @@ class App extends React.Component {
     console.log('getDataByValue');
     const currentPage = page ? page : this.state.currentPage;
     await this.setState(() => ({ isDataLoaded: false }));
-    // TODO: unsubscribe in componenWillUnmount
     const apiData = await getDataByValue(this.state.searchString, currentPage);
-    await this.setState(() => ({ data: apiData, isDataLoaded: true, currentPage }));
-    console.log('set');
-    localStorage.setItem('inputValue', this.state.searchString);
-    this.props.navigate(`?search=${this.state.searchString}&page=${currentPage}`);
+    if (this.mounted) {
+      await this.setState(() => ({ data: apiData, isDataLoaded: true, currentPage }));
+      console.log('set');
+      localStorage.setItem('inputValue', this.state.searchString);
+      this.props.navigate(`?search=${this.state.searchString}&page=${currentPage}`);
+    }
   };
 
   handleSubmit = async (value) => {
