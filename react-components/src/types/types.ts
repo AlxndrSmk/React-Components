@@ -30,15 +30,8 @@ export interface IPersonParams {
 
 export interface IPersonState {
   personData: null | IPersonData;
-  homeworldData: null | IHomeWorldData;
+  planetData: null | IPlanetData;
   isDataLoaded: boolean;
-}
-
-export interface IListData {
-  count: number;
-  next: string;
-  previous: null;
-  results: IPersonData[] | IHomeWorldData[];
 }
 
 export interface IPersonData {
@@ -155,19 +148,11 @@ export interface IStarshipData {
   url: string;
 }
 
-export interface IHomeWorldData {
-  name: string;
-  rotationPeriod: string;
-  orbitalPeriod: string;
-  diameter: string;
-  climate: string;
-  gravity: string;
-  terrain: string;
-  surfaceWater: string;
-  population: string;
-  residents: string[];
-  films: string[];
-  created: Date;
-  edited: Date;
-  url: RegExpMatchArray | null;
+export interface IListProps {
+  incrementPage: () => void;
+  decrementPage: () => void;
+  isDataLoaded: boolean;
+  data: IListData;
 }
+
+export interface IListState {}

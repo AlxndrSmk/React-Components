@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
+import withRouter from '../../routes/withRouter';
 
 class Header extends React.Component {
   render() {
@@ -20,9 +21,13 @@ class Header extends React.Component {
         </Link>
         <ul className={styles.menu}>
           {links.map((link) => {
+            const isActive = this.props.location.pathname === link.src;
+
             return (
               <Link key={link.name} to={link.src}>
-                <li className={styles.menu__item}>{link.name}</li>
+                <li className={`${styles.menu__item} ${isActive ? styles.underscored : ''}`}>
+                  {link.name}
+                </li>
               </Link>
             );
           })}
@@ -32,4 +37,4 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+export default withRouter(Header);

@@ -2,27 +2,10 @@ import React from 'react';
 import './List.scss';
 import Loader from '../Loader/Loader';
 import { Link } from 'react-router-dom';
-import { IListData } from '../../types/types';
-// import { IPersonData } from '../../types/types';
-
-interface IListProps {
-  incrementPage: () => void;
-  decrementPage: () => void;
-  isDataLoaded: boolean;
-  listData: IListData;
-}
-
-interface IListState {}
+import { IListProps, IListState } from '../../types/types';
+import SearchInput from '../SearchInput/SearchInput';
 
 class List extends React.Component<IListProps, IListState> {
-  constructor(props: IListProps) {
-    super(props);
-
-    this.state = {
-      data: null,
-    };
-  }
-
   increment = () => {
     this.props.incrementPage();
   };
@@ -39,10 +22,11 @@ class List extends React.Component<IListProps, IListState> {
     if (this.props.isDataLoaded) {
       return (
         <>
+          <SearchInput handleSubmit={this.props.handleSubmit} />
           <div className="items__wrapper">
-            {this.props.listData?.results?.length ? (
-              this.props.listData.results?.map((data) => {
-                const imgSrc = `/images/items/${parseInt(data.url?.match(/\d+/))}.jpg`;
+            {this.props.data?.results?.length ? (
+              this.props.data.results?.map((data) => {
+                const imgSrc = `/images/people/${parseInt(data.url?.match(/\d+/))}.jpg`;
 
                 return (
                   <Link
@@ -70,14 +54,14 @@ class List extends React.Component<IListProps, IListState> {
             <button
               className="button button__prev"
               onClick={this.decrement}
-              disabled={!this.props.listData?.previous}
+              disabled={!this.props.data?.previous}
             >
               Prev
             </button>
             <button
               className="button button__next"
               onClick={this.increment}
-              disabled={!this.props.listData?.next}
+              disabled={!this.props.data?.next}
             >
               Next
             </button>

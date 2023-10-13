@@ -4,7 +4,8 @@ import Loader from '../Loader/Loader';
 import getDataByLink from '../../services/api/getDataByLink';
 import withRouter from '../../routes/withRouter';
 import { Link } from 'react-router-dom';
-import { IPersonProps, IPersonState, IHomeWorldData } from '../../types/types';
+import { IPersonProps, IPersonState, IPersonData, IPlanetData } from '../../types/types';
+import getPersonData from '../../services/api/getPersonData';
 
 class Person extends React.Component<IPersonProps, IPersonState> {
   constructor(props: IPersonProps) {
@@ -12,22 +13,20 @@ class Person extends React.Component<IPersonProps, IPersonState> {
 
     this.state = {
       personData: null,
-      homeworldData: null,
+      planetData: null,
       isDataLoaded: false,
     };
   }
 
   componentDidMount = async (): Promise<void> => {
-    console.log(JSON.stringify(this.props));
+    console.log(this.props);
     await this.getItemData(this.props.params.id);
   };
 
-  getItemData = async (value: string) => {
-    console.log(typeof value);
-    const itemData = await getDataByLink(`https://swapi.dev/api/people/${value}`);
-    const homeworldData: IHomeWorldData = await getDataByLink(itemData.homeworld);
-    console.log(JSON.stringify(homeworldData));
-    this.setState({ personData: itemData, homeworldData, isDataLoaded: true });
+  getItemData = async (id: string) => {
+    const itemData: IPersonData = await getPersonData(id);
+    const planetData: IPlanetData = await getDataByLink(itemData.homeworld);
+    this.setState({ personData: itemData, planetData, isDataLoaded: true });
   };
 
   render() {
@@ -37,10 +36,10 @@ class Person extends React.Component<IPersonProps, IPersonState> {
 
     if (this.state.personData) {
       console.log(this.state.personData);
-      console.log(this.state.homeworldData);
+      console.log(this.state.planetData);
 
       const personId: string = this.state.personData.url.match(/\d+/)![0];
-      const imgSrc = `/images/items/${personId}.jpg`;
+      const imgSrc = `/images/people/${personId}.jpg`;
 
       return (
         <div className={styles.item__wrapper}>
@@ -60,7 +59,7 @@ class Person extends React.Component<IPersonProps, IPersonState> {
             </div>
             <div className={styles.item__container_right}>
               <img className={styles.item__img} alt={this.state.personData.name} src={imgSrc} />
-              <p className={styles.item__birthdate}>Homeworld: {this.state.homeworldData?.name}</p>
+              <p className={styles.item__birthdate}>Homeworld: {this.state.planetData?.name}</p>
             </div>
           </div>
           <Link to={`/`} className="button button__back">

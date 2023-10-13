@@ -1,4 +1,5 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { Navigate, createBrowserRouter } from 'react-router-dom';
+
 import App from '../App';
 import PrimaryLayout from '../components/PrimaryLayout/PrimaryLayout';
 import Person from '../components/Person/Person';
@@ -10,10 +11,34 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
+        element: <Navigate to="/people" replace />,
+      },
+      {
+        path: '/people',
         element: <App />,
       },
       {
-        path: '/person/:id',
+        path: '/planets',
+        element: <App />,
+      },
+      {
+        path: '/films',
+        element: <App />,
+      },
+      {
+        path: '/species',
+        element: <App />,
+      },
+      {
+        path: '/vehicles',
+        element: <App />,
+      },
+      {
+        path: '/starships',
+        element: <App />,
+      },
+      {
+        path: '/people/person/:id',
         element: <Person />,
       },
       {

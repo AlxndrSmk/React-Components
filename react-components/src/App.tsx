@@ -1,10 +1,7 @@
 import React from 'react';
 import withRouter from './routes/withRouter';
-
-import getDataByValue from './services/api/getDataByValue';
-import getDataByLink from './services/api/getDataByLink';
+import getPeopleListData from './services/api/getPeopleListData';
 import List from './components/List/List';
-import SearchInput from './components/SearchInput/SearchInput';
 
 class App extends React.Component {
   private mounted = false;
@@ -12,22 +9,34 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      listData: null,
-      homeworldData: null,
+      currentPage: 1,
+      data: null,
+      isDataLoaded: false,
+      planetData: null,
+      searchString: '',
+      dataSource: 'people',
+    };
+  }
+
+  async setInitState() {
+    await this.setState({
+      data: null,
+      planetData: null,
       isDataLoaded: false,
       searchString: '',
       currentPage: 1,
-    };
+      dataSource: 'people',
+    });
   }
 
   incrementPage = async () => {
     await this.setState({ currentPage: this.state.currentPage + 1 });
-    this.getDataByValue();
+    this.getListData();
   };
 
   decrementPage = async () => {
     await this.setState({ currentPage: this.state.currentPage - 1 });
-    this.getDataByValue();
+    this.getListData();
   };
 
   componentDidMount = async () => {
@@ -36,13 +45,13 @@ class App extends React.Component {
     // TODO забрать page и забрать search
     const currentPage = parseInt(this.props.location.search?.split('page=')[1]) || 1;
     await this.setState({ currentPage, searchString: value });
-    this.getDataByValue();
+    this.getListData();
   };
 
   componentDidUpdate(prevProps) {
     if (this.props.location.search === '' && prevProps.location.search !== '') {
       this.setInitState();
-      this.getDataByValue();
+      this.getListData();
     }
   }
 
@@ -51,59 +60,33 @@ class App extends React.Component {
     console.log('unmounted');
   }
 
-  async setInitState() {
-    await this.setState({
-      data: null,
-      homeworldData: null,
-      isDataLoaded: false,
-      searchString: '',
-      currentPage: 1,
-    });
-  }
-
-  getPageData = async (value) => {
-    const apiData = await getDataByLink(value);
-    this.setState({ data: apiData, isDataLoaded: true });
-  };
-
-  getItemData = async (value) => {
-    const itemData = await getDataByLink(value);
-    const homeworldData = await getDataByLink(itemData.homeworld);
-    this.setState({ data: itemData, homeworldData, isDataLoaded: true });
-  };
-
-  getDataByValue = async (page?) => {
-    console.log('getDataByValue');
+  getListData = async (page: number) => {
     const currentPage = page ? page : this.state.currentPage;
     await this.setState(() => ({ isDataLoaded: false }));
-    const apiData = await getDataByValue(this.state.searchString, currentPage);
+    const appData = await getPeopleListData(this.state.searchString, currentPage);
     if (this.mounted) {
-      await this.setState(() => ({ data: apiData, isDataLoaded: true, currentPage }));
-      console.log('set');
+      await this.setState(() => ({ data: appData, isDataLoaded: true, currentPage }));
       localStorage.setItem('inputValue', this.state.searchString);
       this.props.navigate(`?search=${this.state.searchString}&page=${currentPage}`);
     }
+    console.log('getListData', appData);
   };
 
   handleSubmit = async (value) => {
     localStorage.setItem('inputValue', value);
     await this.setState({ searchString: value });
-    this.getDataByValue(1);
+    this.getListData(1);
   };
 
   render() {
     return (
-      <>
-        {this.state.isDataLoaded && <SearchInput handleSubmit={this.handleSubmit} />}
-        <List
-          getPageData={this.getPageData}
-          listData={this.state.listData}
-          getItemData={this.getItemData}
-          isDataLoaded={this.state.isDataLoaded}
-          incrementPage={this.incrementPage}
-          decrementPage={this.decrementPage}
-        />
-      </>
+      <List
+        handleSubmit={this.handleSubmit}
+        data={this.state.data}
+        isDataLoaded={this.state.isDataLoaded}
+        incrementPage={this.incrementPage}
+        decrementPage={this.decrementPage}
+      />
     );
   }
 }
