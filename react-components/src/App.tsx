@@ -32,20 +32,14 @@ class App extends React.Component {
 
   componentDidMount = async () => {
     this.mounted = true;
-
-    console.log('her', this.props, this.props.location.search?.match(/\d+/));
     const value = localStorage.getItem('inputValue') || '';
     // TODO забрать page и забрать search
     const currentPage = parseInt(this.props.location.search?.split('page=')[1]) || 1;
-    console.log(currentPage);
     await this.setState({ currentPage, searchString: value });
-    console.log(this.state);
     this.getDataByValue();
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    console.log('asdasd', this.props);
-    console.log(prevProps, prevState);
+  componentDidUpdate(prevProps) {
     if (this.props.location.search === '' && prevProps.location.search !== '') {
       this.setInitState();
       this.getDataByValue();
