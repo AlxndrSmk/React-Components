@@ -12,7 +12,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null,
+      listData: null,
       homeworldData: null,
       isDataLoaded: false,
       searchString: '',
@@ -100,17 +100,10 @@ class App extends React.Component {
   render() {
     return (
       <>
-        {/* <Person
-              data={this.state.data}
-              homeworldData={this.state.homeworldData}
-              isDisabled={this.state.isDataLoaded}
-              getDataByValue={this.getDataByValue}
-              currentPage={this.state.currentPage}
-            /> */}
         {this.state.isDataLoaded && <SearchInput handleSubmit={this.handleSubmit} />}
         <List
           getPageData={this.getPageData}
-          data={this.state.data}
+          listData={this.state.listData}
           getItemData={this.getItemData}
           isDataLoaded={this.state.isDataLoaded}
           incrementPage={this.incrementPage}

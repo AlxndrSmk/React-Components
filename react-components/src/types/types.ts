@@ -21,6 +21,13 @@ export interface IPersonState {
   isDataLoaded: boolean;
 }
 
+export interface IListData {
+  count: number;
+  next: string;
+  previous: null;
+  results: IPersonData[] | IHomeWorldData[];
+}
+
 export interface IPersonData {
   name: string;
   height: string;

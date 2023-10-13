@@ -2,26 +2,34 @@ import React from 'react';
 import './List.scss';
 import Loader from '../Loader/Loader';
 import { Link } from 'react-router-dom';
+import { IListData } from '../../types/types';
+// import { IPersonData } from '../../types/types';
 
-class List extends React.Component {
-  constructor(props) {
+interface IListProps {
+  incrementPage: () => void;
+  decrementPage: () => void;
+  isDataLoaded: boolean;
+  listData: IListData;
+}
+
+interface IListState {}
+
+class List extends React.Component<IListProps, IListState> {
+  constructor(props: IListProps) {
     super(props);
 
     this.state = {
       data: null,
     };
-
-    this.increment = this.increment.bind(this);
-    this.decrement = this.decrement.bind(this);
   }
 
-  increment() {
+  increment = () => {
     this.props.incrementPage();
-  }
+  };
 
-  decrement() {
+  decrement = () => {
     this.props.decrementPage();
-  }
+  };
 
   render() {
     if (!this.props.isDataLoaded) {
@@ -32,14 +40,14 @@ class List extends React.Component {
       return (
         <>
           <div className="items__wrapper">
-            {this.props.data?.results?.length ? (
-              this.props.data.results?.map((data) => {
-                const imgSrc = `/images/items/${parseInt(data.url.match(/\d+/))}.jpg`;
+            {this.props.listData?.results?.length ? (
+              this.props.listData.results?.map((data) => {
+                const imgSrc = `/images/items/${parseInt(data.url?.match(/\d+/))}.jpg`;
 
                 return (
                   <Link
                     key={data.name}
-                    to={`person/${parseInt(data.url.match(/\d+/))}`}
+                    to={`person/${parseInt(data.url?.match(/\d+/))}`}
                     className="item__wrapper"
                   >
                     <div className="item__img__wrapper">
@@ -62,14 +70,14 @@ class List extends React.Component {
             <button
               className="button button__prev"
               onClick={this.decrement}
-              disabled={!this.props.data?.previous}
+              disabled={!this.props.listData?.previous}
             >
               Prev
             </button>
             <button
               className="button button__next"
               onClick={this.increment}
-              disabled={!this.props.data?.next}
+              disabled={!this.props.listData?.next}
             >
               Next
             </button>
