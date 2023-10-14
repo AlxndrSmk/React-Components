@@ -1,6 +1,6 @@
 import React from 'react';
 import withRouter from './routes/withRouter';
-import getPeopleListData from './services/api/getPeopleListData';
+import getListData from './services/api/getListData';
 import List from './components/List/List';
 
 class App extends React.Component {
@@ -10,82 +10,87 @@ class App extends React.Component {
     super(props);
     this.state = {
       currentPage: 1,
-      data: null,
+      listData: null,
+      planetsListData: null,
+      pathName: '',
       isDataLoaded: false,
-      planetData: null,
       searchString: '',
-      dataSource: 'people',
     };
   }
 
   async setInitState() {
     await this.setState({
-      data: null,
-      planetData: null,
+      currentPage: 1,
+      listData: null,
+      planetsListData: null,
+      pathName: '',
       isDataLoaded: false,
       searchString: '',
-      currentPage: 1,
-      dataSource: 'people',
     });
   }
 
   incrementPage = async () => {
     await this.setState({ currentPage: this.state.currentPage + 1 });
-    this.getListData();
+    this.getListData(this.state.searchString, this.state.currentPage, this.state.pathName);
   };
 
   decrementPage = async () => {
     await this.setState({ currentPage: this.state.currentPage - 1 });
-    this.getListData();
+    this.getListData(this.state.searchString, this.state.currentPage, this.state.pathName);
   };
 
   componentDidMount = async () => {
     this.mounted = true;
-    const value = localStorage.getItem('inputValue') || '';
-    // TODO забрать page и забрать search
     const currentPage = parseInt(this.props.location.search?.split('page=')[1]) || 1;
-    await this.setState({ currentPage, searchString: value });
-    this.getListData();
+    const searchString = localStorage.getItem('inputValue') || '';
+    const pathName = this.props.location.pathname.slice(1);
+    await this.setState({ currentPage, searchString, pathName });
+    this.getListData(this.state.searchString, currentPage, this.state.pathName);
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate = async (prevProps) => {
     if (this.props.location.search === '' && prevProps.location.search !== '') {
       this.setInitState();
-      this.getListData();
+      const pathName = this.props.location.pathname.slice(1);
+      await this.setState({ pathName });
+      this.getListData(this.state.searchString, this.state.currentPage, this.state.pathName);
     }
-  }
+  };
 
   componentWillUnmount() {
     this.mounted = false;
-    console.log('unmounted');
   }
 
-  getListData = async (page: number) => {
+  getListData = async (searchString: string, page: number, pathName: string) => {
     const currentPage = page ? page : this.state.currentPage;
     await this.setState(() => ({ isDataLoaded: false }));
-    const appData = await getPeopleListData(this.state.searchString, currentPage);
+    const listData = await getListData(searchString, currentPage, pathName);
     if (this.mounted) {
-      await this.setState(() => ({ data: appData, isDataLoaded: true, currentPage }));
+      await this.setState(() => ({
+        listData,
+        isDataLoaded: true,
+        currentPage,
+      }));
       localStorage.setItem('inputValue', this.state.searchString);
       this.props.navigate(`?search=${this.state.searchString}&page=${currentPage}`);
     }
-    console.log('getListData', appData);
   };
 
-  handleSubmit = async (value) => {
-    localStorage.setItem('inputValue', value);
-    await this.setState({ searchString: value });
-    this.getListData(1);
+  handleSubmit = async (searchString) => {
+    localStorage.setItem('inputValue', searchString);
+    await this.setState({ searchString, currentPage: 1 });
+    this.getListData(searchString, this.state.currentPage, this.state.pathName);
   };
 
   render() {
     return (
       <List
         handleSubmit={this.handleSubmit}
-        data={this.state.data}
+        listData={this.state.listData}
         isDataLoaded={this.state.isDataLoaded}
         incrementPage={this.incrementPage}
         decrementPage={this.decrementPage}
+        pathName={this.state.pathName}
       />
     );
   }

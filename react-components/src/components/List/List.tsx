@@ -4,16 +4,9 @@ import Loader from '../Loader/Loader';
 import { Link } from 'react-router-dom';
 import { IListProps, IListState } from '../../types/types';
 import SearchInput from '../SearchInput/SearchInput';
+import withRouter from '../../routes/withRouter';
 
 class List extends React.Component<IListProps, IListState> {
-  increment = () => {
-    this.props.incrementPage();
-  };
-
-  decrement = () => {
-    this.props.decrementPage();
-  };
-
   render() {
     if (!this.props.isDataLoaded) {
       return <Loader />;
@@ -24,19 +17,28 @@ class List extends React.Component<IListProps, IListState> {
         <>
           <SearchInput handleSubmit={this.props.handleSubmit} />
           <div className="items__wrapper">
-            {this.props.data?.results?.length ? (
-              this.props.data.results?.map((data) => {
-                const imgSrc = `/images/people/${parseInt(data.url?.match(/\d+/))}.jpg`;
-
+            {this.props.listData?.results?.length ? (
+              this.props.listData.results?.map((data) => {
+                const imgSrc = `/images/${this.props.pathName}/${parseInt(
+                  data.url?.match(/\d+/)
+                )}.jpg`;
                 return (
                   <Link
                     key={data.name}
-                    to={`person/${parseInt(data.url?.match(/\d+/))}`}
+                    to={`/people/${parseInt(data.url?.match(/\d+/))}`}
                     className="item__wrapper"
                   >
                     <div className="item__img__wrapper">
                       <figure className="item__text_effect">
-                        <img className="item__img" src={imgSrc} alt={data.name} />
+                        <img
+                          className="item__img"
+                          src={imgSrc}
+                          onError={({ currentTarget }) => {
+                            currentTarget.onerror = null;
+                            currentTarget.src = '/images/png/img_not_found.png';
+                          }}
+                          alt={data.name}
+                        />
                         <figcaption className="item__figcaption">
                           <p className="item__img__title">{data.name}</p>
                         </figcaption>
@@ -53,15 +55,15 @@ class List extends React.Component<IListProps, IListState> {
             <div className="hui"></div>
             <button
               className="button button__prev"
-              onClick={this.decrement}
-              disabled={!this.props.data?.previous}
+              onClick={this.props.decrementPage}
+              disabled={!this.props.listData?.previous}
             >
               Prev
             </button>
             <button
               className="button button__next"
-              onClick={this.increment}
-              disabled={!this.props.data?.next}
+              onClick={this.props.incrementPage}
+              disabled={!this.props.listData?.next}
             >
               Next
             </button>
@@ -72,4 +74,4 @@ class List extends React.Component<IListProps, IListState> {
   }
 }
 
-export default List;
+export default withRouter(List);

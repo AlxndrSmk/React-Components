@@ -1,9 +1,9 @@
-const getPeopleListData = async (endpoint: string, page: number) => {
+const getPlanetsListData = async (endpoint: string, page: number) => {
   const serverUrl = import.meta.env.VITE_API_SERVER_URL;
   console.log(endpoint, page);
 
   try {
-    const responce = await fetch(`${serverUrl}/people?search=${endpoint}&page=${page}`);
+    const responce = await fetch(`${serverUrl}/planets?search=${endpoint}&page=${page}`);
     const data = await responce.json();
 
     return data;
@@ -12,4 +12,4 @@ const getPeopleListData = async (endpoint: string, page: number) => {
   }
 };
 
-export default getPeopleListData;
+export default getPlanetsListData;

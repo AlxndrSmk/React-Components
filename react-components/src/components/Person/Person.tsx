@@ -27,6 +27,7 @@ class Person extends React.Component<IPersonProps, IPersonState> {
     const itemData: IPersonData = await getPersonData(id);
     const planetData: IPlanetData = await getDataByLink(itemData.homeworld);
     this.setState({ personData: itemData, planetData, isDataLoaded: true });
+    console.log(planetData);
   };
 
   render() {
