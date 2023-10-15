@@ -13,6 +13,7 @@ class PrimaryLayout extends React.Component {
         <div className="section__bottom">
           <Outlet />
         </div>
+        <div className={styles.twinkling}></div>
       </div>
     );
   }

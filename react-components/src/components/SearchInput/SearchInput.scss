@@ -1,6 +1,7 @@
 .form {
   align-items: flex-end;
   display: flex;
+  z-index: 2;
 
   &__input {
     border: none;
