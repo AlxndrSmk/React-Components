@@ -1,7 +1,7 @@
-const getPersonData = async (id: string) => {
+const getPlanetData = async (id: string) => {
   const serverUrl = import.meta.env.VITE_API_SERVER_URL;
   try {
-    const responce = await fetch(`${serverUrl}/people/${id}`);
+    const responce = await fetch(`${serverUrl}/planets/${id}`);
     const data = await responce.json();
     return data;
   } catch (error) {
@@ -9,4 +9,4 @@ const getPersonData = async (id: string) => {
   }
 };
 
-export default getPersonData;
+export default getPlanetData;

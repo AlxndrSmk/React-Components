@@ -4,6 +4,7 @@ import App from '../App';
 import PrimaryLayout from '../components/PrimaryLayout/PrimaryLayout';
 import Person from '../components/Person/Person';
 import NotFound from '../pages/NotFound/NotFound';
+import Planet from '../components/Planet/Planet';
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: '/people/:id',
         element: <Person />,
+      },
+      {
+        path: '/planets/:id',
+        element: <Planet />,
       },
       {
         path: '*',

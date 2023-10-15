@@ -13,8 +13,6 @@ class List extends React.Component<IListProps, IListState> {
     }
 
     if (this.props.isDataLoaded) {
-      console.log(location);
-
       return (
         <>
           <SearchInput handleSubmit={this.props.handleSubmit} />
@@ -24,8 +22,6 @@ class List extends React.Component<IListProps, IListState> {
                 const imgSrc = `/images/${this.props.pathName}/${parseInt(
                   data.url?.match(/\d+/)
                 )}.jpg`;
-                console.log(data.name);
-                console.log(data);
                 return (
                   <Link
                     key={data.name || data.title}

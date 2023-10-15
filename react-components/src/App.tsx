@@ -11,10 +11,10 @@ class App extends React.Component {
     this.state = {
       currentPage: 1,
       listData: null,
-      planetsListData: null,
       pathName: '',
       isDataLoaded: false,
       searchString: '',
+      // itemPlanetsData: null,
     };
   }
 
@@ -22,10 +22,10 @@ class App extends React.Component {
     await this.setState({
       currentPage: 1,
       listData: null,
-      planetsListData: null,
       pathName: '',
       isDataLoaded: false,
       searchString: '',
+      // itemPlanetsData: null,
     });
   }
 

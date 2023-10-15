@@ -4,7 +4,7 @@ import Loader from '../Loader/Loader';
 import getDataByLink from '../../services/api/getDataByLink';
 import withRouter from '../../routes/withRouter';
 import { Link } from 'react-router-dom';
-import { IPersonProps, IPersonState, IPersonData, IPlanetData } from '../../types/types';
+import { IPersonProps, IPersonState, IPersonData, IPlanetData, IFilmData } from '../../types/types';
 import getPersonData from '../../services/api/getPersonData';
 
 class Person extends React.Component<IPersonProps, IPersonState> {
@@ -14,19 +14,24 @@ class Person extends React.Component<IPersonProps, IPersonState> {
     this.state = {
       personData: null,
       planetData: null,
+      filmsData: null,
       isDataLoaded: false,
     };
   }
 
   componentDidMount = async (): Promise<void> => {
-    await this.getItemData(this.props.params.id);
+    await this.getPersonData(this.props.params.id);
   };
 
-  getItemData = async (id: string) => {
+  getPersonData = async (id: string) => {
     const itemData: IPersonData = await getPersonData(id);
     const planetData: IPlanetData = await getDataByLink(itemData.homeworld);
-    this.setState({ personData: itemData, planetData, isDataLoaded: true });
-    console.log(planetData);
+    const filmsDataPromises: IFilmData[] = itemData.films.map(async (filmUrl) => {
+      return await getDataByLink(filmUrl);
+    });
+    const filmsData = await Promise.all(filmsDataPromises);
+
+    this.setState({ personData: itemData, planetData, filmsData, isDataLoaded: true });
   };
 
   render() {
@@ -35,19 +40,31 @@ class Person extends React.Component<IPersonProps, IPersonState> {
     }
 
     if (this.state.personData) {
-      console.log(this.state.personData);
       console.log(this.state.planetData);
+      console.log(this.state.personData);
+      console.log(this.state.filmsData);
 
       const personId: string = this.state.personData.url.match(/\d+/)![0];
-      const imgSrc = `/images/people/${personId}.jpg`;
+      const peopleImgSrc: string = `/images/people/${personId}.jpg`;
+      const planetLink: string = '/' + this.state.planetData?.url.split('/').slice(4).join('/');
 
       return (
         <div className={styles.item__wrapper}>
           <div className={styles.item__title}>{this.state.personData.name}</div>
           <div className={styles.item__container}>
             <div className={styles.item__container_left}>
-              <p className={styles.item__birthdate}>
-                Birth year: {this.state.personData.birth_year}
+              <p>
+                {this.state.personData.name} was born in{' '}
+                {this.state.planetData?.name === 'unknown' ? (
+                  'unknown '
+                ) : (
+                  <Link className={styles.item__link} to={planetLink}>
+                    {this.state.planetData?.name}
+                  </Link>
+                )}{' '}
+                planet
+                {this.state.personData.birth_year === 'unknown' ||
+                  ` in ${this.state.personData.birth_year}`}
               </p>
               <p className={styles.item__eyeColor}>Eye color: {this.state.personData.eye_color}</p>
               <p className={styles.item__gender}>Gender: {this.state.personData.gender}</p>
@@ -58,8 +75,33 @@ class Person extends React.Component<IPersonProps, IPersonState> {
               <p className={styles.item__height}>Height: {+this.state.personData.height / 100} m</p>
             </div>
             <div className={styles.item__container_right}>
-              <img className={styles.item__img} alt={this.state.personData.name} src={imgSrc} />
-              <p className={styles.item__birthdate}>Homeworld: {this.state.planetData?.name}</p>
+              <img
+                className={styles.item__img}
+                alt={this.state.personData.name}
+                src={peopleImgSrc}
+              />
+              <div>Films</div>
+              {this.state.filmsData.map((film) => {
+                const filmId: string = film.url.match(/\d+/)![0];
+                const filmImgSrc: string = `/images/films/${filmId}.jpg`;
+                const filmLink: string = '/' + film.url.split('/').slice(4).join('/');
+
+                return (
+                  <Link key={film.title} to={filmLink}>
+                    {' '}
+                    <img
+                      className={styles.icon}
+                      alt={film.url}
+                      src={filmImgSrc}
+                      onError={({ currentTarget }) => {
+                        currentTarget.onerror = null;
+                        currentTarget.src = '/images/png/img_not_found_small.png';
+                      }}
+                    />
+                    {film.title}
+                  </Link>
+                );
+              })}
             </div>
           </div>
           <Link

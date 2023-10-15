@@ -15,7 +15,7 @@ class Header extends React.Component {
       { name: 'Films', src: '/films' },
       { name: 'Species', src: '/species' },
       { name: 'Vehicles', src: '/vehicles' },
-      { name: 'Starships', src: 'starships' },
+      { name: 'Starships', src: '/starships' },
     ];
 
     return (
