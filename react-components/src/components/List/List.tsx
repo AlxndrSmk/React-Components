@@ -13,6 +13,8 @@ class List extends React.Component<IListProps, IListState> {
     }
 
     if (this.props.isDataLoaded) {
+      console.log(location);
+
       return (
         <>
           <SearchInput handleSubmit={this.props.handleSubmit} />
@@ -25,7 +27,7 @@ class List extends React.Component<IListProps, IListState> {
                 return (
                   <Link
                     key={data.name}
-                    to={`/people/${parseInt(data.url?.match(/\d+/))}`}
+                    to={`/${this.props.pathName}/${parseInt(data.url?.match(/\d+/))}`}
                     className="item__wrapper"
                   >
                     <div className="item__img__wrapper">

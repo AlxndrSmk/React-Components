@@ -19,7 +19,6 @@ class Person extends React.Component<IPersonProps, IPersonState> {
   }
 
   componentDidMount = async (): Promise<void> => {
-    console.log(this.props);
     await this.getItemData(this.props.params.id);
   };
 
@@ -63,8 +62,14 @@ class Person extends React.Component<IPersonProps, IPersonState> {
               <p className={styles.item__birthdate}>Homeworld: {this.state.planetData?.name}</p>
             </div>
           </div>
-          <Link to={`/`} className="button button__back">
-            Back to menu
+          <Link
+            onClick={() => {
+              this.props.navigate(-1);
+            }}
+            className="button button__back"
+            to={''}
+          >
+            Go back
           </Link>
         </div>
       );
