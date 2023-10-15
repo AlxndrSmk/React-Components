@@ -24,9 +24,11 @@ class List extends React.Component<IListProps, IListState> {
                 const imgSrc = `/images/${this.props.pathName}/${parseInt(
                   data.url?.match(/\d+/)
                 )}.jpg`;
+                console.log(data.name);
+                console.log(data);
                 return (
                   <Link
-                    key={data.name}
+                    key={data.name || data.title}
                     to={`/${this.props.pathName}/${parseInt(data.url?.match(/\d+/))}`}
                     className="item__wrapper"
                   >
@@ -42,7 +44,7 @@ class List extends React.Component<IListProps, IListState> {
                           alt={data.name}
                         />
                         <figcaption className="item__figcaption">
-                          <p className="item__img__title">{data.name}</p>
+                          <p className="item__img__title">{data.name || data.title}</p>
                         </figcaption>
                       </figure>
                     </div>
