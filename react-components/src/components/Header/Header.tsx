@@ -25,12 +25,16 @@ class Header extends React.Component {
         </Link>
         <ul className={styles.menu}>
           {links.map((link) => {
+            console.log(this.props.location.pathname);
             const isActive = this.props.location.pathname === link.src;
             return (
-              <Link key={link.name} to={link.src}>
-                <li className={`${styles.menu__item} ${isActive ? styles.underscored : ''}`}>
-                  {link.name}
-                </li>
+              <Link
+                key={link.name}
+                to={link.src}
+                className={`${styles.menu__item} ${isActive ? styles.underscored : ''}`}
+                onClick={(e) => console.log(e.target)}
+              >
+                <li>{link.name}</li>
               </Link>
             );
           })}

@@ -14,7 +14,6 @@ class App extends React.Component {
       pathName: '',
       isDataLoaded: false,
       searchString: '',
-      // itemPlanetsData: null,
     };
   }
 
@@ -25,7 +24,6 @@ class App extends React.Component {
       pathName: '',
       isDataLoaded: false,
       searchString: '',
-      // itemPlanetsData: null,
     });
   }
 
@@ -83,6 +81,7 @@ class App extends React.Component {
   };
 
   render() {
+    console.log(this.state.listData);
     return (
       <List
         handleSubmit={this.handleSubmit}
