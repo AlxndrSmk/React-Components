@@ -26,7 +26,6 @@ class List extends React.Component<IListProps, IListState> {
                   <Link
                     key={data.name || data.title}
                     to={`/${this.props.pathName}/${parseInt(data.url?.match(/\d+/))}`}
-                    state={this.props.listData}
                     className="item__wrapper"
                   >
                     <div className="item__img__wrapper">

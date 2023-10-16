@@ -40,7 +40,6 @@ class Person extends React.Component<IPersonProps, IPersonState> {
     }
 
     if (this.state.personData) {
-      console.log(this.props.location.state.results);
       console.log(this.state.planetData);
       console.log(this.state.personData);
       console.log(this.state.filmsData);
