@@ -52,7 +52,6 @@ class List extends React.Component<IListProps, IListState> {
             )}
           </div>
           <div className="buttons">
-            <div className="hui"></div>
             <button
               className="button button__prev"
               onClick={this.props.decrementPage}

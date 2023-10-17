@@ -1,3 +1,5 @@
+@import '../../variables';
+
 .items__wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -7,6 +9,7 @@
   max-width: 1500px;
   padding: 3px;
   transition: 0.1s ease;
+  z-index: 2;
 }
 
 .item {
@@ -26,7 +29,7 @@
 
   &__figcaption {
     padding: 2em;
-    color: #fff;
+    color: $active-font-color;
     text-transform: uppercase;
     font-size: 1.25em;
     backface-visibility: hidden;

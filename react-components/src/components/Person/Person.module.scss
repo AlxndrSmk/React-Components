@@ -1,3 +1,5 @@
+@import '../../variables';
+
 .item {
   &__wrapper {
     align-items: center;
@@ -8,33 +10,74 @@
   }
 
   &__container {
+    background-color: #1d1e1f;
+    border-radius: 10px;
     display: flex;
-    width: 100%;
-    padding: 10px;
     justify-content: space-between;
+    margin-bottom: 15px;
+    width: 100%;
 
-    &_left,
-    &_right {
-      padding: 1rem;
+    &_left {
+      padding: 1.65em 2em;
     }
   }
 
   &__title {
+    color: $active-font-color;
     font-size: 40px;
+    font-weight: 600;
+    margin-bottom: 5px;
     text-transform: uppercase;
   }
 
   &__img {
+    border-radius: 0 10px 10px 0;
     max-width: 300px;
-  }
-
-  &__link {
-    text-decoration: underline;
   }
 }
 
 .icon {
-  width: 50px;
-  height: 50px;
   border-radius: 100%;
+  height: 50px;
+  width: 50px;
+}
+
+p,
+a {
+  font-size: 1.3rem;
+  margin-bottom: 3px;
+}
+
+a {
+  text-decoration: underline;
+
+  &:hover {
+    color: $active-font-color;
+    text-decoration-color: rgb(255, 255, 255);
+
+    li {
+      color: $active-font-color;
+    }
+  }
+}
+
+.attributes {
+  &_title {
+    font-weight: 800;
+  }
+
+  &_container {
+    display: flex;
+    padding: 0.5rem;
+  }
+
+  &_block {
+    padding: 1rem;
+  }
+}
+
+ul,
+li {
+  list-style: none;
+  padding: 0;
 }

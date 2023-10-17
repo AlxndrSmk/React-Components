@@ -1,3 +1,5 @@
+@import '../../variables';
+
 .header {
   align-items: center;
   background-color: rgba(0, 0, 0, 0);
@@ -37,11 +39,22 @@
 
     &:hover {
       background-size: 100% 2px;
+      color: $active-font-color;
       cursor: pointer;
+      filter: drop-shadow(0px 0px 4px $active-font-color);
+
+      li {
+        color: $active-font-color;
+      }
     }
   }
 }
 
-.underscored {
+.active {
   background-size: 100% 2px;
+  color: $active-font-color;
+
+  li {
+    color: $active-font-color;
+  }
 }
