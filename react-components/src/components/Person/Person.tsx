@@ -4,7 +4,14 @@ import Loader from '../Loader/Loader';
 import getDataByLink from '../../services/api/getDataByLink';
 import withRouter from '../../routes/withRouter';
 import { Link } from 'react-router-dom';
-import { IPersonProps, IPersonState, IPersonData, IPlanetData, IFilmData } from '../../types/types';
+import {
+  IPersonProps,
+  IPersonState,
+  IPersonData,
+  IPlanetData,
+  IFilmData,
+  ISpecieData,
+} from '../../types/types';
 import getPersonData from '../../services/api/getPersonData';
 
 class Person extends React.Component<IPersonProps, IPersonState> {
@@ -15,6 +22,9 @@ class Person extends React.Component<IPersonProps, IPersonState> {
       personData: null,
       planetData: null,
       filmsData: null,
+      speciesData: null,
+      starshipsData: null,
+      vehiclesData: null,
       isDataLoaded: false,
     };
   }
@@ -26,12 +36,18 @@ class Person extends React.Component<IPersonProps, IPersonState> {
   getPersonData = async (id: string) => {
     const itemData: IPersonData = await getPersonData(id);
     const planetData: IPlanetData = await getDataByLink(itemData.homeworld);
+
     const filmsDataPromises: IFilmData[] = itemData.films.map(async (filmUrl) => {
       return await getDataByLink(filmUrl);
     });
     const filmsData = await Promise.all(filmsDataPromises);
 
-    this.setState({ personData: itemData, planetData, filmsData, isDataLoaded: true });
+    const speciesDataPromises: ISpecieData[] = itemData.species.map(async (specieUrl) => {
+      return await getDataByLink(specieUrl);
+    });
+    const speciesData = await Promise.all(speciesDataPromises);
+
+    this.setState({ personData: itemData, planetData, filmsData, speciesData, isDataLoaded: true });
   };
 
   render() {
@@ -40,9 +56,10 @@ class Person extends React.Component<IPersonProps, IPersonState> {
     }
 
     if (this.state.personData) {
-      console.log(this.state.planetData);
       console.log(this.state.personData);
+      console.log(this.state.planetData);
       console.log(this.state.filmsData);
+      console.log(this.state.speciesData);
 
       const personId: string = this.state.personData.url.match(/\d+/)![0];
       const peopleImgSrc: string = `/images/people/${personId}.jpg`;
