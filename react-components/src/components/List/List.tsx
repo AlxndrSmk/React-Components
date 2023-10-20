@@ -53,14 +53,14 @@ class List extends React.Component<IListProps, IListState> {
           </div>
           <div className="buttons">
             <button
-              className="button button__prev"
+              className="button"
               onClick={this.props.decrementPage}
               disabled={!this.props.listData?.previous}
             >
               Prev
             </button>
             <button
-              className="button button__next"
+              className="button"
               onClick={this.props.incrementPage}
               disabled={!this.props.listData?.next}
             >

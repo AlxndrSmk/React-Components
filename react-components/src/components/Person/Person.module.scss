@@ -1,5 +1,10 @@
 @import '../../variables';
 
+p,
+a {
+  font-size: 1.3rem;
+}
+
 .item {
   &__wrapper {
     align-items: center;
@@ -13,12 +18,15 @@
     background-color: #1d1e1f;
     border-radius: 10px;
     display: flex;
-    justify-content: space-between;
     margin-bottom: 15px;
     width: 100%;
 
     &_left {
-      padding: 1.65em 2em;
+      flex-grow: 1;
+      padding: 1.5em 2em;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
     }
   }
 
@@ -32,7 +40,15 @@
 
   &__img {
     border-radius: 0 10px 10px 0;
-    max-width: 300px;
+  }
+
+  &__specie_title {
+    text-transform: uppercase;
+
+    &:hover {
+      color: $active-font-color;
+      font-weight: 300;
+    }
   }
 }
 
@@ -42,42 +58,23 @@
   width: 50px;
 }
 
-p,
-a {
-  font-size: 1.3rem;
-  margin-bottom: 3px;
-}
-
-a {
-  text-decoration: underline;
-
-  &:hover {
-    color: $active-font-color;
-    text-decoration-color: rgb(255, 255, 255);
-
-    li {
-      color: $active-font-color;
-    }
-  }
-}
-
 .attributes {
   &_title {
     font-weight: 800;
+    margin-bottom: 10px;
+    text-align: center;
   }
 
   &_container {
     display: flex;
-    padding: 0.5rem;
+    position: relative;
   }
 
   &_block {
-    padding: 1rem;
-  }
-}
+    flex-basis: 0;
+    flex-grow: 1;
+    padding: 10px 15px;
 
-ul,
-li {
-  list-style: none;
-  padding: 0;
+    border-right: 1px solid rgba(255, 255, 255, 0.5);
+  }
 }

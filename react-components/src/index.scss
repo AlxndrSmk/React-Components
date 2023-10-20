@@ -3,8 +3,8 @@
 
 * {
   box-sizing: border-box;
-  margin: 0;
   color: $font-color;
+  margin: 0;
 }
 
 html {
@@ -56,12 +56,8 @@ li {
   z-index: 1;
 
   &:hover {
-    filter: drop-shadow(0px 0px 4px $active-font-color);
     color: $active-font-color;
-  }
-
-  &__back {
-    white-space: nowrap;
+    filter: drop-shadow(0px 0px 4px $active-font-color);
   }
 
   &:disabled,
@@ -74,4 +70,25 @@ li {
       filter: none;
     }
   }
+}
+
+.item__link {
+  display: inline-block;
+  text-decoration: underline;
+
+  &:hover {
+    filter: drop-shadow(0px 0px 4px $active-font-color);
+  }
+
+  &_specie {
+    color: $active-font-color;
+    font-size: 0.9em;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-decoration: none;
+  }
+}
+
+.uppercase {
+  text-transform: uppercase;
 }

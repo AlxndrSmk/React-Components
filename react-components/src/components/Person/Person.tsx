@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import styles from './Person.module.scss';
 import Loader from '../Loader/Loader';
 import getDataByLink from '../../services/api/getDataByLink';
@@ -9,22 +9,21 @@ import {
   IPersonState,
   IPersonData,
   IPlanetData,
-  // IFilmData,
   ISpecieData,
   IStarshipData,
   IFilmData,
   IVehicleData,
-  // IVehicleData,
 } from '../../types/types';
 import getPersonData from '../../services/api/getPersonData';
-import AttributesBlock from '../AttributesBlock/AttributesBlock';
+import renderLinksFromArray from '../../utils/heplerFunctions/RenderLinksFromArray';
 
 class Person extends React.Component<IPersonProps, IPersonState> {
   constructor(props: IPersonProps) {
     super(props);
 
     this.state = {
-      personData: null,
+      itemId: '',
+      itemData: null,
       planetData: null,
       filmsData: null,
       speciesData: null,
@@ -33,10 +32,6 @@ class Person extends React.Component<IPersonProps, IPersonState> {
       isDataLoaded: false,
     };
   }
-
-  componentDidMount = async (): Promise<void> => {
-    await this.getPersonData(this.props.params.id);
-  };
 
   getArrayData = async (
     links: string[]
@@ -50,54 +45,49 @@ class Person extends React.Component<IPersonProps, IPersonState> {
     return data;
   };
 
-  renderArrayData = (data): ReactNode => {
-    const items = data.map((item) => {
-      const link: string = '/' + item.url.split('/').slice(4).join('/');
-
-      return (
-        <Link key={item.title} to={link}>
-          <li>{item.name || item.title}</li>
-        </Link>
-      );
-    });
-
-    console.log(items);
-    return items;
-  };
-
   getPersonData = async (id: string) => {
     const itemData: IPersonData = await getPersonData(id);
     const planetData: IPlanetData = await getDataByLink(itemData.homeworld);
-
     const filmsData: IFilmData[] = await this.getArrayData(itemData.films);
     const speciesData: ISpecieData[] = await this.getArrayData(itemData.species);
     const starshipsData: IStarshipData[] = await this.getArrayData(itemData.starships);
     const vehiclesData: IVehicleData[] = await this.getArrayData(itemData.vehicles);
 
-    this.setState({
-      personData: itemData,
+    console.log(itemData);
+    console.log(filmsData);
+    console.log(vehiclesData);
+
+    await this.setState({
+      itemId: id,
+      itemData,
       planetData,
       filmsData,
       speciesData,
       starshipsData,
       vehiclesData,
-      isDataLoaded: true,
     });
   };
 
+  componentDidMount = async (): Promise<void> => {
+    await this.getPersonData(this.props.params.id);
+  };
+
+  componentDidUpdate = async (prevProps) => {
+    if (prevProps.location.pathname !== this.props.location.pathname) {
+      console.log('updated');
+      const newId = Number(this.props.params.id) + 1;
+      await this.getPersonData(String(newId));
+      console.log('updated');
+    }
+  };
+
   render() {
-    if (!this.state.personData) {
+    if (!this.state.itemData) {
       return <Loader />;
     }
 
-    if (this.state.personData) {
-      console.log(this.state.personData);
-      console.log(this.state.filmsData);
-
-      console.log(this.state.speciesData);
-      console.log(this.state.vehiclesData);
-
-      const personId: string = this.state.personData.url.match(/\d+/)![0];
+    if (this.state.itemData) {
+      const personId: string = this.state.itemData.url.match(/\d+/)![0];
       const peopleImgSrc: string = `/images/people/${personId}.jpg`;
       const planetLink: string = '/' + this.state.planetData?.url.split('/').slice(4).join('/');
 
@@ -105,85 +95,86 @@ class Person extends React.Component<IPersonProps, IPersonState> {
         <div className={styles.item__wrapper}>
           <div className={styles.item__container}>
             <div className={styles.item__container_left}>
-              <h3 className={styles.item__title}>{this.state.personData.name}</h3>
-              <p>
-                {this.state.personData.name} was born
-                {this.state.personData.birth_year === 'unknown'
+              <div>
+                <h1 className={styles.item__title}>{this.state.itemData.name}</h1>
+                <span id={styles.item__specie_title}>
+                  {renderLinksFromArray(this.state.speciesData, [
+                    'item__link',
+                    'item__link_specie',
+                    'uppercase',
+                  ])}
+                </span>
+              </div>
+              <p className="item__description">
+                {this.state.itemData.name} was born
+                {this.state.itemData.birth_year === 'unknown'
                   ? ''
-                  : ` in ${this.state.personData.birth_year}`}
+                  : ` in ${this.state.itemData.birth_year}`}
                 {this.state.planetData?.name === 'unknown' ? (
                   'in unknown '
                 ) : (
                   <>
                     {' '}
-                    in <Link to={planetLink}>{this.state.planetData?.name}</Link>
+                    in{' '}
+                    <Link className="item__link uppercase" to={planetLink}>
+                      {this.state.planetData?.name}
+                    </Link>
                   </>
                 )}{' '}
                 planet. <br></br>
-                {this.state.personData.gender === 'male'
+                {this.state.itemData.gender === 'male'
                   ? 'He'
-                  : this.state.personData.gender === 'female'
+                  : this.state.itemData.gender === 'female'
                   ? 'She'
                   : 'It'}{' '}
-                has {this.state.personData.eye_color} eyes and{' '}
-                {this.state.personData.hair_color === 'n/a' ||
-                this.state.personData.hair_color === 'none'
+                has {this.state.itemData.eye_color} eyes and{' '}
+                {this.state.itemData.hair_color === 'n/a' ||
+                this.state.itemData.hair_color === 'none'
                   ? 'no hair'
-                  : `${this.state.personData.hair_color} hair`}
+                  : `${this.state.itemData.hair_color} hair`}
                 {'.'}
               </p>
+              <div>
+                {!isNaN(+this.state.itemData.mass) && <p>Mass: {+this.state.itemData.mass} kg</p>}
+                <p>Height: {+this.state.itemData.height / 100} m</p>
+                <p>Skin color: {this.state.itemData.skin_color}</p>
+              </div>
               <div className={styles.attributes_container}>
                 <div className={styles.attributes_block}>
                   <p className={styles.attributes_title}>Films</p>
-                  <ul>{this.renderArrayData(this.state.filmsData)}</ul>
+                  <div>{renderLinksFromArray(this.state.filmsData, ['item__link'])}</div>
                 </div>
                 <div className={styles.attributes_block}>
-                  <p className={styles.attributes_title}>Body parameters</p>
-                  {!isNaN(+this.state.personData.mass) && (
-                    <p>Mass: {+this.state.personData.mass / 10} kg</p>
-                  )}
-                  <p>Height: {+this.state.personData.height / 100} m</p>
-                  <p>Skin color: {this.state.personData.skin_color}</p>
+                  <p className={styles.attributes_title}>Starships</p>
+                  <div>{renderLinksFromArray(this.state.starshipsData, ['item__link'])}</div>
                 </div>
-                {!this.state.speciesData.lenght && (
-                  <AttributesBlock
-                    blockTitle="Species"
-                    renderArrayData={this.renderArrayData}
-                    data={this.state.speciesData}
-                  />
-                )}
-                {!this.state.starshipsData.lenght && (
-                  <AttributesBlock
-                    blockTitle="Starships"
-                    renderArrayData={this.renderArrayData}
-                    data={this.state.starshipsData}
-                  />
-                )}
-                {!this.state.vehiclesData.lenght && (
-                  <AttributesBlock
-                    blockTitle="Vehicles"
-                    renderArrayData={this.renderArrayData}
-                    data={this.state.vehiclesData}
-                  />
-                )}
+
+                <div className={styles.attributes_block}>
+                  <p className={styles.attributes_title}>Vehicles</p>
+                  <div>{renderLinksFromArray(this.state.vehiclesData, ['item__link'])}</div>
+                </div>
               </div>
             </div>
-            <div className={styles.item__container_right}>
-              <img
-                className={styles.item__img}
-                alt={this.state.personData.name}
-                src={peopleImgSrc}
-              />
-            </div>
+            <img className={styles.item__img} alt={this.state.itemData.name} src={peopleImgSrc} />
           </div>
           <Link
             onClick={() => {
               this.props.navigate(-1);
             }}
-            className="button button__back"
+            className="button"
             to={''}
           >
             Go back
+          </Link>
+          <Link
+            onClick={() => {
+              console.log(this.props);
+            }}
+            className="button"
+            to={`/people/59`}
+            // to={''}
+          >
+            Next
           </Link>
         </div>
       );

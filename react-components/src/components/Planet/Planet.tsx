@@ -73,7 +73,7 @@ class Planet extends React.Component<IPersonProps, IPersonState> {
             onClick={() => {
               this.props.navigate(-1);
             }}
-            className="button button__back"
+            className="button"
             to={''}
           >
             Go back

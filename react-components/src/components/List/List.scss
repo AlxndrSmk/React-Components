@@ -1,13 +1,11 @@
 @import '../../variables';
 
 .items__wrapper {
+  cursor: pointer;
   display: flex;
   flex-wrap: wrap;
-  cursor: pointer;
   justify-content: space-evenly;
-  margin: 1px;
   max-width: 1500px;
-  padding: 3px;
   transition: 0.1s ease;
   z-index: 2;
 }
@@ -18,26 +16,26 @@
   }
 
   &__text_effect {
-    position: relative;
-    z-index: 1;
+    background: #000000;
+    cursor: pointer;
     display: inline-block;
     overflow: hidden;
-    background: #000000;
+    position: relative;
     text-align: center;
-    cursor: pointer;
+    z-index: 1;
   }
 
   &__figcaption {
-    padding: 2em;
-    color: $active-font-color;
-    text-transform: uppercase;
-    font-size: 1.25em;
     backface-visibility: hidden;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+    color: $active-font-color;
+    font-size: 1.25em;
     height: 100%;
+    left: 0;
+    padding: 2em;
+    position: absolute;
+    text-transform: uppercase;
+    top: 0;
+    width: 100%;
 
     &::before,
     &::after {
@@ -45,50 +43,45 @@
     }
 
     &::before {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
       background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 75%);
       content: '';
+      height: 100%;
+      left: 0;
       opacity: 0;
+      position: absolute;
+      top: 0;
       transform: translate3d(0, 50%, 0);
+      width: 100%;
     }
   }
 
   &__img {
-    height: 350px;
-    transition: all 0.3s;
-    position: relative;
     display: block;
+    height: 350px;
     min-height: 100%;
     opacity: 0.8;
-
-    // &:hover {
-    //   transform: scale(105%);
-    //   opacity: 0.9;
-    // }
+    position: relative;
+    transition: all 0.3s;
 
     &__wrapper {
-      overflow: hidden;
-      margin: 0;
-      width: 100%;
       list-style: none;
+      margin: 0;
+      overflow: hidden;
       text-align: center;
+      width: 100%;
     }
 
     &__title {
-      margin: 0;
-      letter-spacing: 1px;
-      font-size: 68.5%;
-      position: absolute;
       bottom: 0;
+      font-size: 68.5%;
       left: 0;
-      padding: 2em;
-      width: 100%;
+      letter-spacing: 1px;
+      margin: 0;
       opacity: 0;
+      padding: 2em;
+      position: absolute;
       transform: translate3d(0, 10px, 0);
+      width: 100%;
     }
 
     @media screen and (max-width: 300px) {
@@ -100,7 +93,7 @@
 .buttons {
   display: flex;
   justify-content: center;
-  margin-top: 15px;
+  margin-top: 10px;
   max-width: 300px;
 
   @media screen and (max-width: 300px) {
@@ -117,8 +110,8 @@
 }
 
 .item__text_effect:hover .item__img {
-  transform: scale(105%);
   opacity: 0.9;
+  transform: scale(105%);
 }
 
 .item__text_effect:hover h3 {
