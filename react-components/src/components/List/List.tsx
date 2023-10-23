@@ -32,12 +32,13 @@ class List extends React.Component<IListProps, IListState> {
                     <div className="item__img__wrapper">
                       <figure className="item__text_effect">
                         <img
-                          className="item__img"
-                          src={imgSrc}
                           onError={({ currentTarget }) => {
+                            console.clear();
                             currentTarget.onerror = null;
                             currentTarget.src = '/images/png/img_not_found.png';
                           }}
+                          className="item__img"
+                          src={imgSrc}
                           alt={data.name}
                         />
                         <figcaption className="item__figcaption">

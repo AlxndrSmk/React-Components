@@ -103,7 +103,7 @@ class Person extends React.Component<IPersonProps, IPersonState> {
                   ? ''
                   : ` in ${this.state.itemData.birth_year}`}
                 {this.state.planetData?.name === 'unknown' ? (
-                  'in unknown '
+                  ' in unknown '
                 ) : (
                   <>
                     {' '}

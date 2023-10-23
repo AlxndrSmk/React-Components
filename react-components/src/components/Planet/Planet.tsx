@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { IPlanetProps, IPlanetState, IPlanetData, IFilmData, IPersonData } from '../../types/types';
 import getPlanetData from '../../services/api/getPlanetData';
 import getArrayData from '../../utils/heplerFunctions/getArrayData';
-// import renderLinksFromArray from '../../utils/heplerFunctions/RenderLinksFromArray';
 import AttributesBlock from '../AttributesBlock/AttributesBlock';
 
 class Planet extends React.Component<IPlanetProps, IPlanetState> {
@@ -50,6 +49,10 @@ class Planet extends React.Component<IPlanetProps, IPlanetState> {
     }
   };
 
+  hasNoData(value) {
+    return value === 'unknown' || value === '0' || value.toUpperCase() === 'N/A' || false;
+  }
+
   render() {
     if (!this.state.planetData) {
       return <Loader />;
@@ -59,7 +62,6 @@ class Planet extends React.Component<IPlanetProps, IPlanetState> {
       console.log(this.state.planetData);
       const planetId: string = this.state.planetData.url.match(/\d+/)![0];
       const planetImgSrc: string = `/images/planets/${planetId}.jpg`;
-      // const planetLink: string = '/' + this.state.planetData?.url.split('/').slice(4).join('/');
 
       return (
         <div className={styles.item__wrapper}>
@@ -67,14 +69,30 @@ class Planet extends React.Component<IPlanetProps, IPlanetState> {
             <div className={styles.item__container_left}>
               <h1 className={styles.item__title}>{this.state.planetData.name}</h1>
               <div>
-                <p>Climate: {this.state.planetData.climate}</p>
-                <p>Diameter: {+this.state.planetData.diameter / 100}</p>
-                <p>Gravity: {this.state.planetData.gravity}</p>
-                <p>Hours in day in year: {this.state.planetData.rotation_period}</p>
-                <p>Terrain: {this.state.planetData.terrain}</p>
-                <p>water coverage percentage: {this.state.planetData.surface_water}%</p>
-                <p>Days in year: {this.state.planetData.orbital_period}</p>
-                <p>Population: {this.state.planetData.population}</p>
+                {this.hasNoData(this.state.planetData.climate) || (
+                  <p>Climate: {this.state.planetData.climate}</p>
+                )}
+                {this.hasNoData(this.state.planetData.terrain) || (
+                  <p>Terrain: {this.state.planetData.terrain}</p>
+                )}
+                {this.hasNoData(this.state.planetData.diameter) || (
+                  <p>Diameter: {Number(this.state.planetData.diameter).toLocaleString()} km</p>
+                )}
+                {this.hasNoData(this.state.planetData.gravity) || (
+                  <p>Gravity: {this.state.planetData.gravity}</p>
+                )}
+                {this.hasNoData(this.state.planetData.rotation_period) || (
+                  <p>Rotation period: {this.state.planetData.rotation_period} hours</p>
+                )}
+                {this.hasNoData(this.state.planetData.orbital_period) || (
+                  <p>Orbital period: {this.state.planetData.orbital_period} days</p>
+                )}
+                {this.hasNoData(this.state.planetData.surface_water) || (
+                  <p>Water coverage: {this.state.planetData.surface_water}%</p>
+                )}
+                {this.hasNoData(this.state.planetData.population) || (
+                  <p>Population: {Number(this.state.planetData.population).toLocaleString()}</p>
+                )}
               </div>
               <div className={styles.attributes_container}>
                 {!!this.state.planetData.films.length && (
@@ -86,21 +104,24 @@ class Planet extends React.Component<IPlanetProps, IPlanetState> {
                 )}
                 {!!this.state.planetData.residents.length && (
                   <AttributesBlock
-                    data={this.state.starshipsData}
+                    data={this.state.residentsData}
                     classNames={['item__link']}
                     title="Residents"
                   />
                 )}
-                {!!this.state.planetData.vehicles.length && (
-                  <AttributesBlock
-                    data={this.state.vehiclesData}
-                    classNames={['item__link']}
-                    title="Vehicles"
-                  />
-                )}
               </div>
             </div>
-            <img className={styles.item__img} alt={this.state.planetData.name} src={planetImgSrc} />
+            <img
+              className={styles.item__img}
+              onError={({ currentTarget }) => {
+                console.clear();
+                currentTarget.onerror = null;
+                currentTarget.src = '/images/png/img_not_found.png';
+                currentTarget.style.width = '400px';
+              }}
+              alt={this.state.planetData.name}
+              src={planetImgSrc}
+            />
           </div>
           <Link
             onClick={() => {

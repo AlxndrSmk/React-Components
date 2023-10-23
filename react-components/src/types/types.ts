@@ -29,9 +29,42 @@ export interface IPersonParams {
 }
 
 export interface IPersonState {
-  personData: null | IPersonData;
+  itemData: null | IPersonData;
   planetData: null | IPlanetData;
-  isDataLoaded: boolean;
+  filmsData: null | IFilmData;
+  speciesData: null | ISpecieData;
+  starshipsData: null | IStarshipData;
+  vehiclesData: null | IVehicleData;
+}
+
+export interface IPlanetProps {
+  params: IPlanetParams;
+  location: IPlanetLocation;
+}
+
+export interface IPlanetLocation {
+  pathname: string;
+  search: string;
+  hash: string;
+  state: null;
+  key: string;
+}
+
+export interface IPlanetParams {
+  id: string;
+}
+
+export interface IPlanetState {
+  planetData: null;
+  filmsData: null;
+  residentsData: null;
+
+  itemData: null | IPersonData;
+  planetData: null | IPlanetData;
+  filmsData: null | IFilmData;
+  speciesData: null | ISpecieData;
+  starshipsData: null | IStarshipData;
+  vehiclesData: null | IVehicleData;
 }
 
 export interface IPersonData {
