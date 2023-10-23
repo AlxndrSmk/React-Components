@@ -7,6 +7,7 @@ import { IPlanetProps, IPlanetState, IPlanetData, IFilmData, IPersonData } from 
 import getPlanetData from '../../services/api/getPlanetData';
 import getArrayData from '../../utils/heplerFunctions/getArrayData';
 import AttributesBlock from '../AttributesBlock/AttributesBlock';
+import hasNoData from '../../services/hasNoData';
 
 class Planet extends React.Component<IPlanetProps, IPlanetState> {
   constructor(props: IPlanetProps) {
@@ -49,10 +50,6 @@ class Planet extends React.Component<IPlanetProps, IPlanetState> {
     }
   };
 
-  hasNoData(value) {
-    return value === 'unknown' || value === '0' || value.toUpperCase() === 'N/A' || false;
-  }
-
   render() {
     if (!this.state.planetData) {
       return <Loader />;
@@ -69,28 +66,28 @@ class Planet extends React.Component<IPlanetProps, IPlanetState> {
             <div className={styles.item__container_left}>
               <h1 className={styles.item__title}>{this.state.planetData.name}</h1>
               <div>
-                {this.hasNoData(this.state.planetData.climate) || (
+                {hasNoData(this.state.planetData.climate) || (
                   <p>Climate: {this.state.planetData.climate}</p>
                 )}
-                {this.hasNoData(this.state.planetData.terrain) || (
+                {hasNoData(this.state.planetData.terrain) || (
                   <p>Terrain: {this.state.planetData.terrain}</p>
                 )}
-                {this.hasNoData(this.state.planetData.diameter) || (
+                {hasNoData(this.state.planetData.diameter) || (
                   <p>Diameter: {Number(this.state.planetData.diameter).toLocaleString()} km</p>
                 )}
-                {this.hasNoData(this.state.planetData.gravity) || (
+                {hasNoData(this.state.planetData.gravity) || (
                   <p>Gravity: {this.state.planetData.gravity}</p>
                 )}
-                {this.hasNoData(this.state.planetData.rotation_period) || (
+                {hasNoData(this.state.planetData.rotation_period) || (
                   <p>Rotation period: {this.state.planetData.rotation_period} hours</p>
                 )}
-                {this.hasNoData(this.state.planetData.orbital_period) || (
+                {hasNoData(this.state.planetData.orbital_period) || (
                   <p>Orbital period: {this.state.planetData.orbital_period} days</p>
                 )}
-                {this.hasNoData(this.state.planetData.surface_water) || (
+                {hasNoData(this.state.planetData.surface_water) || (
                   <p>Water coverage: {this.state.planetData.surface_water}%</p>
                 )}
-                {this.hasNoData(this.state.planetData.population) || (
+                {hasNoData(this.state.planetData.population) || (
                   <p>Population: {Number(this.state.planetData.population).toLocaleString()}</p>
                 )}
               </div>
@@ -130,7 +127,7 @@ class Planet extends React.Component<IPlanetProps, IPlanetState> {
             className="button"
             to={''}
           >
-            Go back
+            Back to search
           </Link>
         </div>
       );

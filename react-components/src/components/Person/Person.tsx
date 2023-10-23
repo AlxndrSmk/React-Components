@@ -18,6 +18,7 @@ import getPersonData from '../../services/api/getPersonData';
 import getArrayData from '../../utils/heplerFunctions/getArrayData';
 import renderLinksFromArray from '../../utils/heplerFunctions/RenderLinksFromArray';
 import AttributesBlock from '../AttributesBlock/AttributesBlock';
+import hasNoData from '../../services/hasNoData';
 
 class Person extends React.Component<IPersonProps, IPersonState> {
   constructor(props: IPersonProps) {
@@ -99,10 +100,10 @@ class Person extends React.Component<IPersonProps, IPersonState> {
               </div>
               <p className="item__description">
                 {this.state.itemData.name} was born
-                {this.state.itemData.birth_year === 'unknown'
+                {hasNoData(this.state.itemData.birth_year)
                   ? ''
                   : ` in ${this.state.itemData.birth_year}`}
-                {this.state.planetData?.name === 'unknown' ? (
+                {hasNoData(this.state.planetData?.name) ? (
                   ' in unknown '
                 ) : (
                   <>
@@ -120,16 +121,19 @@ class Person extends React.Component<IPersonProps, IPersonState> {
                   ? 'She'
                   : 'It'}{' '}
                 has {this.state.itemData.eye_color} eyes and{' '}
-                {this.state.itemData.hair_color === 'n/a' ||
-                this.state.itemData.hair_color === 'none'
+                {hasNoData(this.state.itemData.hair_color)
                   ? 'no hair'
                   : `${this.state.itemData.hair_color} hair`}
                 {'.'}
               </p>
               <div>
-                {!isNaN(+this.state.itemData.mass) && <p>Mass: {+this.state.itemData.mass} kg</p>}
+                {!hasNoData(this.state.itemData.mass) && isNaN(+this.state.itemData.mass) && (
+                  <p>Mass: {+this.state.itemData.mass.replace(',', '')} kg</p>
+                )}
                 <p>Height: {+this.state.itemData.height / 100} m</p>
-                <p>Skin color: {this.state.itemData.skin_color}</p>
+                {hasNoData(this.state.itemData.skin_color) || (
+                  <p>Skin color: {this.state.itemData.skin_color}</p>
+                )}
               </div>
               <div className={styles.attributes_container}>
                 {!!this.state.itemData.films.length && (
@@ -164,7 +168,7 @@ class Person extends React.Component<IPersonProps, IPersonState> {
             className="button"
             to={''}
           >
-            Go back
+            Back to search
           </Link>
         </div>
       );
