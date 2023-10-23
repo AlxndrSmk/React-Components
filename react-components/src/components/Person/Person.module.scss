@@ -40,6 +40,7 @@ a {
 
   &__img {
     border-radius: 0 10px 10px 0;
+    max-height: 550px;
   }
 
   &__specie_title {
@@ -59,22 +60,9 @@ a {
 }
 
 .attributes {
-  &_title {
-    font-weight: 800;
-    margin-bottom: 10px;
-    text-align: center;
-  }
-
   &_container {
+    margin-top: 15px;
     display: flex;
     position: relative;
-  }
-
-  &_block {
-    flex-basis: 0;
-    flex-grow: 1;
-    padding: 10px 15px;
-
-    border-right: 1px solid rgba(255, 255, 255, 0.5);
   }
 }

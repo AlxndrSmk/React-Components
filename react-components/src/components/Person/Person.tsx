@@ -15,57 +15,49 @@ import {
   IVehicleData,
 } from '../../types/types';
 import getPersonData from '../../services/api/getPersonData';
+import getArrayData from '../../utils/heplerFunctions/getArrayData';
 import renderLinksFromArray from '../../utils/heplerFunctions/RenderLinksFromArray';
+import AttributesBlock from '../AttributesBlock/AttributesBlock';
 
 class Person extends React.Component<IPersonProps, IPersonState> {
   constructor(props: IPersonProps) {
     super(props);
 
     this.state = {
-      itemId: '',
       itemData: null,
       planetData: null,
       filmsData: null,
       speciesData: null,
       starshipsData: null,
       vehiclesData: null,
-      isDataLoaded: false,
     };
   }
 
-  getArrayData = async (
-    links: string[]
-  ): Promise<IFilmData[] | ISpecieData[] | IStarshipData[] | IVehicleData[]> => {
-    const promises = links.map(async (link) => {
-      const response = await fetch(link);
-      return await response.json();
+  async setInitState() {
+    await this.setState({
+      itemData: null,
+      planetData: null,
+      filmsData: null,
+      speciesData: null,
+      starshipsData: null,
+      vehiclesData: null,
     });
-
-    const data = await Promise.all(promises);
-    return data;
-  };
+  }
 
   getPersonData = async (id: string) => {
     const itemData: IPersonData = await getPersonData(id);
     const planetData: IPlanetData = await getDataByLink(itemData.homeworld);
-    const filmsData: IFilmData[] = await this.getArrayData(itemData.films);
-    const speciesData: ISpecieData[] = await this.getArrayData(itemData.species);
-    const starshipsData: IStarshipData[] = await this.getArrayData(itemData.starships);
-    const vehiclesData: IVehicleData[] = await this.getArrayData(itemData.vehicles);
+    const speciesData: ISpecieData[] = await getArrayData(itemData.species);
+    await this.setState({ itemData, planetData, speciesData });
 
-    console.log(itemData);
-    console.log(filmsData);
-    console.log(vehiclesData);
+    const filmsData: IFilmData[] = await getArrayData(itemData.films);
+    await this.setState({ filmsData });
 
-    await this.setState({
-      itemId: id,
-      itemData,
-      planetData,
-      filmsData,
-      speciesData,
-      starshipsData,
-      vehiclesData,
-    });
+    const starshipsData: IStarshipData[] = await getArrayData(itemData.starships);
+    await this.setState({ starshipsData });
+
+    const vehiclesData: IVehicleData[] = await getArrayData(itemData.vehicles);
+    await this.setState({ vehiclesData });
   };
 
   componentDidMount = async (): Promise<void> => {
@@ -74,10 +66,8 @@ class Person extends React.Component<IPersonProps, IPersonState> {
 
   componentDidUpdate = async (prevProps) => {
     if (prevProps.location.pathname !== this.props.location.pathname) {
-      console.log('updated');
-      const newId = Number(this.props.params.id) + 1;
-      await this.getPersonData(String(newId));
-      console.log('updated');
+      this.setInitState();
+      await this.getPersonData(this.props.params.id);
     }
   };
 
@@ -87,6 +77,7 @@ class Person extends React.Component<IPersonProps, IPersonState> {
     }
 
     if (this.state.itemData) {
+      console.log(this.state.itemData);
       const personId: string = this.state.itemData.url.match(/\d+/)![0];
       const peopleImgSrc: string = `/images/people/${personId}.jpg`;
       const planetLink: string = '/' + this.state.planetData?.url.split('/').slice(4).join('/');
@@ -102,6 +93,7 @@ class Person extends React.Component<IPersonProps, IPersonState> {
                     'item__link',
                     'item__link_specie',
                     'uppercase',
+                    'inline',
                   ])}
                 </span>
               </div>
@@ -116,12 +108,12 @@ class Person extends React.Component<IPersonProps, IPersonState> {
                   <>
                     {' '}
                     in{' '}
-                    <Link className="item__link uppercase" to={planetLink}>
+                    <Link className="item__link uppercase inline" to={planetLink}>
                       {this.state.planetData?.name}
                     </Link>
                   </>
                 )}{' '}
-                planet. <br></br>
+                planet. <br />
                 {this.state.itemData.gender === 'male'
                   ? 'He'
                   : this.state.itemData.gender === 'female'
@@ -140,19 +132,27 @@ class Person extends React.Component<IPersonProps, IPersonState> {
                 <p>Skin color: {this.state.itemData.skin_color}</p>
               </div>
               <div className={styles.attributes_container}>
-                <div className={styles.attributes_block}>
-                  <p className={styles.attributes_title}>Films</p>
-                  <div>{renderLinksFromArray(this.state.filmsData, ['item__link'])}</div>
-                </div>
-                <div className={styles.attributes_block}>
-                  <p className={styles.attributes_title}>Starships</p>
-                  <div>{renderLinksFromArray(this.state.starshipsData, ['item__link'])}</div>
-                </div>
-
-                <div className={styles.attributes_block}>
-                  <p className={styles.attributes_title}>Vehicles</p>
-                  <div>{renderLinksFromArray(this.state.vehiclesData, ['item__link'])}</div>
-                </div>
+                {!!this.state.itemData.films.length && (
+                  <AttributesBlock
+                    data={this.state.filmsData}
+                    classNames={['item__link']}
+                    title="Films"
+                  />
+                )}
+                {!!this.state.itemData.starships.length && (
+                  <AttributesBlock
+                    data={this.state.starshipsData}
+                    classNames={['item__link']}
+                    title="Starships"
+                  />
+                )}
+                {!!this.state.itemData.vehicles.length && (
+                  <AttributesBlock
+                    data={this.state.vehiclesData}
+                    classNames={['item__link']}
+                    title="Vehicles"
+                  />
+                )}
               </div>
             </div>
             <img className={styles.item__img} alt={this.state.itemData.name} src={peopleImgSrc} />
@@ -165,16 +165,6 @@ class Person extends React.Component<IPersonProps, IPersonState> {
             to={''}
           >
             Go back
-          </Link>
-          <Link
-            onClick={() => {
-              console.log(this.props);
-            }}
-            className="button"
-            to={`/people/59`}
-            // to={''}
-          >
-            Next
           </Link>
         </div>
       );

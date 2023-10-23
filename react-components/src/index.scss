@@ -73,7 +73,7 @@ li {
 }
 
 .item__link {
-  display: inline-block;
+  display: block;
   text-decoration: underline;
 
   &:hover {
@@ -91,4 +91,8 @@ li {
 
 .uppercase {
   text-transform: uppercase;
+}
+
+.inline {
+  display: inline;
 }

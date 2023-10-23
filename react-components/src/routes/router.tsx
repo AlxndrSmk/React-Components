@@ -40,7 +40,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/people/:id',
-        element: <Person listData={this?.props} />,
+        element: <Person />,
       },
       {
         path: '/planets/:id',

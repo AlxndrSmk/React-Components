@@ -6,7 +6,7 @@ const renderLinksFromArray = (data, classNames): ReactNode => {
     const link: string = '/' + item.url.split('/').slice(4).join('/');
 
     return (
-      <Link className={classNames.join(' ')} key={item.name} to={link}>
+      <Link className={classNames.join(' ')} key={item.name || item.title} to={link}>
         {item.name || item.title}
       </Link>
     );
