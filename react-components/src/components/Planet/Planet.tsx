@@ -3,9 +3,8 @@ import styles from './Planet.module.scss';
 import Loader from '../Loader/Loader';
 import withRouter from '../../routes/withRouter';
 import { Link } from 'react-router-dom';
-import { IPlanetProps, IPlanetState, IPlanetData, IFilmData, IPersonData } from '../../types/types';
+import { IPlanetProps, IPlanetState, IPlanetData } from '../../types/types';
 import getPlanetData from '../../services/api/getPlanetData';
-import getArrayData from '../../utils/heplerFunctions/getArrayData';
 import AttributesBlock from '../AttributesBlock/AttributesBlock';
 import hasNoData from '../../services/hasNoData';
 
@@ -15,28 +14,18 @@ class Planet extends React.Component<IPlanetProps, IPlanetState> {
 
     this.state = {
       planetData: null,
-      filmsData: null,
-      residentsData: null,
     };
   }
 
   async setInitState() {
     await this.setState({
       planetData: null,
-      filmsData: null,
-      residentsData: null,
     });
   }
 
   getPlanetData = async (id: string) => {
     const planetData: IPlanetData = await getPlanetData(id);
     await this.setState({ planetData });
-
-    const filmsData: IFilmData[] = await getArrayData(planetData.films);
-    await this.setState({ filmsData });
-
-    const residentsData: IPersonData[] = await getArrayData(planetData.residents);
-    await this.setState({ residentsData });
   };
 
   componentDidMount = async (): Promise<void> => {
@@ -94,14 +83,14 @@ class Planet extends React.Component<IPlanetProps, IPlanetState> {
               <div className={styles.attributes_container}>
                 {!!this.state.planetData.films.length && (
                   <AttributesBlock
-                    data={this.state.filmsData}
+                    data={this.state.planetData.films}
                     classNames={['item__link']}
                     title="Films"
                   />
                 )}
                 {!!this.state.planetData.residents.length && (
                   <AttributesBlock
-                    data={this.state.residentsData}
+                    data={this.state.planetData.residents}
                     classNames={['item__link']}
                     title="Residents"
                   />

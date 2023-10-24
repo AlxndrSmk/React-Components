@@ -10,13 +10,8 @@ import {
   IPersonData,
   IPlanetData,
   ISpecieData,
-  IStarshipData,
-  IFilmData,
-  IVehicleData,
 } from '../../types/types';
 import getPersonData from '../../services/api/getPersonData';
-import getArrayData from '../../utils/heplerFunctions/getArrayData';
-import renderLinksFromArray from '../../utils/heplerFunctions/RenderLinksFromArray';
 import AttributesBlock from '../AttributesBlock/AttributesBlock';
 import hasNoData from '../../services/hasNoData';
 
@@ -27,10 +22,7 @@ class Person extends React.Component<IPersonProps, IPersonState> {
     this.state = {
       itemData: null,
       planetData: null,
-      filmsData: null,
       speciesData: null,
-      starshipsData: null,
-      vehiclesData: null,
     };
   }
 
@@ -38,27 +30,16 @@ class Person extends React.Component<IPersonProps, IPersonState> {
     await this.setState({
       itemData: null,
       planetData: null,
-      filmsData: null,
       speciesData: null,
-      starshipsData: null,
-      vehiclesData: null,
     });
   }
 
   getPersonData = async (id: string) => {
     const itemData: IPersonData = await getPersonData(id);
     const planetData: IPlanetData = await getDataByLink(itemData.homeworld);
-    const speciesData: ISpecieData[] = await getArrayData(itemData.species);
+    const speciesData: ISpecieData = await getDataByLink(itemData.species);
+
     await this.setState({ itemData, planetData, speciesData });
-
-    const filmsData: IFilmData[] = await getArrayData(itemData.films);
-    await this.setState({ filmsData });
-
-    const starshipsData: IStarshipData[] = await getArrayData(itemData.starships);
-    await this.setState({ starshipsData });
-
-    const vehiclesData: IVehicleData[] = await getArrayData(itemData.vehicles);
-    await this.setState({ vehiclesData });
   };
 
   componentDidMount = async (): Promise<void> => {
@@ -78,6 +59,7 @@ class Person extends React.Component<IPersonProps, IPersonState> {
     }
 
     if (this.state.itemData) {
+      console.log(this.state.speciesData);
       console.log(this.state.itemData);
       const personId: string = this.state.itemData.url.match(/\d+/)![0];
       const peopleImgSrc: string = `/images/people/${personId}.jpg`;
@@ -90,12 +72,15 @@ class Person extends React.Component<IPersonProps, IPersonState> {
               <div>
                 <h1 className={styles.item__title}>{this.state.itemData.name}</h1>
                 <span id={styles.item__specie_title}>
-                  {renderLinksFromArray(this.state.speciesData, [
-                    'item__link',
-                    'item__link_specie',
-                    'uppercase',
-                    'inline',
-                  ])}
+                  {!!this.state.itemData.species.length && (
+                    <Link
+                      className={'item__link item__link_specie uppercase inline'}
+                      key={this.state.speciesData.name}
+                      to={this.state.speciesData}
+                    >
+                      {this.state.speciesData.name}
+                    </Link>
+                  )}
                 </span>
               </div>
               <p className="item__description">
@@ -138,21 +123,21 @@ class Person extends React.Component<IPersonProps, IPersonState> {
               <div className={styles.attributes_container}>
                 {!!this.state.itemData.films.length && (
                   <AttributesBlock
-                    data={this.state.filmsData}
+                    data={this.state.itemData.films}
                     classNames={['item__link']}
                     title="Films"
                   />
                 )}
                 {!!this.state.itemData.starships.length && (
                   <AttributesBlock
-                    data={this.state.starshipsData}
+                    data={this.state.itemData.starships}
                     classNames={['item__link']}
                     title="Starships"
                   />
                 )}
                 {!!this.state.itemData.vehicles.length && (
                   <AttributesBlock
-                    data={this.state.vehiclesData}
+                    data={this.state.itemData.vehicles}
                     classNames={['item__link']}
                     title="Vehicles"
                   />

@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
-const renderLinksFromArray = (data, classNames): ReactNode => {
+const RenderLinksFromArray = (data, classNames): ReactNode => {
   const items = data.map((item) => {
     const link: string = '/' + item.url.split('/').slice(4).join('/');
 
@@ -15,4 +15,4 @@ const renderLinksFromArray = (data, classNames): ReactNode => {
   return items;
 };
 
-export default renderLinksFromArray;
+export default RenderLinksFromArray;
