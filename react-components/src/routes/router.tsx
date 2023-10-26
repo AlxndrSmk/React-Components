@@ -6,6 +6,7 @@ import Person from '../components/Person/Person';
 import NotFound from '../pages/NotFound/NotFound';
 import Planet from '../components/Planet/Planet';
 import Film from '../components/Film/Film';
+import Specie from '../components/Specie/Specie';
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: '/films/:id',
         element: <Film />,
+      },
+      {
+        path: '/species/:id',
+        element: <Specie />,
       },
       {
         path: '*',

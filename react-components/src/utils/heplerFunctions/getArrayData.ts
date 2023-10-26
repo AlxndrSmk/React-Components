@@ -5,6 +5,11 @@ const getArrayData = async (
 ): Promise<IFilmData[] | ISpecieData[] | IStarshipData[] | IVehicleData[]> => {
   const promises = links.map(async (link) => {
     const response = await fetch(link);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch data: ${response.status}`);
+    }
+
     return await response.json();
   });
 

@@ -76,6 +76,7 @@ li {
   display: block;
   text-decoration: underline;
   transition: 0.1s ease;
+  width: fit-content;
 
   &:hover {
     color: $active-font-color;

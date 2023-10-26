@@ -1,7 +1,7 @@
-const getPersonData = async (id: string) => {
+const getSpecieData = async (id: string) => {
   const serverUrl = import.meta.env.VITE_API_SERVER_URL;
   try {
-    const responce = await fetch(`${serverUrl}/people/${id}`);
+    const responce = await fetch(`${serverUrl}/species/${id}`);
     if (responce.status === 404) {
       window.location.href = `/not-found`;
       return;
@@ -13,4 +13,4 @@ const getPersonData = async (id: string) => {
   }
 };
 
-export default getPersonData;
+export default getSpecieData;

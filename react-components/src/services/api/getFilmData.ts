@@ -3,7 +3,7 @@ const getFilmData = async (id: string) => {
   try {
     const responce = await fetch(`${serverUrl}/films/${id}`);
     if (responce.status === 404) {
-      window.location.href = `/film-not-found`;
+      window.location.href = `/not-found`;
       return;
     }
     const data = await responce.json();
