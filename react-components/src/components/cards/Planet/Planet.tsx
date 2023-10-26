@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './Planet.module.scss';
-import Loader from '../Loader/Loader';
-import withRouter from '../../routes/withRouter';
+import Loader from '../../Loader/Loader';
+import withRouter from '../../../routes/withRouter';
 import { Link } from 'react-router-dom';
-import { IPlanetProps, IPlanetState, IPlanetData } from '../../types/types';
-import getPlanetData from '../../services/api/getPlanetData';
-import AttributesBlock from '../AttributesBlock/AttributesBlock';
-import hasNoData from '../../services/hasNoData';
+import { IPlanetProps, IPlanetState, IPlanetData } from '../../../types/types';
+import getPlanetData from '../../../services/api/getPlanetData';
+import AttributesBlock from '../../AttributesBlock/AttributesBlock';
+import hasNoData from '../../../services/hasNoData';
 
 class Planet extends React.Component<IPlanetProps, IPlanetState> {
   constructor(props: IPlanetProps) {

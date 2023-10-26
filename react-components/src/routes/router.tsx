@@ -2,11 +2,12 @@ import { Navigate, createBrowserRouter } from 'react-router-dom';
 
 import App from '../App';
 import PrimaryLayout from '../components/PrimaryLayout/PrimaryLayout';
-import Person from '../components/Person/Person';
+import Person from '../components/cards/Person/Person';
 import NotFound from '../pages/NotFound/NotFound';
-import Planet from '../components/Planet/Planet';
-import Film from '../components/Film/Film';
-import Specie from '../components/Specie/Specie';
+import Planet from '../components/cards/Planet/Planet';
+import Film from '../components/cards/Film/Film';
+import Specie from '../components/cards/Specie/Specie';
+import Vehicle from '../components/cards/Vehicle/Vehicle';
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
       {
         path: '/species/:id',
         element: <Specie />,
+      },
+      {
+        path: '/vehicles/:id',
+        element: <Vehicle />,
       },
       {
         path: '*',

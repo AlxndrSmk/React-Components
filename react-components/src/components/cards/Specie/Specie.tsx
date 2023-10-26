@@ -1,13 +1,13 @@
 import React from 'react';
 import styles from './Specie.module.scss';
-import Loader from '../Loader/Loader';
-import withRouter from '../../routes/withRouter';
+import Loader from '../../Loader/Loader';
+import withRouter from '../../../routes/withRouter';
 import { Link } from 'react-router-dom';
-import { IPlanetData, ISpecieData } from '../../types/types';
-import getSpecieData from '../../services/api/getSpecieData';
-import AttributesBlock from '../AttributesBlock/AttributesBlock';
-import hasNoData from '../../services/hasNoData';
-import getPlanetData from '../../services/api/getPlanetData';
+import { IPlanetData, ISpecieData } from '../../../types/types';
+import getSpecieData from '../../../services/api/getSpecieData';
+import AttributesBlock from '../../AttributesBlock/AttributesBlock';
+import hasNoData from '../../../services/hasNoData';
+import getPlanetData from '../../../services/api/getPlanetData';
 
 class Specie extends React.Component<ISPecieProps, ISpecieState> {
   constructor(props: ISPecieProps) {
@@ -54,7 +54,7 @@ class Specie extends React.Component<ISPecieProps, ISpecieState> {
       const specieId: string = this.state.specieData.url.match(/\d+/)![0];
       const specieImgSrc: string = `/images/species/${specieId}.jpg`;
       const planetLink: string = '/' + this.state.planetData?.url.split('/').slice(4).join('/');
-      console.log(this.state.planetData);
+
       return (
         <div className={styles.item__wrapper}>
           <div className={styles.item__container}>

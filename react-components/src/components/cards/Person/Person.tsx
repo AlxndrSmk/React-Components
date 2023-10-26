@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './Person.module.scss';
-import Loader from '../Loader/Loader';
-import getDataByLink from '../../services/api/getDataByLink';
-import withRouter from '../../routes/withRouter';
+import Loader from '../../Loader/Loader';
+import getDataByLink from '../../../services/api/getDataByLink';
+import withRouter from '../../../routes/withRouter';
 import { Link } from 'react-router-dom';
 import {
   IPersonProps,
@@ -10,10 +10,10 @@ import {
   IPersonData,
   IPlanetData,
   ISpecieData,
-} from '../../types/types';
-import getPersonData from '../../services/api/getPersonData';
-import AttributesBlock from '../AttributesBlock/AttributesBlock';
-import hasNoData from '../../services/hasNoData';
+} from '../../../types/types';
+import getPersonData from '../../../services/api/getPersonData';
+import AttributesBlock from '../../AttributesBlock/AttributesBlock';
+import hasNoData from '../../../services/hasNoData';
 
 class Person extends React.Component<IPersonProps, IPersonState> {
   constructor(props: IPersonProps) {

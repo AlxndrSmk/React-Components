@@ -1,13 +1,13 @@
 import React from 'react';
 import styles from './Film.module.scss';
-import Loader from '../Loader/Loader';
-import withRouter from '../../routes/withRouter';
+import Loader from '../../Loader/Loader';
+import withRouter from '../../../routes/withRouter';
 import { Link } from 'react-router-dom';
-import { IFilmProps, IFilmState, IFilmData, IFilmData } from '../../types/types';
-import getFilmData from '../../services/api/getFilmData';
-import hasNoData from '../../services/hasNoData';
-import dateFormat from '../../services/dateFormat';
-import AttributesBlock from '../AttributesBlock/AttributesBlock';
+import { IFilmProps, IFilmState, IFilmData, IFilmData } from '../../../types/types';
+import getFilmData from '../../../services/api/getFilmData';
+import hasNoData from '../../../services/hasNoData';
+import dateFormat from '../../../services/dateFormat';
+import AttributesBlock from '../../AttributesBlock/AttributesBlock';
 
 class Planet extends React.Component<IFilmProps, IFilmState> {
   constructor(props: IFilmProps) {
