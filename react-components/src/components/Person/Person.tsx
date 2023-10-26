@@ -64,6 +64,7 @@ class Person extends React.Component<IPersonProps, IPersonState> {
       const personId: string = this.state.itemData.url.match(/\d+/)![0];
       const peopleImgSrc: string = `/images/people/${personId}.jpg`;
       const planetLink: string = '/' + this.state.planetData?.url.split('/').slice(4).join('/');
+      const specieLink: string = '/' + this.state.speciesData?.url.split('/').slice(4).join('/');
 
       return (
         <div className={styles.item__wrapper}>
@@ -75,10 +76,10 @@ class Person extends React.Component<IPersonProps, IPersonState> {
                   {!!this.state.itemData.species.length && (
                     <Link
                       className={'item__link item__link_specie uppercase inline'}
-                      key={this.state.speciesData.name}
-                      to={this.state.speciesData}
+                      key={this.state.speciesData?.name}
+                      to={specieLink}
                     >
-                      {this.state.speciesData.name}
+                      {this.state.speciesData?.name}
                     </Link>
                   )}
                 </span>
@@ -105,7 +106,10 @@ class Person extends React.Component<IPersonProps, IPersonState> {
                   : this.state.itemData.gender === 'female'
                   ? 'She'
                   : 'It'}{' '}
-                has {this.state.itemData.eye_color} eyes and{' '}
+                has{' '}
+                {hasNoData(this.state.itemData.eye_color)
+                  ? ''
+                  : `${this.state.itemData.eye_color} eyes and `}
                 {hasNoData(this.state.itemData.hair_color)
                   ? 'no hair'
                   : `${this.state.itemData.hair_color} hair`}
