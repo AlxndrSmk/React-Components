@@ -76,7 +76,10 @@ class Vehicle extends React.Component<IVehicleProps, IVehicleState> {
                   <p>Passengers: {this.state.vehicleData.passengers}</p>
                 )}
                 {hasNoData(this.state.vehicleData.cargo_capacity) || (
-                  <p>Cargo capacity: {this.state.vehicleData.cargo_capacity} kg</p>
+                  <p>
+                    Cargo capacity: {Number(this.state.vehicleData.cargo_capacity).toLocaleString()}{' '}
+                    kg
+                  </p>
                 )}
                 {hasNoData(this.state.vehicleData.consumables) || (
                   <p>Consumables: {this.state.vehicleData.consumables}</p>
