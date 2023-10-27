@@ -40,10 +40,11 @@ a {
   }
 
   &__img {
-    max-width: 600px;
+    max-width: 500px;
     border-radius: 0 10px 10px 0;
     height: 100%;
     object-fit: contain;
+    margin-right: 5%;
   }
 
   &__specie_title {

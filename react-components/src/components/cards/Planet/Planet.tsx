@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './Planet.module.scss';
 import Loader from '../../Loader/Loader';
 import withRouter from '../../../routes/withRouter';
-import { Link } from 'react-router-dom';
 import { IPlanetProps, IPlanetState, IPlanetData } from '../../../types/types';
 import getPlanetData from '../../../services/api/getPlanetData';
 import AttributesBlock from '../../AttributesBlock/AttributesBlock';
@@ -109,15 +108,6 @@ class Planet extends React.Component<IPlanetProps, IPlanetState> {
               src={planetImgSrc}
             />
           </div>
-          <Link
-            onClick={() => {
-              this.props.navigate(-1);
-            }}
-            className="button"
-            to={''}
-          >
-            Back to search
-          </Link>
         </div>
       );
     }

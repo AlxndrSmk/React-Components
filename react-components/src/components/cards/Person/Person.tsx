@@ -150,15 +150,6 @@ class Person extends React.Component<IPersonProps, IPersonState> {
             </div>
             <img className={styles.item__img} alt={this.state.itemData.name} src={peopleImgSrc} />
           </div>
-          <Link
-            onClick={() => {
-              this.props.navigate(-1);
-            }}
-            className="button"
-            to={''}
-          >
-            Back to search
-          </Link>
         </div>
       );
     }

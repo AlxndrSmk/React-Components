@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './Vehicle.module.scss';
 import Loader from '../../Loader/Loader';
 import withRouter from '../../../routes/withRouter';
-import { Link } from 'react-router-dom';
 import { ISpecieData } from '../../../types/types';
 import getVehicleData from '../../../services/api/getVehicleData';
 import AttributesBlock from '../../AttributesBlock/AttributesBlock';
@@ -117,15 +116,6 @@ class Vehicle extends React.Component<IVehicleProps, IVehicleState> {
               src={vehicleImgSrc}
             />
           </div>
-          <Link
-            onClick={() => {
-              this.props.navigate(-1);
-            }}
-            className="button"
-            to={''}
-          >
-            Back to search
-          </Link>
         </div>
       );
     }

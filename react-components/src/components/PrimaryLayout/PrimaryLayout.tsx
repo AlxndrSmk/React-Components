@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom';
 import Header from '../Header/Header';
 
 import styles from './PrimaryLayout.module.scss';
+import Footer from '../Footer/Footer';
 
 class PrimaryLayout extends React.Component {
   render() {
@@ -14,6 +15,7 @@ class PrimaryLayout extends React.Component {
           <Outlet />
         </div>
         <div className={styles.twinkling}></div>
+        <Footer />
       </div>
     );
   }

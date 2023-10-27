@@ -8,6 +8,7 @@ import Planet from '../components/cards/Planet/Planet';
 import Film from '../components/cards/Film/Film';
 import Specie from '../components/cards/Specie/Specie';
 import Vehicle from '../components/cards/Vehicle/Vehicle';
+import Starship from '../components/cards/Starship/Starship';
 
 const router = createBrowserRouter([
   {
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
       {
         path: '/vehicles/:id',
         element: <Vehicle />,
+      },
+      {
+        path: '/starships/:id',
+        element: <Starship />,
       },
       {
         path: '*',

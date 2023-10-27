@@ -31,7 +31,6 @@ class Header extends React.Component {
                 key={link.name}
                 to={link.src}
                 className={`${styles.menu__item} ${isActive ? styles.active : ''}`}
-                onClick={(e) => console.log(e.target)}
               >
                 <li>{link.name}</li>
               </Link>

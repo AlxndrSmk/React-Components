@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './Film.module.scss';
 import Loader from '../../Loader/Loader';
 import withRouter from '../../../routes/withRouter';
-import { Link } from 'react-router-dom';
 import { IFilmProps, IFilmState, IFilmData, IFilmData } from '../../../types/types';
 import getFilmData from '../../../services/api/getFilmData';
 import hasNoData from '../../../services/hasNoData';
@@ -122,15 +121,6 @@ class Planet extends React.Component<IFilmProps, IFilmState> {
               )}
             </div>
           </div>
-          <Link
-            onClick={() => {
-              this.props.navigate(-1);
-            }}
-            className="button"
-            to={''}
-          >
-            Back to search
-          </Link>
         </div>
       );
     }

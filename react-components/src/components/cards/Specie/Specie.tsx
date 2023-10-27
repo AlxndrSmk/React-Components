@@ -120,15 +120,6 @@ class Specie extends React.Component<ISPecieProps, ISpecieState> {
               src={specieImgSrc}
             />
           </div>
-          <Link
-            onClick={() => {
-              this.props.navigate(-1);
-            }}
-            className="button"
-            to={''}
-          >
-            Back to search
-          </Link>
         </div>
       );
     }
