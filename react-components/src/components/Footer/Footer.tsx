@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Footer.module.scss';
-import withRouter from '../../routes/withRouter';
 import { IFooterLink } from '../../types/types';
 
 class Footer extends React.Component {
@@ -36,4 +35,4 @@ class Footer extends React.Component {
   }
 }
 
-export default withRouter(Footer);
+export default Footer;

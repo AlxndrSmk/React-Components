@@ -1,14 +1,14 @@
 import React from 'react';
 import styles from './Starship.module.scss';
 import Loader from '../../Loader/Loader';
-import withRouter from '../../../routes/withRouter';
-import { IStarshipData, IStarshipProps, IStarshipState } from '../../../types/types';
+import withRouter from '../../../utils/withRouter';
+import { IStarshipData, IStarshipState, RouterProps } from '../../../types/types';
 import getStarshipData from '../../../services/api/getStarshipData';
 import AttributesBlock from '../../AttributesBlock/AttributesBlock';
 import hasNoData from '../../../services/hasNoData';
 
-class Starship extends React.Component<IStarshipProps, IStarshipState> {
-  constructor(props: IStarshipProps) {
+class Starship extends React.Component<RouterProps, IStarshipState> {
+  constructor(props: RouterProps) {
     super(props);
 
     this.state = {
@@ -28,13 +28,13 @@ class Starship extends React.Component<IStarshipProps, IStarshipState> {
   };
 
   componentDidMount = async (): Promise<void> => {
-    await this.getStarshipData(this.props.params.id);
+    await this.getStarshipData(this.props.params.id as string);
   };
 
-  componentDidUpdate = async (prevProps: IStarshipProps) => {
+  componentDidUpdate = async (prevProps: RouterProps) => {
     if (prevProps.location.pathname !== this.props.location.pathname) {
       this.setInitState();
-      await this.getStarshipData(this.props.params.id);
+      await this.getStarshipData(this.props.params.id as string);
     }
   };
 
@@ -134,4 +134,4 @@ class Starship extends React.Component<IStarshipProps, IStarshipState> {
   }
 }
 
-export default withRouter(Starship);
+export default withRouter<RouterProps>(Starship);

@@ -1,14 +1,14 @@
 import React from 'react';
 import styles from './Vehicle.module.scss';
 import Loader from '../../Loader/Loader';
-import withRouter from '../../../routes/withRouter';
-import { IVehicleData, IVehicleProps, IVehicleState } from '../../../types/types';
+import withRouter from '../../../utils/withRouter';
+import { IVehicleData, IVehicleState, RouterProps } from '../../../types/types';
 import getVehicleData from '../../../services/api/getVehicleData';
 import AttributesBlock from '../../AttributesBlock/AttributesBlock';
 import hasNoData from '../../../services/hasNoData';
 
-class Vehicle extends React.Component<IVehicleProps, IVehicleState> {
-  constructor(props: IVehicleProps) {
+class Vehicle extends React.Component<RouterProps, IVehicleState> {
+  constructor(props: RouterProps) {
     super(props);
 
     this.state = {
@@ -28,13 +28,13 @@ class Vehicle extends React.Component<IVehicleProps, IVehicleState> {
   };
 
   componentDidMount = async (): Promise<void> => {
-    await this.getVehicleData(this.props.params.id);
+    await this.getVehicleData(this.props.params.id as string);
   };
 
-  componentDidUpdate = async (prevProps: IVehicleProps) => {
+  componentDidUpdate = async (prevProps: RouterProps) => {
     if (prevProps.location.pathname !== this.props.location.pathname) {
       this.setInitState();
-      await this.getVehicleData(this.props.params.id);
+      await this.getVehicleData(this.props.params.id as string);
     }
   };
 
@@ -122,4 +122,4 @@ class Vehicle extends React.Component<IVehicleProps, IVehicleState> {
   }
 }
 
-export default withRouter(Vehicle);
+export default withRouter<RouterProps>(Vehicle);

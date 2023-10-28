@@ -2,21 +2,21 @@ import React from 'react';
 import styles from './Person.module.scss';
 import Loader from '../../Loader/Loader';
 import getDataByLink from '../../../services/api/getDataByLink';
-import withRouter from '../../../routes/withRouter';
+import withRouter from '../../../utils/withRouter';
 import { Link } from 'react-router-dom';
 import {
-  IPersonProps,
   IPersonState,
   IPersonData,
   IPlanetData,
   ISpecieData,
+  RouterProps,
 } from '../../../types/types';
 import getPersonData from '../../../services/api/getPersonData';
 import AttributesBlock from '../../AttributesBlock/AttributesBlock';
 import hasNoData from '../../../services/hasNoData';
 
-class Person extends React.Component<IPersonProps, IPersonState> {
-  constructor(props: IPersonProps) {
+class Person extends React.Component<RouterProps, IPersonState> {
+  constructor(props: RouterProps) {
     super(props);
 
     this.state = {
@@ -43,13 +43,13 @@ class Person extends React.Component<IPersonProps, IPersonState> {
   };
 
   componentDidMount = async (): Promise<void> => {
-    await this.getPersonData(this.props.params.id);
+    await this.getPersonData(this.props.params.id as string);
   };
 
-  componentDidUpdate = async (prevProps: IPersonProps) => {
+  componentDidUpdate = async (prevProps: RouterProps) => {
     if (prevProps.location.pathname !== this.props.location.pathname) {
       this.setInitState();
-      await this.getPersonData(this.props.params.id);
+      await this.getPersonData(this.props.params.id as string);
     }
   };
 
@@ -156,4 +156,4 @@ class Person extends React.Component<IPersonProps, IPersonState> {
   }
 }
 
-export default withRouter(Person);
+export default withRouter<RouterProps>(Person);

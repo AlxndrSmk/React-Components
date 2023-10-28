@@ -4,7 +4,6 @@ import Loader from '../Loader/Loader';
 import { Link } from 'react-router-dom';
 import { IFilmData, IListProps, IListState, TAllCardsDataWithName } from '../../types/types';
 import SearchInput from '../SearchInput/SearchInput';
-import withRouter from '../../routes/withRouter';
 
 class List extends React.Component<IListProps, IListState> {
   render() {
@@ -77,4 +76,4 @@ class List extends React.Component<IListProps, IListState> {
   }
 }
 
-export default withRouter(List);
+export default List;

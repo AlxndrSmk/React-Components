@@ -1,15 +1,15 @@
 import React from 'react';
 import styles from './Film.module.scss';
 import Loader from '../../Loader/Loader';
-import withRouter from '../../../routes/withRouter';
-import { IFilmProps, IFilmState, IFilmData } from '../../../types/types';
+import withRouter from '../../../utils/withRouter';
+import { IFilmState, IFilmData, RouterProps } from '../../../types/types';
 import getFilmData from '../../../services/api/getFilmData';
 import hasNoData from '../../../services/hasNoData';
 import dateFormat from '../../../services/dateFormat';
 import AttributesBlock from '../../AttributesBlock/AttributesBlock';
 
-class Planet extends React.Component<IFilmProps, IFilmState> {
-  constructor(props: IFilmProps) {
+class Film extends React.Component<RouterProps, IFilmState> {
+  constructor(props: RouterProps) {
     super(props);
 
     this.state = {
@@ -29,13 +29,13 @@ class Planet extends React.Component<IFilmProps, IFilmState> {
   };
 
   componentDidMount = async (): Promise<void> => {
-    await this.getFilmData(this.props.params.id);
+    await this.getFilmData(this.props.params.id as string);
   };
 
-  componentDidUpdate = async (prevProps: IFilmProps) => {
+  componentDidUpdate = async (prevProps: RouterProps) => {
     if (prevProps.location.pathname !== this.props.location.pathname) {
       this.setInitState();
-      await this.getFilmData(this.props.params.id);
+      await this.getFilmData(this.props.params.id as string);
     }
   };
 
@@ -126,4 +126,4 @@ class Planet extends React.Component<IFilmProps, IFilmState> {
   }
 }
 
-export default withRouter(Planet);
+export default withRouter<RouterProps>(Film);

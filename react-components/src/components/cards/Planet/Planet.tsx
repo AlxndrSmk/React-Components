@@ -1,14 +1,14 @@
 import React from 'react';
 import styles from './Planet.module.scss';
 import Loader from '../../Loader/Loader';
-import withRouter from '../../../routes/withRouter';
-import { IPlanetProps, IPlanetState, IPlanetData } from '../../../types/types';
+import withRouter from '../../../utils/withRouter';
+import { IPlanetState, IPlanetData, RouterProps } from '../../../types/types';
 import getPlanetData from '../../../services/api/getPlanetData';
 import AttributesBlock from '../../AttributesBlock/AttributesBlock';
 import hasNoData from '../../../services/hasNoData';
 
-class Planet extends React.Component<IPlanetProps, IPlanetState> {
-  constructor(props: IPlanetProps) {
+class Planet extends React.Component<RouterProps, IPlanetState> {
+  constructor(props: RouterProps) {
     super(props);
 
     this.state = {
@@ -28,13 +28,13 @@ class Planet extends React.Component<IPlanetProps, IPlanetState> {
   };
 
   componentDidMount = async (): Promise<void> => {
-    await this.getPlanetData(this.props.params.id);
+    await this.getPlanetData(this.props.params.id as string);
   };
 
-  componentDidUpdate = async (prevProps: IPlanetProps) => {
+  componentDidUpdate = async (prevProps: RouterProps) => {
     if (prevProps.location.pathname !== this.props.location.pathname) {
       this.setInitState();
-      await this.getPlanetData(this.props.params.id);
+      await this.getPlanetData(this.props.params.id as string);
     }
   };
 
@@ -114,4 +114,4 @@ class Planet extends React.Component<IPlanetProps, IPlanetState> {
   }
 }
 
-export default withRouter(Planet);
+export default withRouter<RouterProps>(Planet);

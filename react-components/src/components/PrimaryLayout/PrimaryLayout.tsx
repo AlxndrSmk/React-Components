@@ -5,13 +5,14 @@ import Header from '../Header/Header';
 
 import styles from './PrimaryLayout.module.scss';
 import Footer from '../Footer/Footer';
-import { WithRouterProps } from '../../types/types';
+import { RouterProps } from '../../types/types';
+import withRouter from '../../utils/withRouter';
 
-class PrimaryLayout extends React.Component<WithRouterProps> {
+class PrimaryLayout extends React.Component<RouterProps> {
   render() {
     return (
       <div className={styles.wrapper}>
-        <Header />
+        <Header location={this.props.location} />
         <div className="section__bottom">
           <Outlet />
         </div>
@@ -22,4 +23,4 @@ class PrimaryLayout extends React.Component<WithRouterProps> {
   }
 }
 
-export default PrimaryLayout;
+export default withRouter<RouterProps>(PrimaryLayout);

@@ -1,16 +1,16 @@
 import React from 'react';
 import styles from './Specie.module.scss';
 import Loader from '../../Loader/Loader';
-import withRouter from '../../../routes/withRouter';
+import withRouter from '../../../utils/withRouter';
 import { Link } from 'react-router-dom';
-import { IPlanetData, ISPecieProps, ISpecieData, ISpecieState } from '../../../types/types';
+import { IPlanetData, ISpecieData, ISpecieState, RouterProps } from '../../../types/types';
 import getSpecieData from '../../../services/api/getSpecieData';
 import AttributesBlock from '../../AttributesBlock/AttributesBlock';
 import hasNoData from '../../../services/hasNoData';
 import getPlanetData from '../../../services/api/getPlanetData';
 
-class Specie extends React.Component<ISPecieProps, ISpecieState> {
-  constructor(props: ISPecieProps) {
+class Specie extends React.Component<RouterProps, ISpecieState> {
+  constructor(props: RouterProps) {
     super(props);
 
     this.state = {
@@ -34,13 +34,13 @@ class Specie extends React.Component<ISPecieProps, ISpecieState> {
   };
 
   componentDidMount = async (): Promise<void> => {
-    await this.getSpecieData(this.props.params.id);
+    await this.getSpecieData(this.props.params.id as string);
   };
 
-  componentDidUpdate = async (prevProps: ISPecieProps) => {
+  componentDidUpdate = async (prevProps: RouterProps) => {
     if (prevProps.location.pathname !== this.props.location.pathname) {
       this.setInitState();
-      await this.getSpecieData(this.props.params.id);
+      await this.getSpecieData(this.props.params.id as string);
     }
   };
 
@@ -126,4 +126,4 @@ class Specie extends React.Component<ISPecieProps, ISpecieState> {
   }
 }
 
-export default withRouter(Specie);
+export default withRouter<RouterProps>(Specie);

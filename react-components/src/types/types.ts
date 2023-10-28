@@ -1,4 +1,7 @@
+import { NavigateFunction, Params, Location } from 'react-router';
+
 export type TAllCardsData =
+  | null
   | IPersonData[]
   | IPlanetData[]
   | IFilmData[]
@@ -23,15 +26,10 @@ export interface ISearchInputProps {
 
 export interface IAppState {
   currentPage: number;
-  listData: null | TAllCardsData;
+  listData: null | IListData;
   pathName: string;
   isDataLoaded: boolean;
   searchString: string;
-}
-
-export interface IAppProps {
-  location: ILocation;
-  navigate: (to: string) => void;
 }
 
 export interface IListState {
@@ -48,8 +46,6 @@ export interface IListProps {
   incrementPage: () => void;
   isDataLoaded: boolean;
   listData: IListData;
-  location: ILocation;
-  params: object;
   pathName: string;
 }
 
@@ -87,27 +83,12 @@ export interface IPersonState {
   speciesData: null | ISpecieData;
 }
 
-export interface IPersonProps {
-  params: IParams;
-  location: ILocation;
-}
-
 export interface IPlanetState {
   planetData: null | IPlanetData;
 }
 
-export interface IPlanetProps {
-  params: IParams;
-  location: ILocation;
-}
-
 export interface IFilmState {
   filmData: null | IFilmData;
-}
-
-export interface IFilmProps {
-  params: IParams;
-  location: ILocation;
 }
 
 export interface ISpecieState {
@@ -115,27 +96,12 @@ export interface ISpecieState {
   specieData: null | ISpecieData;
 }
 
-export interface ISPecieProps {
-  params: IParams;
-  location: ILocation;
-}
-
 export interface IVehicleState {
   vehicleData: null | IVehicleData;
 }
 
-export interface IVehicleProps {
-  params: IParams;
-  location: ILocation;
-}
-
 export interface IStarshipState {
   starshipData: null | IStarshipData;
-}
-
-export interface IStarshipProps {
-  params: IParams;
-  location: ILocation;
 }
 
 export interface IListData {
@@ -257,10 +223,6 @@ export interface IStarshipData {
   url: string;
 }
 
-interface IParams {
-  id: string;
-}
-
 interface ILocation {
   hash: string;
   string?: string;
@@ -280,12 +242,12 @@ export interface IFooterLink {
   width: string;
 }
 
-export interface WithRouterProps {
-  children?: React.ReactNode;
-  handleSubmit?: (searchString: string) => void;
-  listData?: null | TAllCardsData;
-  isDataLoaded?: boolean;
-  incrementPage?: () => void;
-  decrementPage?: () => void;
-  pathName?: string;
+export interface RouterProps {
+  navigate: NavigateFunction;
+  readonly params: Params<string>;
+  location: Location;
 }
+
+export type WithRouterProps<T> = T & RouterProps;
+
+export type OmitRouter<T> = Omit<T, keyof RouterProps>;

@@ -1,13 +1,13 @@
 import React from 'react';
-import withRouter from './routes/withRouter';
+import withRouter from './utils/withRouter';
 import getListData from './services/api/getListData';
 import List from './components/List/List';
-import { IAppProps, IAppState } from './types/types';
+import { IAppState, IListData, RouterProps } from './types/types';
 
-class App extends React.Component<IAppProps, IAppState> {
+class App extends React.Component<RouterProps, IAppState> {
   private mounted = false;
 
-  constructor(props: IAppProps) {
+  constructor(props: RouterProps) {
     super(props);
     this.state = {
       currentPage: 1,
@@ -47,7 +47,7 @@ class App extends React.Component<IAppProps, IAppState> {
     this.getListData(this.state.searchString, currentPage, this.state.pathName);
   };
 
-  componentDidUpdate = async (prevProps: IAppProps) => {
+  componentDidUpdate = async (prevProps: RouterProps) => {
     if (this.props.location.search === '' && prevProps.location.search !== '') {
       this.setInitState();
       const pathName = this.props.location.pathname.slice(1);
@@ -86,7 +86,7 @@ class App extends React.Component<IAppProps, IAppState> {
     return (
       <List
         handleSubmit={this.handleSubmit}
-        listData={this.state.listData}
+        listData={this.state.listData as IListData}
         isDataLoaded={this.state.isDataLoaded}
         incrementPage={this.incrementPage}
         decrementPage={this.decrementPage}
@@ -96,4 +96,4 @@ class App extends React.Component<IAppProps, IAppState> {
   }
 }
 
-export default withRouter(App);
+export default withRouter<RouterProps>(App);

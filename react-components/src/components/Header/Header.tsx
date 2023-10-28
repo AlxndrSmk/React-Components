@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
-import withRouter from '../../routes/withRouter';
 import { IHeaderProps } from '../../types/types';
 
 class Header extends React.Component<IHeaderProps> {
@@ -43,4 +42,4 @@ class Header extends React.Component<IHeaderProps> {
   }
 }
 
-export default withRouter(Header);
+export default Header;
