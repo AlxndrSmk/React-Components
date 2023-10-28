@@ -2,11 +2,12 @@ import React from 'react';
 import withRouter from './routes/withRouter';
 import getListData from './services/api/getListData';
 import List from './components/List/List';
+import { IAppProps, IAppState } from './types/types';
 
-class App extends React.Component {
+class App extends React.Component<IAppProps, IAppState> {
   private mounted = false;
 
-  constructor(props) {
+  constructor(props: IAppProps) {
     super(props);
     this.state = {
       currentPage: 1,
@@ -46,7 +47,7 @@ class App extends React.Component {
     this.getListData(this.state.searchString, currentPage, this.state.pathName);
   };
 
-  componentDidUpdate = async (prevProps) => {
+  componentDidUpdate = async (prevProps: IAppProps) => {
     if (this.props.location.search === '' && prevProps.location.search !== '') {
       this.setInitState();
       const pathName = this.props.location.pathname.slice(1);
@@ -74,14 +75,14 @@ class App extends React.Component {
     }
   };
 
-  handleSubmit = async (searchString) => {
+  handleSubmit = async (searchString: string) => {
     localStorage.setItem('inputValue', searchString);
     await this.setState({ searchString, currentPage: 1 });
     this.getListData(searchString, this.state.currentPage, this.state.pathName);
   };
 
   render() {
-    console.log(this.state.listData);
+    console.log(this.props);
     return (
       <List
         handleSubmit={this.handleSubmit}

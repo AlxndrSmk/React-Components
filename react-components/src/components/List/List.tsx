@@ -2,12 +2,13 @@ import React from 'react';
 import './List.scss';
 import Loader from '../Loader/Loader';
 import { Link } from 'react-router-dom';
-import { IListProps, IListState } from '../../types/types';
+import { IFilmData, IListProps, IListState, TAllCardsDataWithName } from '../../types/types';
 import SearchInput from '../SearchInput/SearchInput';
 import withRouter from '../../routes/withRouter';
 
 class List extends React.Component<IListProps, IListState> {
   render() {
+    console.log(this.props);
     if (!this.props.isDataLoaded) {
       return <Loader />;
     }
@@ -19,13 +20,12 @@ class List extends React.Component<IListProps, IListState> {
           <div className="items__wrapper">
             {this.props.listData?.results?.length ? (
               this.props.listData.results?.map((data) => {
-                const imgSrc = `/images/${this.props.pathName}/${parseInt(
-                  data.url?.match(/\d+/)
-                )}.jpg`;
+                const listId: string = data.url.replace(/[^0-9]/g, '');
+                const imgSrc = `/images/${this.props.pathName}/${listId}.jpg`;
                 return (
                   <Link
-                    key={data.name || data.title}
-                    to={`/${this.props.pathName}/${parseInt(data.url?.match(/\d+/))}`}
+                    key={(data as TAllCardsDataWithName).name || (data as IFilmData).title}
+                    to={`/${this.props.pathName}/${data.url.replace(/[^0-9]/g, '')}`}
                     className="item__wrapper"
                     state={this.props.listData}
                   >
@@ -39,10 +39,12 @@ class List extends React.Component<IListProps, IListState> {
                           }}
                           className="item__img"
                           src={imgSrc}
-                          alt={data.name}
+                          alt={(data as TAllCardsDataWithName).name || (data as IFilmData).title}
                         />
                         <figcaption className="item__figcaption">
-                          <p className="item__img__title">{data.name || data.title}</p>
+                          <p className="item__img__title">
+                            {(data as TAllCardsDataWithName).name || (data as IFilmData).title}
+                          </p>
                         </figcaption>
                       </figure>
                     </div>

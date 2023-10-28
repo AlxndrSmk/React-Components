@@ -31,7 +31,7 @@ class Planet extends React.Component<IPlanetProps, IPlanetState> {
     await this.getPlanetData(this.props.params.id);
   };
 
-  componentDidUpdate = async (prevProps) => {
+  componentDidUpdate = async (prevProps: IPlanetProps) => {
     if (prevProps.location.pathname !== this.props.location.pathname) {
       this.setInitState();
       await this.getPlanetData(this.props.params.id);
@@ -45,7 +45,7 @@ class Planet extends React.Component<IPlanetProps, IPlanetState> {
 
     if (this.state.planetData) {
       console.log(this.state.planetData);
-      const planetId: string = this.state.planetData.url.match(/\d+/)![0];
+      const planetId: string = this.state.planetData.url.replace(/[^0-9]/g, '');
       const planetImgSrc: string = `/images/planets/${planetId}.jpg`;
 
       return (

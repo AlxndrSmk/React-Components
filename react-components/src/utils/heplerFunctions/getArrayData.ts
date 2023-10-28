@@ -1,8 +1,6 @@
-import { IFilmData, ISpecieData, IStarshipData, IVehicleData } from '../../types/types';
+import { TAllCardsData } from '../../types/types';
 
-const getArrayData = async (
-  links: string[]
-): Promise<IFilmData[] | ISpecieData[] | IStarshipData[] | IVehicleData[]> => {
+const getArrayData = async (links: string[]): Promise<TAllCardsData> => {
   const promises = links.map(async (link) => {
     const response = await fetch(link);
 

@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Film.module.scss';
 import Loader from '../../Loader/Loader';
 import withRouter from '../../../routes/withRouter';
-import { IFilmProps, IFilmState, IFilmData, IFilmData } from '../../../types/types';
+import { IFilmProps, IFilmState, IFilmData } from '../../../types/types';
 import getFilmData from '../../../services/api/getFilmData';
 import hasNoData from '../../../services/hasNoData';
 import dateFormat from '../../../services/dateFormat';
@@ -32,7 +32,7 @@ class Planet extends React.Component<IFilmProps, IFilmState> {
     await this.getFilmData(this.props.params.id);
   };
 
-  componentDidUpdate = async (prevProps) => {
+  componentDidUpdate = async (prevProps: IFilmProps) => {
     if (prevProps.location.pathname !== this.props.location.pathname) {
       this.setInitState();
       await this.getFilmData(this.props.params.id);
@@ -40,14 +40,13 @@ class Planet extends React.Component<IFilmProps, IFilmState> {
   };
 
   render() {
+    console.log(this.props);
     if (!this.state.filmData) {
       return <Loader />;
     }
 
     if (this.state.filmData) {
-      console.log(this.state.filmData);
-
-      const filmId: string = this.state.filmData.url.match(/\d+/)![0];
+      const filmId: string = this.state.filmData.url.replace(/[^0-9]/g, '');
       const filmImgSrc: string = `/images/films/${filmId}.jpg`;
 
       return (

@@ -5,8 +5,9 @@ import Header from '../Header/Header';
 
 import styles from './PrimaryLayout.module.scss';
 import Footer from '../Footer/Footer';
+import { WithRouterProps } from '../../types/types';
 
-class PrimaryLayout extends React.Component {
+class PrimaryLayout extends React.Component<WithRouterProps> {
   render() {
     return (
       <div className={styles.wrapper}>

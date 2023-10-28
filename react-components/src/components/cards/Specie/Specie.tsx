@@ -3,7 +3,7 @@ import styles from './Specie.module.scss';
 import Loader from '../../Loader/Loader';
 import withRouter from '../../../routes/withRouter';
 import { Link } from 'react-router-dom';
-import { IPlanetData, ISpecieData } from '../../../types/types';
+import { IPlanetData, ISPecieProps, ISpecieData, ISpecieState } from '../../../types/types';
 import getSpecieData from '../../../services/api/getSpecieData';
 import AttributesBlock from '../../AttributesBlock/AttributesBlock';
 import hasNoData from '../../../services/hasNoData';
@@ -37,7 +37,7 @@ class Specie extends React.Component<ISPecieProps, ISpecieState> {
     await this.getSpecieData(this.props.params.id);
   };
 
-  componentDidUpdate = async (prevProps) => {
+  componentDidUpdate = async (prevProps: ISPecieProps) => {
     if (prevProps.location.pathname !== this.props.location.pathname) {
       this.setInitState();
       await this.getSpecieData(this.props.params.id);
@@ -51,7 +51,7 @@ class Specie extends React.Component<ISPecieProps, ISpecieState> {
 
     if (this.state.specieData) {
       console.log(this.state.specieData);
-      const specieId: string = this.state.specieData.url.match(/\d+/)![0];
+      const specieId: string = this.state.specieData.url.replace(/[^0-9]/g, '');
       const specieImgSrc: string = `/images/species/${specieId}.jpg`;
       const planetLink: string = '/' + this.state.planetData?.url.split('/').slice(4).join('/');
 
@@ -61,7 +61,7 @@ class Specie extends React.Component<ISPecieProps, ISpecieState> {
             <div className={styles.item__container_left}>
               <h1 className={styles.item__title}>{this.state.specieData.name}</h1>
               <div>
-                {hasNoData(this.state.planetData.name) || (
+                {hasNoData(this.state.planetData?.name) || (
                   <>
                     <p className="inline">Planet: </p>
                     <Link className="item__link uppercase inline" to={planetLink}>

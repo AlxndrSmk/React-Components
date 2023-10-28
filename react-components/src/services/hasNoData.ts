@@ -1,11 +1,6 @@
-const hasNoData = (value) => {
-  return (
-    value === 'unknown' ||
-    value === '0' ||
-    value.toUpperCase() === 'N/A' ||
-    value === 'none' ||
-    false
-  );
+const hasNoData = (value: string | undefined): boolean => {
+  const knownNoDataValues = ['unknown', '0', 'N/A', 'none'];
+  return !!value && knownNoDataValues.includes(value);
 };
 
 export default hasNoData;

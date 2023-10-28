@@ -37,7 +37,7 @@ class Person extends React.Component<IPersonProps, IPersonState> {
   getPersonData = async (id: string) => {
     const itemData: IPersonData = await getPersonData(id);
     const planetData: IPlanetData = await getDataByLink(itemData.homeworld);
-    const speciesData: ISpecieData = await getDataByLink(itemData.species);
+    const speciesData: ISpecieData = await getDataByLink(itemData.species[0]);
 
     await this.setState({ itemData, planetData, speciesData });
   };
@@ -46,7 +46,7 @@ class Person extends React.Component<IPersonProps, IPersonState> {
     await this.getPersonData(this.props.params.id);
   };
 
-  componentDidUpdate = async (prevProps) => {
+  componentDidUpdate = async (prevProps: IPersonProps) => {
     if (prevProps.location.pathname !== this.props.location.pathname) {
       this.setInitState();
       await this.getPersonData(this.props.params.id);
@@ -61,7 +61,7 @@ class Person extends React.Component<IPersonProps, IPersonState> {
     if (this.state.itemData) {
       console.log(this.state.speciesData);
       console.log(this.state.itemData);
-      const personId: string = this.state.itemData.url.match(/\d+/)![0];
+      const personId: string = this.state.itemData.url.replace(/[^0-9]/g, '');
       const peopleImgSrc: string = `/images/people/${personId}.jpg`;
       const planetLink: string = '/' + this.state.planetData?.url.split('/').slice(4).join('/');
       const specieLink: string = '/' + this.state.speciesData?.url.split('/').slice(4).join('/');

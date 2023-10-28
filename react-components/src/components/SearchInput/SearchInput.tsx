@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import './SearchInput.scss';
+import { ISearchInputProps, ISearchInputState } from '../../types/types';
 
-class SearchInput extends React.Component {
-  constructor(props) {
+class SearchInput extends React.Component<ISearchInputProps, ISearchInputState> {
+  constructor(props: ISearchInputProps) {
     super(props);
 
     this.state = {
@@ -15,8 +16,8 @@ class SearchInput extends React.Component {
     this.props.handleSubmit(this.state.inputValue);
   };
 
-  handleChange = (event) => {
-    this.setState({ inputValue: event.target.value });
+  handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    this.setState({ inputValue: (event.target as HTMLInputElement)?.value });
   };
 
   render() {

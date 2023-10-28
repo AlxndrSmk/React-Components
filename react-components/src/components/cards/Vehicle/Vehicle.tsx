@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Vehicle.module.scss';
 import Loader from '../../Loader/Loader';
 import withRouter from '../../../routes/withRouter';
-import { ISpecieData } from '../../../types/types';
+import { IVehicleData, IVehicleProps, IVehicleState } from '../../../types/types';
 import getVehicleData from '../../../services/api/getVehicleData';
 import AttributesBlock from '../../AttributesBlock/AttributesBlock';
 import hasNoData from '../../../services/hasNoData';
@@ -23,7 +23,7 @@ class Vehicle extends React.Component<IVehicleProps, IVehicleState> {
   }
 
   getVehicleData = async (id: string) => {
-    const vehicleData: ISpecieData = await getVehicleData(id);
+    const vehicleData: IVehicleData = await getVehicleData(id);
     await this.setState({ vehicleData });
   };
 
@@ -31,7 +31,7 @@ class Vehicle extends React.Component<IVehicleProps, IVehicleState> {
     await this.getVehicleData(this.props.params.id);
   };
 
-  componentDidUpdate = async (prevProps) => {
+  componentDidUpdate = async (prevProps: IVehicleProps) => {
     if (prevProps.location.pathname !== this.props.location.pathname) {
       this.setInitState();
       await this.getVehicleData(this.props.params.id);
@@ -45,7 +45,7 @@ class Vehicle extends React.Component<IVehicleProps, IVehicleState> {
 
     if (this.state.vehicleData) {
       console.log(this.state.vehicleData);
-      const vehicleId: string = this.state.vehicleData.url.match(/\d+/)![0];
+      const vehicleId: string = this.state.vehicleData.url.replace(/[^0-9]/g, '');
       const vehicleImgSrc: string = `/images/vehicles/${vehicleId}.jpg`;
 
       return (

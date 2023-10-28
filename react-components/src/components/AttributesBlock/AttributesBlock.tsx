@@ -3,9 +3,16 @@ import styles from './AttributesBlock.module.scss';
 import getArrayData from '../../utils/heplerFunctions/getArrayData';
 import SmallLoader from '../SmallLoader/SmallLoader';
 import { Link } from 'react-router-dom';
+import {
+  IAttributesBlockProps,
+  IAttributesBlockState,
+  IFilmData,
+  IStarshipData,
+  TAllCardsDataWithName,
+} from '../../types/types';
 
-class AttributesBlock extends React.Component {
-  constructor(props) {
+class AttributesBlock extends React.Component<IAttributesBlockProps, IAttributesBlockState> {
+  constructor(props: IAttributesBlockProps) {
     super(props);
 
     this.state = {
@@ -21,7 +28,7 @@ class AttributesBlock extends React.Component {
     });
   }
 
-  fetchData = async (links) => {
+  fetchData = async (links: string[]) => {
     const fetchedData = await getArrayData(links);
     await this.setState({ fetchedData });
   };
@@ -29,10 +36,11 @@ class AttributesBlock extends React.Component {
   componentDidMount = async () => {
     const allPagesLinks = this.props.data;
     const pageSize = this.state.itemsPerPage;
-    const pages = [];
+    const pages: Array<Array<string>> = [];
+    console.log(pages);
 
     for (let i = 0; i < allPagesLinks.length; i += pageSize) {
-      pages.push(allPagesLinks.slice(i, i + pageSize));
+      pages.push((allPagesLinks as string[]).slice(i, i + pageSize));
     }
 
     this.fetchData(pages[this.state.currentPage]);
@@ -50,10 +58,10 @@ class AttributesBlock extends React.Component {
               return (
                 <Link
                   className={this.props.classNames.join(' ')}
-                  key={item.name || item.title}
+                  key={(item as IStarshipData).name || (item as IFilmData).title}
                   to={link}
                 >
-                  {item.name || item.title}
+                  {(item as TAllCardsDataWithName).name || (item as IFilmData).title}
                 </Link>
               );
             })}

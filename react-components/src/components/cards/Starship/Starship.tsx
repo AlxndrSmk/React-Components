@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Starship.module.scss';
 import Loader from '../../Loader/Loader';
 import withRouter from '../../../routes/withRouter';
-import { ISpecieData } from '../../../types/types';
+import { IStarshipData, IStarshipProps, IStarshipState } from '../../../types/types';
 import getStarshipData from '../../../services/api/getStarshipData';
 import AttributesBlock from '../../AttributesBlock/AttributesBlock';
 import hasNoData from '../../../services/hasNoData';
@@ -23,7 +23,7 @@ class Starship extends React.Component<IStarshipProps, IStarshipState> {
   }
 
   getStarshipData = async (id: string) => {
-    const starshipData: ISpecieData = await getStarshipData(id);
+    const starshipData: IStarshipData = await getStarshipData(id);
     await this.setState({ starshipData });
   };
 
@@ -31,7 +31,7 @@ class Starship extends React.Component<IStarshipProps, IStarshipState> {
     await this.getStarshipData(this.props.params.id);
   };
 
-  componentDidUpdate = async (prevProps) => {
+  componentDidUpdate = async (prevProps: IStarshipProps) => {
     if (prevProps.location.pathname !== this.props.location.pathname) {
       this.setInitState();
       await this.getStarshipData(this.props.params.id);
@@ -45,7 +45,7 @@ class Starship extends React.Component<IStarshipProps, IStarshipState> {
 
     if (this.state.starshipData) {
       console.log(this.state.starshipData);
-      const starshipId: string = this.state.starshipData.url.match(/\d+/)![0];
+      const starshipId: string = this.state.starshipData.url.replace(/[^0-9]/g, '');
       const starshipImgSrc: string = `/images/starships/${starshipId}.jpg`;
 
       return (

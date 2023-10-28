@@ -2,10 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Footer.module.scss';
 import withRouter from '../../routes/withRouter';
+import { IFooterLink } from '../../types/types';
 
-class Header extends React.Component {
+class Footer extends React.Component {
   render() {
-    const links = [
+    const links: IFooterLink[] = [
       {
         name: 'Github',
         src: 'https://github.com/AlxndrSmk',
@@ -35,4 +36,4 @@ class Header extends React.Component {
   }
 }
 
-export default withRouter(Header);
+export default withRouter(Footer);

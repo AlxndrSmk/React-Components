@@ -1,8 +1,63 @@
-export interface IListData {
-  count: number;
-  next: string;
-  previous: null;
-  results:
+export type TAllCardsData =
+  | IPersonData[]
+  | IPlanetData[]
+  | IFilmData[]
+  | ISpecieData[]
+  | IVehicleData[]
+  | IStarshipData[];
+
+export type TAllCardsDataWithName =
+  | IPersonData
+  | IPlanetData
+  | ISpecieData
+  | IVehicleData
+  | IStarshipData;
+
+export interface ISearchInputState {
+  inputValue: string;
+}
+
+export interface ISearchInputProps {
+  handleSubmit: (inputValue: string) => void;
+}
+
+export interface IAppState {
+  currentPage: number;
+  listData: null | TAllCardsData;
+  pathName: string;
+  isDataLoaded: boolean;
+  searchString: string;
+}
+
+export interface IAppProps {
+  location: ILocation;
+  navigate: (to: string) => void;
+}
+
+export interface IListState {
+  incrementPage: () => void;
+  decrementPage: () => void;
+  handleSubmit: () => void;
+  isDataLoaded: boolean;
+  data: IListData;
+}
+
+export interface IListProps {
+  decrementPage: () => void;
+  handleSubmit: (searchString: string) => void;
+  incrementPage: () => void;
+  isDataLoaded: boolean;
+  listData: IListData;
+  location: ILocation;
+  params: object;
+  pathName: string;
+}
+
+export interface IAttributesBlockState {
+  itemsPerPage: number;
+  currentPage: number;
+  fetchedData:
+    | null
     | IPersonData[]
     | IPlanetData[]
     | IFilmData[]
@@ -11,60 +66,83 @@ export interface IListData {
     | IStarshipData[];
 }
 
-export interface IPersonProps {
-  params: IPersonParams;
-  location: IPersonLocation;
+export interface IAttributesBlockProps {
+  data: TAttributesBlockPropsData;
+  title: string;
+  classNames: string[];
 }
 
-export interface IPersonLocation {
-  pathname: string;
-  search: string;
-  hash: string;
-  state: null;
-  key: string;
-}
-
-export interface IPersonParams {
-  id: string;
-}
+export type TAttributesBlockPropsData =
+  | IPersonData[]
+  | IPlanetData[]
+  | IFilmData[]
+  | ISpecieData[]
+  | IVehicleData[]
+  | IStarshipData[]
+  | string[];
 
 export interface IPersonState {
   itemData: null | IPersonData;
   planetData: null | IPlanetData;
-  filmsData: null | IFilmData;
   speciesData: null | ISpecieData;
-  starshipsData: null | IStarshipData;
-  vehiclesData: null | IVehicleData;
 }
 
-export interface IPlanetProps {
-  params: IPlanetParams;
-  location: IPlanetLocation;
-}
-
-export interface IPlanetLocation {
-  pathname: string;
-  search: string;
-  hash: string;
-  state: null;
-  key: string;
-}
-
-export interface IPlanetParams {
-  id: string;
+export interface IPersonProps {
+  params: IParams;
+  location: ILocation;
 }
 
 export interface IPlanetState {
-  planetData: null;
-  filmsData: null;
-  residentsData: null;
-
-  itemData: null | IPersonData;
   planetData: null | IPlanetData;
-  filmsData: null | IFilmData;
-  speciesData: null | ISpecieData;
-  starshipsData: null | IStarshipData;
-  vehiclesData: null | IVehicleData;
+}
+
+export interface IPlanetProps {
+  params: IParams;
+  location: ILocation;
+}
+
+export interface IFilmState {
+  filmData: null | IFilmData;
+}
+
+export interface IFilmProps {
+  params: IParams;
+  location: ILocation;
+}
+
+export interface ISpecieState {
+  planetData: null | IPlanetData;
+  specieData: null | ISpecieData;
+}
+
+export interface ISPecieProps {
+  params: IParams;
+  location: ILocation;
+}
+
+export interface IVehicleState {
+  vehicleData: null | IVehicleData;
+}
+
+export interface IVehicleProps {
+  params: IParams;
+  location: ILocation;
+}
+
+export interface IStarshipState {
+  starshipData: null | IStarshipData;
+}
+
+export interface IStarshipProps {
+  params: IParams;
+  location: ILocation;
+}
+
+export interface IListData {
+  count: number;
+  next: string;
+  previous: null;
+  results: TAllCardsData;
 }
 
 export interface IPersonData {
@@ -118,6 +196,8 @@ export interface IFilmData {
   created: Date;
   edited: Date;
   url: string;
+  opening_crawl: string;
+  release_date: string;
 }
 
 export interface ISpecieData {
@@ -177,11 +257,35 @@ export interface IStarshipData {
   url: string;
 }
 
-export interface IListProps {
-  incrementPage: () => void;
-  decrementPage: () => void;
-  isDataLoaded: boolean;
-  data: IListData;
+interface IParams {
+  id: string;
 }
 
-export interface IListState {}
+interface ILocation {
+  hash: string;
+  string?: string;
+  key: string;
+  pathname: string;
+  search: string;
+}
+
+export interface IHeaderProps {
+  location: ILocation;
+}
+
+export interface IFooterLink {
+  name: string;
+  src: string;
+  path: string;
+  width: string;
+}
+
+export interface WithRouterProps {
+  children?: React.ReactNode;
+  handleSubmit?: (searchString: string) => void;
+  listData?: null | TAllCardsData;
+  isDataLoaded?: boolean;
+  incrementPage?: () => void;
+  decrementPage?: () => void;
+  pathName?: string;
+}
