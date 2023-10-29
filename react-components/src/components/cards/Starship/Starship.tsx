@@ -44,7 +44,6 @@ class Starship extends React.Component<RouterProps, IStarshipState> {
     }
 
     if (this.state.starshipData) {
-      console.log(this.state.starshipData);
       const starshipId: string = this.state.starshipData.url.replace(/[^0-9]/g, '');
       const starshipImgSrc: string = `/images/starships/${starshipId}.jpg`;
 

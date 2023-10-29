@@ -50,7 +50,6 @@ class Specie extends React.Component<RouterProps, ISpecieState> {
     }
 
     if (this.state.specieData) {
-      console.log(this.state.specieData);
       const specieId: string = this.state.specieData.url.replace(/[^0-9]/g, '');
       const specieImgSrc: string = `/images/species/${specieId}.jpg`;
       const planetLink: string = '/' + this.state.planetData?.url.split('/').slice(4).join('/');

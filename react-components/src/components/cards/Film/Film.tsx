@@ -40,7 +40,6 @@ class Film extends React.Component<RouterProps, IFilmState> {
   };
 
   render() {
-    console.log(this.props);
     if (!this.state.filmData) {
       return <Loader />;
     }

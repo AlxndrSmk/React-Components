@@ -9,8 +9,8 @@
     "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx",
     "lint:fix": "eslint --fix --ext .ts,.tsx ./src",
-    "pretty": "prettier --check \"./src/**/*.{ts,tsx,json}\"",
-    "fix": "prettier --write \"./src/**/*.{ts,tsx,json,scss}\"",
+    "format": "prettier --check \"./src/**/*.{ts,tsx,json}\"",
+    "format:fix": "prettier --write \"./src/**/*.{ts,tsx,json,scss}\"",
     "prepare": "cd .. && husky install react-components/.husky"
   },
   "dependencies": {
@@ -56,7 +56,7 @@
     "vite-plugin-eslint": "^1.8.1"
   },
   "lint-staged": {
-    "src/**/*.{json,scss}": "npm run fix",
+    "src/**/*.{json,scss}": "npm run format:fix",
     "src/**/*.{ts,tsx}": "npm run lint:fix"
   }
 }

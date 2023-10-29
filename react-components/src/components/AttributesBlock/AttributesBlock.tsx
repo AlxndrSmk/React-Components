@@ -37,7 +37,6 @@ class AttributesBlock extends React.Component<IAttributesBlockProps, IAttributes
     const allPagesLinks = this.props.data;
     const pageSize = this.state.itemsPerPage;
     const pages: Array<Array<string>> = [];
-    console.log(pages);
 
     for (let i = 0; i < allPagesLinks.length; i += pageSize) {
       pages.push((allPagesLinks as string[]).slice(i, i + pageSize));

@@ -251,3 +251,14 @@ export interface RouterProps {
 export type WithRouterProps<T> = T & RouterProps;
 
 export type OmitRouter<T> = Omit<T, keyof RouterProps>;
+
+export interface IErrorBoundaryState {
+  hasError: boolean;
+  error: null | Error;
+}
+
+export interface IErrorButtonState {
+  isError: boolean;
+}
+
+export type TErrorButtonProps = object;

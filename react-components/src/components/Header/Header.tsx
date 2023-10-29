@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
 import { IHeaderProps } from '../../types/types';
+import ErrorButton from '../ErrorButton/ErrorButton';
 
 class Header extends React.Component<IHeaderProps> {
   logoHandleClick = () => {
@@ -23,6 +24,8 @@ class Header extends React.Component<IHeaderProps> {
         <Link className={styles.logo} to="/" onClick={this.logoHandleClick}>
           <img className={styles.logo__img} src="/images/icons/sw_logo.png" />
         </Link>
+        <ErrorButton />
+
         <ul className={styles.menu}>
           {links.map((link) => {
             const isActive = this.props.location.pathname === link.src;

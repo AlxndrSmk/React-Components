@@ -44,7 +44,6 @@ class Planet extends React.Component<RouterProps, IPlanetState> {
     }
 
     if (this.state.planetData) {
-      console.log(this.state.planetData);
       const planetId: string = this.state.planetData.url.replace(/[^0-9]/g, '');
       const planetImgSrc: string = `/images/planets/${planetId}.jpg`;
 

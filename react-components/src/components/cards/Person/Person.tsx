@@ -59,8 +59,6 @@ class Person extends React.Component<RouterProps, IPersonState> {
     }
 
     if (this.state.itemData) {
-      console.log(this.state.speciesData);
-      console.log(this.state.itemData);
       const personId: string = this.state.itemData.url.replace(/[^0-9]/g, '');
       const peopleImgSrc: string = `/images/people/${personId}.jpg`;
       const planetLink: string = '/' + this.state.planetData?.url.split('/').slice(4).join('/');

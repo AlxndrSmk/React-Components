@@ -44,7 +44,6 @@ class Vehicle extends React.Component<RouterProps, IVehicleState> {
     }
 
     if (this.state.vehicleData) {
-      console.log(this.state.vehicleData);
       const vehicleId: string = this.state.vehicleData.url.replace(/[^0-9]/g, '');
       const vehicleImgSrc: string = `/images/vehicles/${vehicleId}.jpg`;
 

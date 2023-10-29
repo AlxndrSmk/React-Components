@@ -7,18 +7,21 @@ import styles from './PrimaryLayout.module.scss';
 import Footer from '../Footer/Footer';
 import { RouterProps } from '../../types/types';
 import withRouter from '../../utils/withRouter';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoudary';
 
 class PrimaryLayout extends React.Component<RouterProps> {
   render() {
     return (
-      <div className={styles.wrapper}>
-        <Header location={this.props.location} />
-        <div className="section__bottom">
-          <Outlet />
+      <ErrorBoundary key={this.props.location.pathname}>
+        <div className={styles.wrapper}>
+          <Header location={this.props.location} />
+          <div className="section__bottom">
+            <Outlet />
+          </div>
+          <div className={styles.twinkling}></div>
+          <Footer />
         </div>
-        <div className={styles.twinkling}></div>
-        <Footer />
-      </div>
+      </ErrorBoundary>
     );
   }
 }

@@ -7,7 +7,6 @@ import SearchInput from '../SearchInput/SearchInput';
 
 class List extends React.Component<IListProps, IListState> {
   render() {
-    console.log(this.props);
     if (!this.props.isDataLoaded) {
       return <Loader />;
     }

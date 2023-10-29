@@ -82,7 +82,6 @@ class App extends React.Component<RouterProps, IAppState> {
   };
 
   render() {
-    console.log(this.props);
     return (
       <List
         handleSubmit={this.handleSubmit}
