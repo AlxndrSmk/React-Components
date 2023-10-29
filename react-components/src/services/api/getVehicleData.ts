@@ -1,5 +1,5 @@
 const getVehicleData = async (id: string) => {
-  const serverUrl = import.meta.env.VITE_API_SERVER_URL;
+  const serverUrl = 'https://swapi.dev/api/';
   try {
     const responce = await fetch(`${serverUrl}/vehicles/${id}`);
     if (responce.status === 404) {

@@ -1,5 +1,5 @@
 const getListData = async (searchString: string, pageNumber: number, pathName: string) => {
-  const serverUrl = import.meta.env.VITE_API_SERVER_URL;
+  const serverUrl = 'https://swapi.dev/api/';
 
   try {
     const responce = await fetch(

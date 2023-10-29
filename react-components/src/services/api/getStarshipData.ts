@@ -1,5 +1,5 @@
 const getStarshipData = async (id: string) => {
-  const serverUrl = import.meta.env.VITE_API_SERVER_URL;
+  const serverUrl = 'https://swapi.dev/api/';
   try {
     const responce = await fetch(`${serverUrl}/starships/${id}`);
     if (responce.status === 404) {
