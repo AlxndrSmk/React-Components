@@ -32,14 +32,6 @@ export interface IAppState {
   searchString: string;
 }
 
-export interface IListState {
-  incrementPage: () => void;
-  decrementPage: () => void;
-  handleSubmit: () => void;
-  isDataLoaded: boolean;
-  data: IListData;
-}
-
 export interface IListProps {
   decrementPage: () => void;
   handleSubmit: (searchString: string) => void;
