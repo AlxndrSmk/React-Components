@@ -29,12 +29,18 @@ class App extends React.Component<RouterProps, IAppState> {
   }
 
   incrementPage = async () => {
-    await this.setState({ currentPage: this.state.currentPage + 1 });
+    await this.setState((prevState) => ({
+      currentPage: prevState.currentPage + 1,
+    }));
+
     this.getListData(this.state.searchString, this.state.currentPage, this.state.pathName);
   };
 
   decrementPage = async () => {
-    await this.setState({ currentPage: this.state.currentPage - 1 });
+    await this.setState((prevState) => ({
+      currentPage: prevState.currentPage - 1,
+    }));
+
     this.getListData(this.state.searchString, this.state.currentPage, this.state.pathName);
   };
 
