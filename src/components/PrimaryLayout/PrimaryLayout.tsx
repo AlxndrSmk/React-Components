@@ -9,21 +9,19 @@ import { RouterProps } from '../../types/types';
 import withRouter from '../../utils/withRouter';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoudary';
 
-class PrimaryLayout extends React.Component<RouterProps> {
-  render() {
-    return (
-      <ErrorBoundary key={this.props.location.pathname}>
-        <div className={styles.wrapper}>
-          <Header location={this.props.location} />
-          <div className="section__bottom">
-            <Outlet />
-          </div>
-          <div className={styles.twinkling}></div>
-          <Footer />
+const PrimaryLayout: React.FC<RouterProps> = ({ location }) => {
+  return (
+    <ErrorBoundary key={location.pathname}>
+      <div className={styles.wrapper}>
+        <Header location={location} />
+        <div className="section__bottom">
+          <Outlet />
         </div>
-      </ErrorBoundary>
-    );
-  }
-}
+        <div className={styles.twinkling}></div>
+        <Footer />
+      </div>
+    </ErrorBoundary>
+  );
+};
 
 export default withRouter<RouterProps>(PrimaryLayout);
