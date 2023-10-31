@@ -1,9 +1,8 @@
-import React from 'react';
-import './List.scss';
-import Loader from '../Loader/Loader';
 import { Link } from 'react-router-dom';
-import { IFilmData, IListProps, TAllCardsDataWithName } from '../../types/types';
+import Loader from '../Loader/Loader';
 import SearchInput from '../SearchInput/SearchInput';
+import './List.scss';
+import { IFilmData, IListProps, TAllCardsDataWithName } from '../../types/types';
 
 const List: React.FC<IListProps> = ({
   decrementPage,

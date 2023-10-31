@@ -1,13 +1,10 @@
-import React from 'react';
-
 import { Outlet } from 'react-router-dom';
 import Header from '../Header/Header';
-
-import styles from './PrimaryLayout.module.scss';
 import Footer from '../Footer/Footer';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoudary';
 import { RouterProps } from '../../types/types';
 import withRouter from '../../utils/withRouter';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoudary';
+import styles from './PrimaryLayout.module.scss';
 
 const PrimaryLayout: React.FC<RouterProps> = ({ location }) => {
   return (

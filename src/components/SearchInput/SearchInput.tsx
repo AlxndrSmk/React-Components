@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import './SearchInput.scss';
 import { ISearchInputProps } from '../../types/types';
 
