@@ -249,8 +249,4 @@ export interface IErrorBoundaryState {
   error: null | Error;
 }
 
-export interface IErrorButtonState {
-  isError: boolean;
-}
-
 export type TErrorButtonProps = object;
