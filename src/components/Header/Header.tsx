@@ -5,20 +5,20 @@ import { IHeaderProps } from '../../types/types';
 import ErrorButton from '../ErrorButton/ErrorButton';
 
 class Header extends React.Component<IHeaderProps> {
+  links = [
+    { name: 'People', src: '/people' },
+    { name: 'Planets', src: '/planets' },
+    { name: 'Films', src: '/films' },
+    { name: 'Species', src: '/species' },
+    { name: 'Vehicles', src: '/vehicles' },
+    { name: 'Starships', src: '/starships' },
+  ];
+
   logoHandleClick = () => {
     localStorage.clear();
   };
 
   render() {
-    const links = [
-      { name: 'People', src: '/people' },
-      { name: 'Planets', src: '/planets' },
-      { name: 'Films', src: '/films' },
-      { name: 'Species', src: '/species' },
-      { name: 'Vehicles', src: '/vehicles' },
-      { name: 'Starships', src: '/starships' },
-    ];
-
     return (
       <div className={styles.header}>
         <Link className={styles.logo} to="/" onClick={this.logoHandleClick}>
@@ -27,7 +27,7 @@ class Header extends React.Component<IHeaderProps> {
         <ErrorButton />
 
         <ul className={styles.menu}>
-          {links.map((link) => {
+          {this.links.map((link) => {
             const isActive = this.props.location.pathname === link.src;
             return (
               <Link
