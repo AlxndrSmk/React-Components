@@ -1,0 +1,12 @@
+.attributes {
+  &_title {
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+
+  &_block {
+    flex-basis: 0;
+    flex-grow: 1;
+    margin-right: 15px;
+  }
+}
