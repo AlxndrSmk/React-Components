@@ -1,136 +1,103 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 import styles from './Starship.module.scss';
 import Loader from '../../Loader/Loader';
-import withRouter from '../../../utils/withRouter';
-import { IStarshipData, IStarshipState, RouterProps } from '../../../types/types';
+import { IStarshipData } from '../../../types/types';
 import getStarshipData from '../../../services/api/getStarshipData';
 import AttributesBlock from '../../AttributesBlock/AttributesBlock';
 import hasNoData from '../../../services/hasNoData';
 
-class Starship extends React.Component<RouterProps, IStarshipState> {
-  constructor(props: RouterProps) {
-    super(props);
+const Starship: React.FC = () => {
+  const params = useParams();
+  const [starshipData, setStarshipData] = useState<null | IStarshipData>(null);
 
-    this.state = {
-      starshipData: null,
-    };
-  }
-
-  async setInitState() {
-    await this.setState({
-      starshipData: null,
-    });
-  }
-
-  getStarshipData = async (id: string) => {
+  const setStarshipDataToState = async (id: string) => {
     const starshipData: IStarshipData = await getStarshipData(id);
-    await this.setState({ starshipData });
+    await setStarshipData(starshipData);
   };
 
-  componentDidMount = async (): Promise<void> => {
-    await this.getStarshipData(this.props.params.id as string);
-  };
+  useEffect(() => {
+    setStarshipDataToState(params.id as string);
+  }, [params.id]);
 
-  componentDidUpdate = async (prevProps: RouterProps) => {
-    if (prevProps.location.pathname !== this.props.location.pathname) {
-      this.setInitState();
-      await this.getStarshipData(this.props.params.id as string);
-    }
-  };
-
-  render() {
-    if (!this.state.starshipData) {
-      return <Loader />;
-    }
-
-    if (this.state.starshipData) {
-      const starshipId: string = this.state.starshipData.url.replace(/[^0-9]/g, '');
-      const starshipImgSrc: string = `/images/starships/${starshipId}.jpg`;
-
-      return (
-        <div className={styles.item__wrapper}>
-          <div className={styles.item__container}>
-            <div className={styles.item__container_left}>
-              <h1 className={styles.item__title}>{this.state.starshipData.name}</h1>
-              <div>
-                {hasNoData(this.state.starshipData.hyperdrive_rating) || (
-                  <p>Hyperdrive rating: {this.state.starshipData.hyperdrive_rating} / 5</p>
-                )}
-                {hasNoData(this.state.starshipData.model) || (
-                  <p>Model: {this.state.starshipData.model}</p>
-                )}
-                {hasNoData(this.state.starshipData.manufacturer) || (
-                  <p>Manufacturer: {this.state.starshipData.manufacturer}</p>
-                )}
-                {hasNoData(this.state.starshipData.starship_class) || (
-                  <p>Class: {this.state.starshipData.starship_class}</p>
-                )}
-                {hasNoData(this.state.starshipData.cost_in_credits) || (
-                  <p>
-                    Cost: {Number(this.state.starshipData.cost_in_credits).toLocaleString()} credits
-                  </p>
-                )}
-                {hasNoData(this.state.starshipData.length) || (
-                  <p>Length: {this.state.starshipData.length} m</p>
-                )}
-                {hasNoData(this.state.starshipData.max_atmosphering_speed) || (
-                  <p>
-                    Max atmosphering speed:{' '}
-                    {Number(this.state.starshipData.max_atmosphering_speed).toLocaleString()} km/h
-                  </p>
-                )}
-                {hasNoData(this.state.starshipData.crew) || (
-                  <p>Crew: {this.state.starshipData.crew}</p>
-                )}
-                {hasNoData(this.state.starshipData.passengers) || (
-                  <p>Passengers: {this.state.starshipData.passengers}</p>
-                )}
-                {hasNoData(this.state.starshipData.cargo_capacity) || (
-                  <p>
-                    Cargo capacity:{' '}
-                    {Number(this.state.starshipData.cargo_capacity).toLocaleString()} kg
-                  </p>
-                )}
-                {hasNoData(this.state.starshipData.consumables) || (
-                  <p>Consumables: {this.state.starshipData.consumables}</p>
-                )}
-                {hasNoData(this.state.starshipData.MGLT) || (
-                  <p>Maximum number of Megalights: {this.state.starshipData.MGLT}</p>
-                )}
-              </div>
-              <div className={styles.attributes_container}>
-                {!!this.state.starshipData.films.length && (
-                  <AttributesBlock
-                    data={this.state.starshipData.films}
-                    classNames={['item__link']}
-                    title="Films"
-                  />
-                )}
-                {!!this.state.starshipData.pilots.length && (
-                  <AttributesBlock
-                    data={this.state.starshipData.pilots}
-                    classNames={['item__link']}
-                    title="Pilots"
-                  />
-                )}
-              </div>
-            </div>
-            <img
-              className={styles.item__img}
-              onError={({ currentTarget }) => {
-                console.clear();
-                currentTarget.onerror = null;
-                currentTarget.src = '/images/png/img_not_found.png';
-                currentTarget.style.width = '400px';
-              }}
-              alt={this.state.starshipData.name}
-              src={starshipImgSrc}
-            />
-          </div>
-        </div>
-      );
-    }
+  if (!starshipData) {
+    return <Loader />;
   }
-}
 
-export default withRouter<RouterProps>(Starship);
+  if (starshipData) {
+    const starshipId: string = starshipData.url.replace(/[^0-9]/g, '');
+    const starshipImgSrc: string = `/images/starships/${starshipId}.jpg`;
+
+    return (
+      <div className={styles.item__wrapper}>
+        <div className={styles.item__container}>
+          <div className={styles.item__container_left}>
+            <h1 className={styles.item__title}>{starshipData.name}</h1>
+            <div>
+              {hasNoData(starshipData.hyperdrive_rating) || (
+                <p>Hyperdrive rating: {starshipData.hyperdrive_rating} / 5</p>
+              )}
+              {hasNoData(starshipData.model) || <p>Model: {starshipData.model}</p>}
+              {hasNoData(starshipData.manufacturer) || (
+                <p>Manufacturer: {starshipData.manufacturer}</p>
+              )}
+              {hasNoData(starshipData.starship_class) || (
+                <p>Class: {starshipData.starship_class}</p>
+              )}
+              {hasNoData(starshipData.cost_in_credits) || (
+                <p>Cost: {Number(starshipData.cost_in_credits).toLocaleString()} credits</p>
+              )}
+              {hasNoData(starshipData.length) || <p>Length: {starshipData.length} m</p>}
+              {hasNoData(starshipData.max_atmosphering_speed) || (
+                <p>
+                  Max atmosphering speed:{' '}
+                  {Number(starshipData.max_atmosphering_speed).toLocaleString()} km/h
+                </p>
+              )}
+              {hasNoData(starshipData.crew) || <p>Crew: {starshipData.crew}</p>}
+              {hasNoData(starshipData.passengers) || <p>Passengers: {starshipData.passengers}</p>}
+              {hasNoData(starshipData.cargo_capacity) || (
+                <p>Cargo capacity: {Number(starshipData.cargo_capacity).toLocaleString()} kg</p>
+              )}
+              {hasNoData(starshipData.consumables) || (
+                <p>Consumables: {starshipData.consumables}</p>
+              )}
+              {hasNoData(starshipData.MGLT) || (
+                <p>Maximum number of Megalights: {starshipData.MGLT}</p>
+              )}
+            </div>
+            <div className={styles.attributes_container}>
+              {!!starshipData.films.length && (
+                <AttributesBlock
+                  data={starshipData.films}
+                  classNames={['item__link']}
+                  title="Films"
+                />
+              )}
+              {!!starshipData.pilots.length && (
+                <AttributesBlock
+                  data={starshipData.pilots}
+                  classNames={['item__link']}
+                  title="Pilots"
+                />
+              )}
+            </div>
+          </div>
+          <img
+            className={styles.item__img}
+            onError={({ currentTarget }) => {
+              console.clear();
+              currentTarget.onerror = null;
+              currentTarget.src = '/images/png/img_not_found.png';
+              currentTarget.style.width = '400px';
+            }}
+            alt={starshipData.name}
+            src={starshipImgSrc}
+          />
+        </div>
+      </div>
+    );
+  }
+};
+
+export default Starship;
