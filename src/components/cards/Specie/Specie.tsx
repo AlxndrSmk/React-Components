@@ -1,128 +1,96 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import styles from './Specie.module.scss';
 import Loader from '../../Loader/Loader';
-import withRouter from '../../../utils/withRouter';
-import { Link } from 'react-router-dom';
-import { IPlanetData, ISpecieData, ISpecieState, RouterProps } from '../../../types/types';
+import { IPlanetData, ISpecieData } from '../../../types/types';
 import getSpecieData from '../../../services/api/getSpecieData';
 import AttributesBlock from '../../AttributesBlock/AttributesBlock';
 import hasNoData from '../../../services/hasNoData';
 import getPlanetData from '../../../services/api/getPlanetData';
 
-class Specie extends React.Component<RouterProps, ISpecieState> {
-  constructor(props: RouterProps) {
-    super(props);
+const Specie: React.FC = () => {
+  const params = useParams();
+  const [specieData, setSpecieData] = useState<null | ISpecieData>(null);
+  const [planetData, setPlanetData] = useState<null | IPlanetData>(null);
 
-    this.state = {
-      specieData: null,
-      planetData: null,
-    };
-  }
-
-  async setInitState() {
-    await this.setState({
-      specieData: null,
-      planetData: null,
-    });
-  }
-
-  getSpecieData = async (id: string) => {
+  const setSpecieDataToState = async (id: string) => {
     const specieData: ISpecieData = await getSpecieData(id);
     const planetData: IPlanetData = await getPlanetData(id);
-
-    await this.setState({ specieData, planetData });
+    await setSpecieData(specieData);
+    await setPlanetData(planetData);
   };
 
-  componentDidMount = async (): Promise<void> => {
-    await this.getSpecieData(this.props.params.id as string);
-  };
+  useEffect(() => {
+    setSpecieDataToState(params.id as string);
+  }, [params.id]);
 
-  componentDidUpdate = async (prevProps: RouterProps) => {
-    if (prevProps.location.pathname !== this.props.location.pathname) {
-      this.setInitState();
-      await this.getSpecieData(this.props.params.id as string);
-    }
-  };
-
-  render() {
-    if (!this.state.specieData) {
-      return <Loader />;
-    }
-
-    if (this.state.specieData) {
-      const specieId: string = this.state.specieData.url.replace(/[^0-9]/g, '');
-      const specieImgSrc: string = `/images/species/${specieId}.jpg`;
-      const planetLink: string = '/' + this.state.planetData?.url.split('/').slice(4).join('/');
-
-      return (
-        <div className={styles.item__wrapper}>
-          <div className={styles.item__container}>
-            <div className={styles.item__container_left}>
-              <h1 className={styles.item__title}>{this.state.specieData.name}</h1>
-              <div>
-                {hasNoData(this.state.planetData?.name) || (
-                  <>
-                    <p className="inline">Planet: </p>
-                    <Link className="item__link uppercase inline" to={planetLink}>
-                      {this.state.planetData?.name}
-                    </Link>
-                  </>
-                )}
-                {hasNoData(this.state.specieData.classification) || (
-                  <p>Classification: {this.state.specieData.classification}</p>
-                )}
-                {hasNoData(this.state.specieData.designation) || (
-                  <p>Designation: {this.state.specieData.designation}</p>
-                )}
-                {hasNoData(this.state.specieData.average_height) || (
-                  <p>Average height: {Number(this.state.specieData.average_height) / 100} m</p>
-                )}
-                {hasNoData(this.state.specieData.skin_colors) || (
-                  <p>Skin colors: {this.state.specieData.skin_colors}</p>
-                )}
-                {hasNoData(this.state.specieData.hair_colors) || (
-                  <p>Hair colors: {this.state.specieData.hair_colors}</p>
-                )}
-                {hasNoData(this.state.specieData.eye_colors) || (
-                  <p>Eye colors: {this.state.specieData.eye_colors}</p>
-                )}
-                {hasNoData(this.state.specieData.language) || (
-                  <p>Language: {this.state.specieData.language}</p>
-                )}
-              </div>
-              <div className={styles.attributes_container}>
-                {!!this.state.specieData.films.length && (
-                  <AttributesBlock
-                    data={this.state.specieData.films}
-                    classNames={['item__link']}
-                    title="Films"
-                  />
-                )}
-                {!!this.state.specieData.people.length && (
-                  <AttributesBlock
-                    data={this.state.specieData.people}
-                    classNames={['item__link']}
-                    title="People"
-                  />
-                )}
-              </div>
-            </div>
-            <img
-              className={styles.item__img}
-              onError={({ currentTarget }) => {
-                console.clear();
-                currentTarget.onerror = null;
-                currentTarget.src = '/images/png/img_not_found.png';
-                currentTarget.style.width = '400px';
-              }}
-              alt={this.state.specieData.name}
-              src={specieImgSrc}
-            />
-          </div>
-        </div>
-      );
-    }
+  if (!specieData) {
+    return <Loader />;
   }
-}
 
-export default withRouter<RouterProps>(Specie);
+  if (specieData) {
+    const specieId: string = specieData.url.replace(/[^0-9]/g, '');
+    const specieImgSrc: string = `/images/species/${specieId}.jpg`;
+    const planetLink: string = '/' + planetData?.url.split('/').slice(4).join('/');
+
+    return (
+      <div className={styles.item__wrapper}>
+        <div className={styles.item__container}>
+          <div className={styles.item__container_left}>
+            <h1 className={styles.item__title}>{specieData.name}</h1>
+            <div>
+              {hasNoData(planetData?.name) || (
+                <>
+                  <p className="inline">Planet: </p>
+                  <Link className="item__link uppercase inline" to={planetLink}>
+                    {planetData?.name}
+                  </Link>
+                </>
+              )}
+              {hasNoData(specieData.classification) || (
+                <p>Classification: {specieData.classification}</p>
+              )}
+              {hasNoData(specieData.designation) || <p>Designation: {specieData.designation}</p>}
+              {hasNoData(specieData.average_height) || (
+                <p>Average height: {Number(specieData.average_height) / 100} m</p>
+              )}
+              {hasNoData(specieData.skin_colors) || <p>Skin colors: {specieData.skin_colors}</p>}
+              {hasNoData(specieData.hair_colors) || <p>Hair colors: {specieData.hair_colors}</p>}
+              {hasNoData(specieData.eye_colors) || <p>Eye colors: {specieData.eye_colors}</p>}
+              {hasNoData(specieData.language) || <p>Language: {specieData.language}</p>}
+            </div>
+            <div className={styles.attributes_container}>
+              {!!specieData.films.length && (
+                <AttributesBlock
+                  data={specieData.films}
+                  classNames={['item__link']}
+                  title="Films"
+                />
+              )}
+              {!!specieData.people.length && (
+                <AttributesBlock
+                  data={specieData.people}
+                  classNames={['item__link']}
+                  title="People"
+                />
+              )}
+            </div>
+          </div>
+          <img
+            className={styles.item__img}
+            onError={({ currentTarget }) => {
+              console.clear();
+              currentTarget.onerror = null;
+              currentTarget.src = '/images/png/img_not_found.png';
+              currentTarget.style.width = '400px';
+            }}
+            alt={specieData.name}
+            src={specieImgSrc}
+          />
+        </div>
+      </div>
+    );
+  }
+};
+
+export default Specie;
