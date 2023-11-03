@@ -88,10 +88,6 @@ export interface ISpecieState {
   specieData: null | ISpecieData;
 }
 
-export interface IVehicleState {
-  vehicleData: null | IVehicleData;
-}
-
 export interface IStarshipState {
   starshipData: null | IStarshipData;
 }
