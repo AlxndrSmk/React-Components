@@ -11,13 +11,13 @@ const Vehicle: React.FC = () => {
   const params = useParams();
   const [vehicleData, setVehicleData] = useState<null | IVehicleData>(null);
 
-  const setVehicleDataToState = async (id: string) => {
+  const fetchVehicleData = async (id: string) => {
     const vehicleData: IVehicleData = await getVehicleData(id);
     await setVehicleData(vehicleData);
   };
 
   useEffect(() => {
-    setVehicleDataToState(params.id as string);
+    fetchVehicleData(params.id as string);
   }, [params.id]);
 
   if (!vehicleData) {

@@ -13,7 +13,7 @@ const Specie: React.FC = () => {
   const [specieData, setSpecieData] = useState<null | ISpecieData>(null);
   const [planetData, setPlanetData] = useState<null | IPlanetData>(null);
 
-  const setSpecieDataToState = async (id: string) => {
+  const fetchSpecieData = async (id: string) => {
     const specieData: ISpecieData = await getSpecieData(id);
     const planetData: IPlanetData = await getPlanetData(id);
     await setSpecieData(specieData);
@@ -21,7 +21,7 @@ const Specie: React.FC = () => {
   };
 
   useEffect(() => {
-    setSpecieDataToState(params.id as string);
+    fetchSpecieData(params.id as string);
   }, [params.id]);
 
   if (!specieData) {

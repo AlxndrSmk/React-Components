@@ -11,13 +11,13 @@ const Starship: React.FC = () => {
   const params = useParams();
   const [starshipData, setStarshipData] = useState<null | IStarshipData>(null);
 
-  const setStarshipDataToState = async (id: string) => {
+  const fetchStarshipData = async (id: string) => {
     const starshipData: IStarshipData = await getStarshipData(id);
     await setStarshipData(starshipData);
   };
 
   useEffect(() => {
-    setStarshipDataToState(params.id as string);
+    fetchStarshipData(params.id as string);
   }, [params.id]);
 
   if (!starshipData) {
