@@ -1,12 +1,12 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoudary';
-import { RouterProps } from '../../types/types';
-import withRouter from '../../utils/withRouter';
 import styles from './PrimaryLayout.module.scss';
 
-const PrimaryLayout: React.FC<RouterProps> = ({ location }) => {
+const PrimaryLayout: React.FC = () => {
+  const location = useLocation();
+
   return (
     <ErrorBoundary key={location.pathname}>
       <div className={styles.wrapper}>
@@ -21,4 +21,4 @@ const PrimaryLayout: React.FC<RouterProps> = ({ location }) => {
   );
 };
 
-export default withRouter<RouterProps>(PrimaryLayout);
+export default PrimaryLayout;
