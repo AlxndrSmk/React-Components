@@ -39,6 +39,7 @@ export interface IListProps {
   isDataLoaded: boolean;
   listData: IListData;
   pathName: string;
+  currentPage: number;
 }
 
 export interface IAttributesBlockProps {

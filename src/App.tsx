@@ -96,6 +96,7 @@ class App extends React.Component<RouterProps, IAppState> {
         incrementPage={this.incrementPage}
         decrementPage={this.decrementPage}
         pathName={this.state.pathName}
+        currentPage={this.state.currentPage}
       />
     );
   }

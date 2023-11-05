@@ -99,3 +99,17 @@ li {
 .inline {
   display: inline;
 }
+
+.pageNumber {
+  align-items: center;
+  background-color: rgb(255, 255, 255, 0.8);
+  border-radius: 50%;
+  color: black;
+  display: flex;
+  font-size: 22px;
+  font-weight: 600;
+  height: 35px;
+  justify-content: center;
+  width: 35px;
+  z-index: 3;
+}
