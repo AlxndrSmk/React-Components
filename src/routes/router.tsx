@@ -1,5 +1,4 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom';
-
 import App from '../App';
 import PrimaryLayout from '../components/PrimaryLayout/PrimaryLayout';
 import Person from '../components/cards/Person/Person';

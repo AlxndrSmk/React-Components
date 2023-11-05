@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router';
 import getListData from './services/api/getListData';
 import List from './components/List/List';
 import { IListData } from './types/types';
-import { useLocation, useNavigate } from 'react-router';
 
 const App: React.FC = () => {
   const navigate = useNavigate();

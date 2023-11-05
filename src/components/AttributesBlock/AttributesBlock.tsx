@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './AttributesBlock.module.scss';
 import getArrayData from '../../utils/heplerFunctions/getArrayData';
 import SmallLoader from '../SmallLoader/SmallLoader';
-import { Link } from 'react-router-dom';
 import {
   IAttributesBlockProps,
   IFilmData,

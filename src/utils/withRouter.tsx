@@ -1,6 +1,6 @@
+import { ComponentType } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { OmitRouter, RouterProps } from '../types/types';
-import { ComponentType } from 'react';
 
 const withRouter =
   <T,>(WrappedComponent: ComponentType<OmitRouter<T> & RouterProps>) =>
