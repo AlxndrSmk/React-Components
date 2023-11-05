@@ -31,9 +31,7 @@ const AttributesBlock: React.FC<IAttributesBlockProps> = ({ data, classNames, ti
 
   const fetchData = async (links: string[]) => {
     const fetchedData = await getArrayData(links);
-    console.log(!!fetchedData);
     await setFetchedData(fetchedData);
-    console.log(!!fetchedData);
   };
 
   useEffect(() => {
