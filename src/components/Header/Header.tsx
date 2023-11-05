@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
 import { IHeaderProps } from '../../types/types';
-import ErrorButton from '../ErrorButton/ErrorButton';
 import { headerLinks } from '../../constants';
 
 const Header: React.FC<IHeaderProps> = ({ location }) => {
@@ -14,7 +13,6 @@ const Header: React.FC<IHeaderProps> = ({ location }) => {
       <Link className={styles.logo} to="/" onClick={logoHandleClick}>
         <img className={styles.logo__img} src="/images/icons/sw_logo.png" />
       </Link>
-      <ErrorButton />
 
       <ul className={styles.menu}>
         {headerLinks.map((link) => {
