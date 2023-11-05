@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './AttributesBlock.module.scss';
 import getArrayData from '../../utils/heplerFunctions/getArrayData';
 import SmallLoader from '../SmallLoader/SmallLoader';
