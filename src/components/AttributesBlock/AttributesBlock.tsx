@@ -1,62 +1,69 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './AttributesBlock.module.scss';
 import getArrayData from '../../utils/heplerFunctions/getArrayData';
 import SmallLoader from '../SmallLoader/SmallLoader';
 import { Link } from 'react-router-dom';
 import {
   IAttributesBlockProps,
-  IAttributesBlockState,
   IFilmData,
   IStarshipData,
+  TAllCardsData,
   TAllCardsDataWithName,
 } from '../../types/types';
 
-class AttributesBlock extends React.Component<IAttributesBlockProps, IAttributesBlockState> {
-  constructor(props: IAttributesBlockProps) {
-    super(props);
+const AttributesBlock: React.FC<IAttributesBlockProps> = ({ data, classNames, title }) => {
+  const itemsPerPage = 5;
 
-    this.state = {
-      currentPage: 0,
-      itemsPerPage: 10,
-      fetchedData: null,
-    };
-  }
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [fetchedData, setFetchedData] = useState<TAllCardsData>(null);
+  const [isPrevDisabled, setIsPrevDisabled] = useState<boolean>(false);
+  const [isNextDisabled, setIsNextDisabled] = useState<boolean>(false);
 
-  async setInitState() {
-    await this.setState({
-      fetchedData: null,
-    });
-  }
-
-  fetchData = async (links: string[]) => {
-    const fetchedData = await getArrayData(links);
-    await this.setState({ fetchedData });
+  const incrementPage = async () => {
+    setFetchedData(null);
+    setCurrentPage(currentPage + 1);
   };
 
-  componentDidMount = async () => {
-    const allPagesLinks = this.props.data;
-    const pageSize = this.state.itemsPerPage;
+  const decrementPage = () => {
+    setFetchedData(null);
+    currentPage > 0 && setCurrentPage(currentPage - 1);
+  };
+
+  const fetchData = async (links: string[]) => {
+    const fetchedData = await getArrayData(links);
+    console.log(!!fetchedData);
+    await setFetchedData(fetchedData);
+    console.log(!!fetchedData);
+  };
+
+  useEffect(() => {
+    const allPagesLinks = data;
+    const pageSize = itemsPerPage;
     const pages: Array<Array<string>> = [];
 
     for (let i = 0; i < allPagesLinks.length; i += pageSize) {
       pages.push((allPagesLinks as string[]).slice(i, i + pageSize));
     }
 
-    this.fetchData(pages[this.state.currentPage]);
-  };
+    fetchData(pages[currentPage]);
 
-  render() {
-    return (
-      <div className={styles.attributes_block}>
-        <p className={styles.attributes_title}>{this.props.title}</p>
-        {this.state.fetchedData ? (
+    currentPage === 0 ? setIsPrevDisabled(true) : setIsPrevDisabled(false);
+    currentPage === pages.length - 1 ? setIsNextDisabled(true) : setIsNextDisabled(false);
+  }, [currentPage]);
+
+  return (
+    <div className={styles.attributes_block}>
+      <div className={styles.attributes_content}>
+        <p className={styles.attributes_title}>{title}</p>
+
+        {fetchedData ? (
           <>
-            {this.state.fetchedData.map((item) => {
+            {fetchedData.map((item) => {
               const link: string = '/' + item.url.split('/').slice(4).join('/');
 
               return (
                 <Link
-                  className={this.props.classNames.join(' ')}
+                  className={classNames.join(' ')}
                   key={(item as IStarshipData).name || (item as IFilmData).title}
                   to={link}
                 >
@@ -69,8 +76,16 @@ class AttributesBlock extends React.Component<IAttributesBlockProps, IAttributes
           <SmallLoader />
         )}
       </div>
-    );
-  }
-}
+      <div className="buttons">
+        <button className="button" onClick={decrementPage} disabled={isPrevDisabled}>
+          Prev
+        </button>
+        <button className="button" onClick={incrementPage} disabled={isNextDisabled}>
+          Next
+        </button>
+      </div>
+    </div>
+  );
+};
 
 export default AttributesBlock;

@@ -41,19 +41,6 @@ export interface IListProps {
   pathName: string;
 }
 
-export interface IAttributesBlockState {
-  itemsPerPage: number;
-  currentPage: number;
-  fetchedData:
-    | null
-    | IPersonData[]
-    | IPlanetData[]
-    | IFilmData[]
-    | ISpecieData[]
-    | IVehicleData[]
-    | IStarshipData[];
-}
-
 export interface IAttributesBlockProps {
   data: TAttributesBlockPropsData;
   title: string;

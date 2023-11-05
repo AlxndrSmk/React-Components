@@ -1,3 +1,5 @@
+@import '../../variables';
+
 .attributes {
   &_title {
     font-weight: 800;
@@ -5,8 +7,14 @@
   }
 
   &_block {
+    border: 1px solid $border-color;
+    border-radius: 10px;
+    display: flex;
     flex-basis: 0;
+    flex-direction: column;
     flex-grow: 1;
+    justify-content: space-between;
     margin-right: 15px;
+    padding: 10px;
   }
 }
