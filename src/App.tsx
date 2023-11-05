@@ -1,105 +1,66 @@
-import React from 'react';
-import withRouter from './utils/withRouter';
+import React, { useEffect, useState } from 'react';
 import getListData from './services/api/getListData';
 import List from './components/List/List';
-import { IAppState, IListData, RouterProps } from './types/types';
+import { IListData } from './types/types';
+import { useLocation, useNavigate } from 'react-router';
 
-class App extends React.Component<RouterProps, IAppState> {
-  private mounted = false;
+const App: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [listData, setListData] = useState<IListData | []>([]);
+  const [pathName, setPathName] = useState<string>(document.location.pathname.slice(1));
+  const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
+  const [searchString, setSearchString] = useState<string>('');
 
-  constructor(props: RouterProps) {
-    super(props);
-    this.state = {
-      currentPage: 1,
-      listData: null,
-      pathName: '',
-      isDataLoaded: false,
-      searchString: '',
-    };
-  }
+  useEffect(() => {
+    const page: string = (new URLSearchParams(location.search).get('page') as string) || '1';
+    const search: string = (new URLSearchParams(location.search).get('search') as string) || '';
+    setCurrentPage(+page);
+    setSearchString(search);
+    setPathName(document.location.pathname.slice(1));
+  }, []);
 
-  async setInitState() {
-    await this.setState({
-      currentPage: 1,
-      listData: null,
-      pathName: '',
-      isDataLoaded: false,
-      searchString: '',
-    });
-  }
-
-  incrementPage = async () => {
-    await this.setState((prevState) => ({
-      currentPage: prevState.currentPage + 1,
-    }));
-
-    this.getListData(this.state.searchString, this.state.currentPage, this.state.pathName);
-  };
-
-  decrementPage = async () => {
-    await this.setState((prevState) => ({
-      currentPage: prevState.currentPage - 1,
-    }));
-
-    this.getListData(this.state.searchString, this.state.currentPage, this.state.pathName);
-  };
-
-  componentDidMount = async () => {
-    this.mounted = true;
-    const currentPage = parseInt(this.props.location.search?.split('page=')[1]) || 1;
-    const searchString = localStorage.getItem('inputValue') || '';
-    const pathName = this.props.location.pathname.slice(1);
-    await this.setState({ currentPage, searchString, pathName });
-    this.getListData(this.state.searchString, currentPage, this.state.pathName);
-  };
-
-  componentDidUpdate = async (prevProps: RouterProps) => {
-    if (this.props.location.search === '' && prevProps.location.search !== '') {
-      this.setInitState();
-      const pathName = this.props.location.pathname.slice(1);
-      await this.setState({ pathName });
-      this.getListData(this.state.searchString, this.state.currentPage, this.state.pathName);
+  useEffect(() => {
+    if (currentPage > 0) {
+      navigate(`/${pathName}?search=${searchString}&page=${currentPage}`);
+      getData();
     }
+  }, [currentPage]);
+
+  const incrementPage = async () => {
+    setCurrentPage(currentPage + 1);
   };
 
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  getListData = async (searchString: string, page: number, pathName: string) => {
-    const currentPage = page ? page : this.state.currentPage;
-    await this.setState(() => ({ isDataLoaded: false }));
-    const listData = await getListData(searchString, currentPage, pathName);
-    if (this.mounted) {
-      await this.setState(() => ({
-        listData,
-        isDataLoaded: true,
-        currentPage,
-      }));
-      localStorage.setItem('inputValue', this.state.searchString);
-      this.props.navigate(`?search=${this.state.searchString}&page=${currentPage}`);
-    }
+  const decrementPage = async () => {
+    setCurrentPage(currentPage - 1);
   };
 
-  handleSubmit = async (searchString: string) => {
+  const getData = async () => {
+    const selectedPage = currentPage;
+    setIsDataLoaded(false);
+    const data = await getListData(searchString, selectedPage, pathName);
+    setListData(data);
+    setIsDataLoaded(true);
+  };
+
+  const handleSubmit = async (value: string) => {
     localStorage.setItem('inputValue', searchString);
-    await this.setState({ searchString, currentPage: 1 });
-    this.getListData(searchString, this.state.currentPage, this.state.pathName);
+    setSearchString(value);
+    setCurrentPage(1);
   };
 
-  render() {
-    return (
-      <List
-        handleSubmit={this.handleSubmit}
-        listData={this.state.listData as IListData}
-        isDataLoaded={this.state.isDataLoaded}
-        incrementPage={this.incrementPage}
-        decrementPage={this.decrementPage}
-        pathName={this.state.pathName}
-        currentPage={this.state.currentPage}
-      />
-    );
-  }
-}
+  return (
+    <List
+      handleSubmit={handleSubmit}
+      listData={listData as IListData}
+      isDataLoaded={isDataLoaded}
+      incrementPage={incrementPage}
+      decrementPage={decrementPage}
+      pathName={pathName}
+      currentPage={currentPage}
+    />
+  );
+};
 
-export default withRouter<RouterProps>(App);
+export default App;
