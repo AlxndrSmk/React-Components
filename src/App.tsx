@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
 import getListData from './services/api/getListData';
 import List from './components/List/List';
 import { IListData } from './types/types';
+import { useLocation, useNavigate } from 'react-router';
 
 const App: React.FC = () => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const page: string = (new URLSearchParams(location.search).get('page') as string) || '1';
-    const search: string = (new URLSearchParams(location.search).get('search') as string) || '';
+    const search: string = localStorage.getItem('inputValue') || '';
     setCurrentPage(+page);
     setSearchString(search);
     setPathName(document.location.pathname.slice(1));
@@ -26,7 +26,7 @@ const App: React.FC = () => {
       navigate(`/${pathName}?search=${searchString}&page=${currentPage}`);
       getData();
     }
-  }, [currentPage]);
+  }, [currentPage, searchString, location.pathname]);
 
   const incrementPage = async () => {
     setCurrentPage(currentPage + 1);
@@ -45,7 +45,7 @@ const App: React.FC = () => {
   };
 
   const handleSubmit = async (value: string) => {
-    localStorage.setItem('inputValue', searchString);
+    await localStorage.setItem('inputValue', value);
     setSearchString(value);
     setCurrentPage(1);
   };
