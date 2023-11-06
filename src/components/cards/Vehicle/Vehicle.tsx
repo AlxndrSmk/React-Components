@@ -72,7 +72,6 @@ const Vehicle: React.FC = () => {
           <img
             className={styles.item__img}
             onError={({ currentTarget }) => {
-              console.clear();
               currentTarget.onerror = null;
               currentTarget.src = '/images/png/img_not_found.png';
               currentTarget.style.width = '400px';

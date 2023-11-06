@@ -9,7 +9,7 @@ const App: React.FC = () => {
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [listData, setListData] = useState<IListData | []>([]);
-  const [pathName, setPathName] = useState<string>(document.location.pathname.slice(1));
+  const [pathName, setPathName] = useState<string>(location.pathname.slice(1));
   const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
   const [searchString, setSearchString] = useState<string>('');
 
@@ -18,7 +18,7 @@ const App: React.FC = () => {
     const search: string = localStorage.getItem('inputValue') || '';
     setCurrentPage(+page);
     setSearchString(search);
-    setPathName(document.location.pathname.slice(1));
+    setPathName(location.pathname.slice(1));
   }, []);
 
   useEffect(() => {
@@ -26,7 +26,14 @@ const App: React.FC = () => {
       navigate(`/${pathName}?search=${searchString}&page=${currentPage}`);
       getData();
     }
-  }, [currentPage, searchString, location.pathname]);
+  }, [currentPage, searchString, pathName]);
+
+  useEffect(() => {
+    if (currentPage > 0) {
+      setPathName(location.pathname.slice(1));
+      setCurrentPage(1);
+    }
+  }, [location.pathname]);
 
   const incrementPage = async () => {
     setCurrentPage(currentPage + 1);
@@ -45,7 +52,7 @@ const App: React.FC = () => {
   };
 
   const handleSubmit = async (value: string) => {
-    await localStorage.setItem('inputValue', value);
+    localStorage.setItem('inputValue', value);
     setSearchString(value);
     setCurrentPage(1);
   };

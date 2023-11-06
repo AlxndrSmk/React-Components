@@ -37,7 +37,6 @@ const List: React.FC<IListProps> = ({
                     <figure className="item__text_effect">
                       <img
                         onError={({ currentTarget }) => {
-                          console.clear();
                           currentTarget.onerror = null;
                           currentTarget.src = '/images/png/img_not_found.png';
                         }}

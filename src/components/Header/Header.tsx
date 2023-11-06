@@ -4,13 +4,13 @@ import { IHeaderProps } from '../../types/types';
 import { headerLinks } from '../../constants';
 
 const Header: React.FC<IHeaderProps> = ({ location }) => {
-  const logoHandleClick = (): void => {
+  const handleLogoClick = (): void => {
     localStorage.clear();
   };
 
   return (
     <div className={styles.header}>
-      <Link className={styles.logo} to="/" onClick={logoHandleClick}>
+      <Link className={styles.logo} to="/" onClick={handleLogoClick}>
         <img className={styles.logo__img} src="/images/icons/sw_logo.png" />
       </Link>
 
