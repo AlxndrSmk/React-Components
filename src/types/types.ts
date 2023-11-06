@@ -1,5 +1,3 @@
-import { NavigateFunction, Params, Location } from 'react-router';
-
 export type TAllCardsData =
   | null
   | IPersonData[]
@@ -16,20 +14,8 @@ export type TAllCardsDataWithName =
   | IVehicleData
   | IStarshipData;
 
-export interface ISearchInputState {
-  inputValue: string;
-}
-
 export interface ISearchInputProps {
   handleSubmit: (inputValue: string) => void;
-}
-
-export interface IAppState {
-  currentPage: number;
-  listData: null | IListData;
-  pathName: string;
-  isDataLoaded: boolean;
-  searchString: string;
 }
 
 export interface IListProps {
@@ -56,29 +42,6 @@ export type TAttributesBlockPropsData =
   | IVehicleData[]
   | IStarshipData[]
   | string[];
-
-export interface IPersonState {
-  itemData: null | IPersonData;
-  planetData: null | IPlanetData;
-  speciesData: null | ISpecieData;
-}
-
-export interface IPlanetState {
-  planetData: null | IPlanetData;
-}
-
-export interface IFilmState {
-  filmData: null | IFilmData;
-}
-
-export interface ISpecieState {
-  planetData: null | IPlanetData;
-  specieData: null | ISpecieData;
-}
-
-export interface IStarshipState {
-  starshipData: null | IStarshipData;
-}
 
 export interface IListData {
   count: number;
@@ -217,13 +180,3 @@ export interface IFooterLink {
   path: string;
   width: string;
 }
-
-export interface RouterProps {
-  navigate: NavigateFunction;
-  readonly params: Params<string>;
-  location: Location;
-}
-
-export type WithRouterProps<T> = T & RouterProps;
-
-export type OmitRouter<T> = Omit<T, keyof RouterProps>;
