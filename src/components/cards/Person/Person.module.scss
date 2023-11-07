@@ -17,20 +17,21 @@ a {
   &__data {
     display: flex;
     gap: 10px;
+    justify-content: space-between;
   }
 
   &__container {
     background-color: #1d1e1f;
     border-radius: 10px;
-    margin-bottom: 15px;
     height: 100%;
+    margin-bottom: 15px;
     width: 100%;
 
     &_left {
-      padding: 1.5em 2em;
       display: flex;
       flex-direction: column;
       justify-content: space-around;
+      padding: 1.5em 2em;
     }
   }
 
@@ -65,8 +66,8 @@ a {
 
 .attributes {
   &_container {
-    margin-top: 15px;
     display: flex;
+    margin-top: 15px;
     position: relative;
   }
 }

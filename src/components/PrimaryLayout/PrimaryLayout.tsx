@@ -1,14 +1,12 @@
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import styles from './PrimaryLayout.module.scss';
 
 const PrimaryLayout: React.FC = () => {
-  const location = useLocation();
-
   return (
     <div className={styles.wrapper}>
-      <Header location={location} />
+      <Header />
       <div className="section__bottom">
         <Outlet />
       </div>

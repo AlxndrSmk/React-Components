@@ -61,8 +61,9 @@ const Film: React.FC = () => {
             {!!filmData.characters.length && (
               <AttributesBlock
                 data={filmData.characters}
-                classNames={['item__link']}
+                classNames={['item']}
                 title="Characters"
+                isLink={false}
               />
             )}
             {!!filmData.planets.length && (

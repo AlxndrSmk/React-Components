@@ -11,7 +11,7 @@ import {
   TAllCardsDataWithName,
 } from '../../types/types';
 
-const AttributesBlock: React.FC<IAttributesBlockProps> = ({ data, classNames, title }) => {
+const AttributesBlock: React.FC<IAttributesBlockProps> = ({ data, classNames, title, isLink }) => {
   const itemsPerPage = 5;
 
   const [currentPage, setCurrentPage] = useState<number>(0);
@@ -59,6 +59,16 @@ const AttributesBlock: React.FC<IAttributesBlockProps> = ({ data, classNames, ti
             {fetchedData.map((item) => {
               const link: string = '/' + item.url.split('/').slice(4).join('/');
 
+              if (isLink === false) {
+                return (
+                  <p
+                    className={classNames.join(' ')}
+                    key={(item as IStarshipData).name || (item as IFilmData).title}
+                  >
+                    {(item as TAllCardsDataWithName).name || (item as IFilmData).title}
+                  </p>
+                );
+              }
               return (
                 <Link
                   className={classNames.join(' ')}

@@ -63,8 +63,9 @@ const Vehicle: React.FC = () => {
               {!!vehicleData.pilots.length && (
                 <AttributesBlock
                   data={vehicleData.pilots}
-                  classNames={['item__link']}
+                  classNames={['item']}
                   title="Pilots"
+                  isLink={false}
                 />
               )}
             </div>

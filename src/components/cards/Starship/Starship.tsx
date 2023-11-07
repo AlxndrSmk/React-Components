@@ -77,8 +77,9 @@ const Starship: React.FC = () => {
               {!!starshipData.pilots.length && (
                 <AttributesBlock
                   data={starshipData.pilots}
-                  classNames={['item__link']}
+                  classNames={['item']}
                   title="Pilots"
+                  isLink={false}
                 />
               )}
             </div>

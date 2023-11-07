@@ -32,6 +32,7 @@ export interface IAttributesBlockProps {
   data: TAttributesBlockPropsData;
   title: string;
   classNames: string[];
+  isLink?: boolean;
 }
 
 export type TAttributesBlockPropsData =
@@ -160,18 +161,6 @@ export interface IStarshipData {
   created: Date;
   edited: Date;
   url: string;
-}
-
-interface ILocation {
-  hash: string;
-  string?: string;
-  key: string;
-  pathname: string;
-  search: string;
-}
-
-export interface IHeaderProps {
-  location: ILocation;
 }
 
 export interface IFooterLink {

@@ -64,8 +64,9 @@ const Planet: React.FC = () => {
               {!!planetData.residents.length && (
                 <AttributesBlock
                   data={planetData.residents}
-                  classNames={['item__link']}
+                  classNames={['item']}
                   title="Residents"
+                  isLink={false}
                 />
               )}
             </div>

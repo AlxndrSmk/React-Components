@@ -14,12 +14,3 @@ export const footerLinks: IFooterLink[] = [
     width: '80',
   },
 ];
-
-export const headerLinks = [
-  { name: 'People', src: '/people' },
-  { name: 'Planets', src: '/planets' },
-  { name: 'Films', src: '/films' },
-  { name: 'Species', src: '/species' },
-  { name: 'Vehicles', src: '/vehicles' },
-  { name: 'Starships', src: '/starships' },
-];

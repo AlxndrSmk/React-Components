@@ -1,5 +1,5 @@
 const getSpecieData = async (id: string) => {
-  const serverUrl = 'https://swapi.dev/api/';
+  const serverUrl = 'https://swapi.dev/api';
   try {
     const responce = await fetch(`${serverUrl}/species/${id}`);
     if (responce.status === 404) {

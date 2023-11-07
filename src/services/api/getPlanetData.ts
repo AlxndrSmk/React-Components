@@ -1,5 +1,5 @@
 const getPlanetData = async (id: string) => {
-  const serverUrl = 'https://swapi.dev/api/';
+  const serverUrl = 'https://swapi.dev/api';
   try {
     const responce = await fetch(`${serverUrl}/planets/${id}`);
     if (responce.status === 404) {

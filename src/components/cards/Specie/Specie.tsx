@@ -70,8 +70,9 @@ const Specie: React.FC = () => {
               {!!specieData.people.length && (
                 <AttributesBlock
                   data={specieData.people}
-                  classNames={['item__link']}
+                  classNames={['item']}
                   title="People"
+                  isLink={false}
                 />
               )}
             </div>
