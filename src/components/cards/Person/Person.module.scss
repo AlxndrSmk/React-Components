@@ -10,19 +10,23 @@ a {
     align-items: center;
     display: flex;
     flex-direction: column;
-    width: 80%;
+    height: 100%;
     z-index: 2;
+  }
+
+  &__data {
+    display: flex;
+    gap: 10px;
   }
 
   &__container {
     background-color: #1d1e1f;
     border-radius: 10px;
-    display: flex;
     margin-bottom: 15px;
+    height: 100%;
     width: 100%;
 
     &_left {
-      flex-grow: 1;
       padding: 1.5em 2em;
       display: flex;
       flex-direction: column;
@@ -39,8 +43,8 @@ a {
   }
 
   &__img {
-    border-radius: 0 10px 10px 0;
-    max-height: 550px;
+    border-radius: 10px;
+    max-height: 250px;
   }
 
   &__specie_title {

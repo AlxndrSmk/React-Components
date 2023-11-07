@@ -7,6 +7,8 @@ import { useLocation, useNavigate } from 'react-router';
 const App: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const pathNames = ['people', 'planets', 'films', 'species', 'vehicles', 'starships'];
+
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [listData, setListData] = useState<IListData | []>([]);
   const [pathName, setPathName] = useState<string>(location.pathname.slice(1));
@@ -22,11 +24,11 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (currentPage > 0) {
+    if (currentPage > 0 && pathNames.includes(pathName)) {
       navigate(`/${pathName}?search=${searchString}&page=${currentPage}`);
       getData();
     }
-  }, [currentPage, searchString, pathName]);
+  }, [currentPage, searchString]);
 
   useEffect(() => {
     if (currentPage > 0) {

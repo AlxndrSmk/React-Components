@@ -20,6 +20,12 @@ const router = createBrowserRouter([
       {
         path: '/people',
         element: <App />,
+        children: [
+          {
+            path: '/people/:id',
+            element: <Person />,
+          },
+        ],
       },
       {
         path: '/planets',
@@ -40,10 +46,6 @@ const router = createBrowserRouter([
       {
         path: '/starships',
         element: <App />,
-      },
-      {
-        path: '/people/:id',
-        element: <Person />,
       },
       {
         path: '/planets/:id',

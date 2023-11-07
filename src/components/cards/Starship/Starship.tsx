@@ -89,7 +89,6 @@ const Starship: React.FC = () => {
               currentTarget.onerror = null;
               currentTarget.src = '/images/png/img_not_found.png';
               currentTarget.style.width = '400px';
-              console.clear();
             }}
             alt={starshipData.name}
             src={starshipImgSrc}

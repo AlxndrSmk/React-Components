@@ -3,6 +3,8 @@
 .form {
   align-items: flex-end;
   display: flex;
+  justify-content: center;
+  position: relative;
   z-index: 2;
 
   &__input {

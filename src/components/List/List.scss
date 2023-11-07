@@ -1,13 +1,57 @@
 @import '../../variables';
 
-.items__wrapper {
-  cursor: pointer;
+.list__wrapper {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  max-width: 1500px;
-  transition: 0.1s ease;
-  z-index: 2;
+  gap: 15px;
+  width: 100%;
+  justify-content: center;
+}
+
+.no-data-found {
+  z-index: 3;
+}
+
+.items {
+  &__wrapper {
+    cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    max-width: 1500px;
+    transition: 0.1s ease;
+    z-index: 2;
+  }
+
+  &__right {
+    transition: 0.5s ease;
+    width: 100%;
+    z-index: 3;
+
+    &.hidden {
+      transition: 0.5s ease;
+      width: 0;
+      visibility: hidden;
+    }
+  }
+
+  &__left {
+    &.disabled {
+      position: relative;
+
+      &:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: inherit;
+        background-color: rgba(0, 0, 0, 0.5);
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 10;
+      }
+    }
+  }
 }
 
 .item {
