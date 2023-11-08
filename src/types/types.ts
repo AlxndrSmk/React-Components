@@ -22,10 +22,12 @@ export interface IListProps {
   decrementPage: () => void;
   handleSubmit: (searchString: string) => void;
   incrementPage: () => void;
+  handleSelectChange: (value: string) => void;
   isDataLoaded: boolean;
   listData: IListData;
   pathName: string;
   currentPage: number;
+  perPage: string;
 }
 
 export interface IAttributesBlockProps {

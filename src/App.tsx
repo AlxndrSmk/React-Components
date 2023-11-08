@@ -14,6 +14,7 @@ const App: React.FC = () => {
   const [pathName, setPathName] = useState<string>(location.pathname.slice(1));
   const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
   const [searchString, setSearchString] = useState<string>('');
+  const [perPage, setPerPage] = useState<string>('10');
 
   useEffect(() => {
     const page: string = (new URLSearchParams(location.search).get('page') as string) || '1';
@@ -25,7 +26,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (currentPage > 0 && pathNames.includes(pathName)) {
-      navigate(`/${pathName}?search=${searchString}&page=${currentPage}`);
+      navigate(`/${pathName}?search=${searchString}&page=${currentPage}&per_page=${perPage}`);
       getData();
     }
   }, [currentPage, searchString]);
@@ -36,6 +37,14 @@ const App: React.FC = () => {
       setCurrentPage(1);
     }
   }, [location.pathname]);
+
+  useEffect(() => {
+    if (currentPage > 0) {
+      navigate(`/${pathName}?search=${searchString}&page=${currentPage}&per_page=${perPage}`);
+      setCurrentPage(1);
+      getData();
+    }
+  }, [perPage]);
 
   const incrementPage = async () => {
     setCurrentPage(currentPage + 1);
@@ -59,6 +68,10 @@ const App: React.FC = () => {
     setCurrentPage(1);
   };
 
+  const handleSelectChange = (value: string) => {
+    setPerPage(value);
+  };
+
   return (
     <List
       handleSubmit={handleSubmit}
@@ -68,6 +81,8 @@ const App: React.FC = () => {
       decrementPage={decrementPage}
       pathName={pathName}
       currentPage={currentPage}
+      handleSelectChange={handleSelectChange}
+      perPage={perPage}
     />
   );
 };

@@ -3,7 +3,7 @@ import Loader from '../Loader/Loader';
 import SearchInput from '../SearchInput/SearchInput';
 import './List.scss';
 import { IFilmData, IListProps, TAllCardsDataWithName } from '../../types/types';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 const List: React.FC<IListProps> = ({
   decrementPage,
@@ -13,6 +13,8 @@ const List: React.FC<IListProps> = ({
   listData,
   pathName,
   currentPage,
+  handleSelectChange,
+  perPage,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -36,6 +38,10 @@ const List: React.FC<IListProps> = ({
     }
   };
 
+  const selectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    handleSelectChange((event.target as HTMLSelectElement).value);
+  };
+
   if (!isDataLoaded) {
     return <Loader />;
   }
@@ -47,10 +53,18 @@ const List: React.FC<IListProps> = ({
           className={`${isOpen ? 'items__left disabled' : 'items__left'}`}
           onClick={handleLeftClick}
         >
-          <SearchInput handleSubmit={handleSubmit} />
+          <div className="inputs__wrapper">
+            <SearchInput handleSubmit={handleSubmit} />
+            <div className="custom-select">
+              <select onChange={selectChange} value={perPage}>
+                <option value="5">5 items</option>
+                <option value="10">10 items</option>
+              </select>
+            </div>
+          </div>
           <div className="items__wrapper">
             {listData?.results?.length ? (
-              listData.results?.map((data) => {
+              listData.results?.slice(0, +perPage).map((data) => {
                 const listId: string = data.url.replace(/[^0-9]/g, '');
                 const imgSrc = `/images/${pathName.split('/')[0]}/${listId}.jpg`;
                 return (
@@ -104,6 +118,8 @@ const List: React.FC<IListProps> = ({
       </div>
     );
   }
+
+  return null;
 };
 
 export default List;

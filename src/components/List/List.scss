@@ -3,8 +3,8 @@
 .list__wrapper {
   display: flex;
   gap: 15px;
-  width: 100%;
   justify-content: center;
+  width: 100%;
 }
 
 .no-data-found {
@@ -29,8 +29,8 @@
 
     &.hidden {
       transition: 0.5s ease;
-      width: 0;
       visibility: hidden;
+      width: 0;
     }
   }
 
@@ -39,15 +39,15 @@
       position: relative;
 
       &:after {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: inherit;
         background-color: rgba(0, 0, 0, 0.5);
-        top: 0;
-        left: 0;
-        right: 0;
         bottom: 0;
+        content: '';
+        height: inherit;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 100%;
         z-index: 10;
       }
     }
@@ -165,4 +165,31 @@
 .item__text_effect:hover .item__img__title {
   opacity: 1;
   transform: translate3d(0, 0, 0);
+}
+
+.inputs {
+  &__wrapper {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.custom-select {
+  position: relative;
+  z-index: 4;
+
+  select {
+    appearance: none;
+    background-color: #1d1e1f;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    color: rgb(181, 183, 183, 0.5);
+    font-family: 'Urbanist', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans';
+    font-size: 1.2em;
+    font-weight: 700;
+    height: 50px;
+    padding: 10px;
+    transition: width 0.5s;
+    width: 120px;
+  }
 }
