@@ -3,7 +3,7 @@ import getListData from './services/api/getListData';
 import List from './components/List/List';
 import { IListData } from './types/types';
 import { useLocation, useNavigate } from 'react-router';
-import { useListData } from './context/listDataProvider';
+import { useListData } from './context/ListDataProvider';
 
 const App: React.FC = () => {
   const navigate = useNavigate();

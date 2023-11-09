@@ -3,17 +3,17 @@ import { useParams } from 'react-router';
 import styles from './Film.module.scss';
 import Loader from '../../Loader/Loader';
 import { IFilmData } from '../../../types/types';
-import getFilmData from '../../../services/api/getFilmData';
 import hasNoData from '../../../services/hasNoData';
 import dateFormat from '../../../services/dateFormat';
 import AttributesBlock from '../../AttributesBlock/AttributesBlock';
+import getItemData from '../../../services/api/getItemData';
 
 const Film: React.FC = () => {
   const params = useParams();
   const [filmData, setFilmData] = useState<null | IFilmData>(null);
 
   const fetchFilmData = async (id: string) => {
-    const filmData: IFilmData = await getFilmData(id);
+    const filmData: IFilmData = await getItemData(id, 'films');
     await setFilmData(filmData);
   };
 

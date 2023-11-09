@@ -3,16 +3,16 @@ import { useParams } from 'react-router';
 import styles from './Planet.module.scss';
 import Loader from '../../Loader/Loader';
 import { IPlanetData } from '../../../types/types';
-import getPlanetData from '../../../services/api/getPlanetData';
 import AttributesBlock from '../../AttributesBlock/AttributesBlock';
 import hasNoData from '../../../services/hasNoData';
+import getItemData from '../../../services/api/getItemData';
 
 const Planet: React.FC = () => {
   const params = useParams();
   const [planetData, setPlanetData] = useState<null | IPlanetData>(null);
 
   const fetchPlanetData = async (id: string) => {
-    const planetData: IPlanetData = await getPlanetData(id);
+    const planetData: IPlanetData = await getItemData(id, 'planets');
     await setPlanetData(planetData);
   };
 

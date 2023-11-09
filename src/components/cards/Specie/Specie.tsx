@@ -3,10 +3,9 @@ import { Link, useParams } from 'react-router-dom';
 import styles from './Specie.module.scss';
 import Loader from '../../Loader/Loader';
 import { IPlanetData, ISpecieData } from '../../../types/types';
-import getSpecieData from '../../../services/api/getSpecieData';
 import AttributesBlock from '../../AttributesBlock/AttributesBlock';
 import hasNoData from '../../../services/hasNoData';
-import getPlanetData from '../../../services/api/getPlanetData';
+import getItemData from '../../../services/api/getItemData';
 
 const Specie: React.FC = () => {
   const params = useParams();
@@ -14,8 +13,8 @@ const Specie: React.FC = () => {
   const [planetData, setPlanetData] = useState<null | IPlanetData>(null);
 
   const fetchSpecieData = async (id: string) => {
-    const specieData: ISpecieData = await getSpecieData(id);
-    const planetData: IPlanetData = await getPlanetData(id);
+    const specieData: ISpecieData = await getItemData(id, 'species');
+    const planetData: IPlanetData = await getItemData(id, 'planets');
     await setSpecieData(specieData);
     await setPlanetData(planetData);
   };

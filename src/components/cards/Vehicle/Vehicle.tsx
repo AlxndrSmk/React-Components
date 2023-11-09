@@ -3,16 +3,16 @@ import { useParams } from 'react-router';
 import styles from './Vehicle.module.scss';
 import Loader from '../../Loader/Loader';
 import { IVehicleData } from '../../../types/types';
-import getVehicleData from '../../../services/api/getVehicleData';
 import AttributesBlock from '../../AttributesBlock/AttributesBlock';
 import hasNoData from '../../../services/hasNoData';
+import getItemData from '../../../services/api/getItemData';
 
 const Vehicle: React.FC = () => {
   const params = useParams();
   const [vehicleData, setVehicleData] = useState<null | IVehicleData>(null);
 
   const fetchVehicleData = async (id: string) => {
-    const vehicleData: IVehicleData = await getVehicleData(id);
+    const vehicleData: IVehicleData = await getItemData(id, 'vehicles');
     await setVehicleData(vehicleData);
   };
 

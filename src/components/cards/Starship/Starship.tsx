@@ -3,16 +3,16 @@ import { useParams } from 'react-router';
 import styles from './Starship.module.scss';
 import Loader from '../../Loader/Loader';
 import { IStarshipData } from '../../../types/types';
-import getStarshipData from '../../../services/api/getStarshipData';
 import AttributesBlock from '../../AttributesBlock/AttributesBlock';
 import hasNoData from '../../../services/hasNoData';
+import getItemData from '../../../services/api/getItemData';
 
 const Starship: React.FC = () => {
   const params = useParams();
   const [starshipData, setStarshipData] = useState<null | IStarshipData>(null);
 
   const fetchStarshipData = async (id: string) => {
-    const starshipData: IStarshipData = await getStarshipData(id);
+    const starshipData: IStarshipData = await getItemData(id, 'starships');
     await setStarshipData(starshipData);
   };
 
