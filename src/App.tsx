@@ -3,6 +3,7 @@ import getListData from './services/api/getListData';
 import List from './components/List/List';
 import { IListData } from './types/types';
 import { useLocation, useNavigate } from 'react-router';
+import { useListData } from './context/listDataProvider';
 
 const App: React.FC = () => {
   const navigate = useNavigate();
@@ -10,17 +11,18 @@ const App: React.FC = () => {
   const pathNames = ['people', 'planets', 'films', 'species', 'vehicles', 'starships'];
 
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const [listData, setListData] = useState<IListData | []>([]);
   const [pathName, setPathName] = useState<string>(location.pathname.slice(1));
   const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
-  const [searchString, setSearchString] = useState<string>('');
   const [perPage, setPerPage] = useState<string>('10');
+
+  const { listData, saveListData } = useListData();
+  const { searchString, saveSearchString } = useListData();
 
   useEffect(() => {
     const page: string = (new URLSearchParams(location.search).get('page') as string) || '1';
     const search: string = localStorage.getItem('inputValue') || '';
     setCurrentPage(+page);
-    setSearchString(search);
+    saveSearchString(search);
     setPathName(location.pathname.slice(1));
   }, []);
 
@@ -58,13 +60,13 @@ const App: React.FC = () => {
     const selectedPage = currentPage;
     setIsDataLoaded(false);
     const data = await getListData(searchString, selectedPage, pathName);
-    setListData(data);
+    saveListData(data);
     setIsDataLoaded(true);
   };
 
   const handleSubmit = async (value: string) => {
     localStorage.setItem('inputValue', value);
-    setSearchString(value);
+    saveSearchString(value);
     setCurrentPage(1);
   };
 

@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export type TAllCardsData =
   | null
   | IPersonData[]
@@ -170,4 +172,15 @@ export interface IFooterLink {
   src: string;
   path: string;
   width: string;
+}
+
+export interface IListDataProvider {
+  children: ReactNode;
+}
+
+export interface IListDataContext {
+  listData: IListData | [];
+  searchString: string;
+  saveListData: (data: IListData) => Promise<void>;
+  saveSearchString: (data: string) => Promise<void>;
 }
