@@ -6,6 +6,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     coverage: {
+      exclude: ['src/main.tsx', 'src/types/types.ts', 'src/constants.ts'],
       all: true,
     },
   },
