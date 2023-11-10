@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/vitest';
 import { expect, test } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import SearchInput from '../components/SearchInput/SearchInput';
+import SearchInput from './SearchInput';
 
 test('SearchInput field should render correctly', () => {
   render(<SearchInput handleSubmit={(): void => {}} />);
