@@ -1,4 +1,4 @@
-import { Navigate, createBrowserRouter } from 'react-router-dom';
+import { Navigate, RouteObject, createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import PrimaryLayout from '../components/PrimaryLayout/PrimaryLayout';
 import Person from '../components/cards/Person/Person';
@@ -9,7 +9,7 @@ import Specie from '../components/cards/Specie/Specie';
 import Vehicle from '../components/cards/Vehicle/Vehicle';
 import Starship from '../components/cards/Starship/Starship';
 
-const router = createBrowserRouter([
+export const routerConfig: RouteObject[] = [
   {
     element: <PrimaryLayout />,
     children: [
@@ -73,6 +73,8 @@ const router = createBrowserRouter([
       },
     ],
   },
-]);
+];
+
+const router = createBrowserRouter(routerConfig);
 
 export default router;
