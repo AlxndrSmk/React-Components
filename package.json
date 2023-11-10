@@ -12,7 +12,7 @@
     "format": "prettier --check \"./src/**/*.{ts,tsx,json}\"",
     "format:fix": "prettier --write \"./src/**/*.{ts,tsx,json,scss}\"",
     "prepare": "husky install .husky",
-    "test": "vitest",
+    "test": "vitest run",
     "test:ui": "vitest --ui",
     "coverage": "vitest run --coverage"
   },
@@ -29,6 +29,7 @@
     "vite-tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
+    "@testing-library/dom": "^9.3.3",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.1.0",
     "@types/react": "^18.2.15",
