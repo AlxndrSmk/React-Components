@@ -184,3 +184,10 @@ export interface IListDataContext {
   saveListData: (data: IListData) => Promise<void>;
   saveSearchString: (data: string) => Promise<void>;
 }
+
+export interface ICardProps {
+  path: string;
+  state: IListData;
+  imgSrc: string;
+  data: TAllCardsDataWithName | IFilmData;
+}

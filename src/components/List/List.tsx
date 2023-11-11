@@ -1,9 +1,10 @@
-import { Link, Outlet, useNavigate, useParams } from 'react-router-dom';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import Loader from '../Loader/Loader';
 import SearchInput from '../SearchInput/SearchInput';
 import './List.scss';
 import { IFilmData, IListProps, TAllCardsDataWithName } from '../../types/types';
 import { ChangeEvent, useEffect, useState } from 'react';
+import Card from '../Card/Card';
 
 const List: React.FC<IListProps> = ({
   decrementPage,
@@ -68,33 +69,16 @@ const List: React.FC<IListProps> = ({
               listData.results?.slice(0, +perPage).map((data) => {
                 const listId: string = data.url.replace(/[^0-9]/g, '');
                 const imgSrc = `/images/${pathName.split('/')[0]}/${listId}.jpg`;
+                const path = `/${pathName}/${data.url.replace(/[^0-9]/g, '')}`;
+
                 return (
-                  <Link
+                  <Card
                     key={(data as TAllCardsDataWithName).name || (data as IFilmData).title}
-                    to={`/${pathName}/${data.url.replace(/[^0-9]/g, '')}`}
-                    className="item__wrapper"
+                    data={data}
+                    imgSrc={imgSrc}
+                    path={path}
                     state={listData}
-                    data-testid="card"
-                  >
-                    <div className="item__img__wrapper">
-                      <figure className="item__text_effect">
-                        <img
-                          onError={({ currentTarget }) => {
-                            currentTarget.onerror = null;
-                            currentTarget.src = '/images/png/img_not_found.png';
-                          }}
-                          className="item__img"
-                          src={imgSrc}
-                          alt={(data as TAllCardsDataWithName).name || (data as IFilmData).title}
-                        />
-                        <figcaption className="item__figcaption">
-                          <p className="item__img__title">
-                            {(data as TAllCardsDataWithName).name || (data as IFilmData).title}
-                          </p>
-                        </figcaption>
-                      </figure>
-                    </div>
-                  </Link>
+                  />
                 );
               })
             ) : (
