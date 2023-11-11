@@ -2,7 +2,7 @@ import './Loader.scss';
 
 const Loader: React.FC = () => {
   return (
-    <div id="loader">
+    <div id="loader" data-testid="loader">
       <div className="ls-particles ls-part-1"></div>
       <div className="ls-particles ls-part-2"></div>
       <div className="ls-particles ls-part-3"></div>

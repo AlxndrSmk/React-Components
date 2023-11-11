@@ -48,10 +48,11 @@ const List: React.FC<IListProps> = ({
 
   if (isDataLoaded) {
     return (
-      <div className="list__wrapper">
+      <div className="list__wrapper" data-testid="list">
         <div
           className={`${isOpen ? 'items__left disabled' : 'items__left'}`}
           onClick={handleLeftClick}
+          data-testid="items__left"
         >
           <div className="inputs__wrapper">
             <SearchInput handleSubmit={handleSubmit} />
@@ -73,6 +74,7 @@ const List: React.FC<IListProps> = ({
                     to={`/${pathName}/${data.url.replace(/[^0-9]/g, '')}`}
                     className="item__wrapper"
                     state={listData}
+                    data-testid="card"
                   >
                     <div className="item__img__wrapper">
                       <figure className="item__text_effect">
@@ -96,7 +98,9 @@ const List: React.FC<IListProps> = ({
                 );
               })
             ) : (
-              <div className="no-data-found">No data found</div>
+              <div className="no-data-found" data-testid="not-found">
+                No data found
+              </div>
             )}
           </div>
           <div className="buttons">
@@ -109,7 +113,10 @@ const List: React.FC<IListProps> = ({
             </button>
           </div>
         </div>
-        <div className={`${isOpen ? 'items__right' : 'items__right hidden'}`}>
+        <div
+          data-testid="items__right"
+          className={`${isOpen ? 'items__right' : 'items__right hidden'}`}
+        >
           <button className="button button__close" onClick={closeCard}>
             Close
           </button>
