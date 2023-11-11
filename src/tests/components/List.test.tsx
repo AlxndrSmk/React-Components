@@ -2,8 +2,8 @@ import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import List from '../../components/List/List';
-import { IListProps } from '../../types/types';
-import { listDataMock } from '../mocks/listDataMock';
+import { listData } from '../mockData/listData';
+import { emptyListData } from '../mockData/emptyListData';
 
 describe('List component', () => {
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('List component', () => {
   test('renders loader when data is not loaded', () => {
     render(
       <MemoryRouter>
-        <List {...listDataMock} isDataLoaded={false} />
+        <List {...listData} isDataLoaded={false} />
       </MemoryRouter>
     );
     expect(screen.getByTestId('loader')).toBeInTheDocument();
@@ -22,7 +22,7 @@ describe('List component', () => {
   test('renders list when data is loaded', async () => {
     render(
       <MemoryRouter>
-        <List {...listDataMock} isDataLoaded={true} />
+        <List {...listData} isDataLoaded={true} />
       </MemoryRouter>
     );
 
@@ -33,11 +33,11 @@ describe('List component', () => {
   test('navigates to the correct route when an item is clicked', () => {
     const { container } = render(
       <MemoryRouter initialEntries={['/pathName/1']}>
-        <List {...listDataMock} isDataLoaded={true} />
+        <List {...listData} isDataLoaded={true} />
       </MemoryRouter>
     );
 
-    fireEvent.click(screen.getByText('Item 1'));
+    fireEvent.click(screen.getByText('Luke Skywalker'));
     expect(container.innerHTML).toContain('items__right');
     expect(container.innerHTML).toContain('button__close');
   });
@@ -45,38 +45,21 @@ describe('List component', () => {
   test('closes the card when the close button is clicked', () => {
     const { container } = render(
       <MemoryRouter initialEntries={['/pathName/1']}>
-        <List {...listDataMock} isDataLoaded={true} />
+        <List {...listData} isDataLoaded={true} />
       </MemoryRouter>
     );
 
-    fireEvent.click(screen.getByText('Item 1'));
+    fireEvent.click(screen.getByText('Luke Skywalker'));
     expect(container.innerHTML).toContain('items__right');
 
     fireEvent.click(screen.getByText('Close'));
     expect(container.innerHTML).toContain('items__right hidden');
   });
 
-  test('displays a message when no cards are present', () => {
-    const listDataMockWithoutResults: IListProps = {
-      decrementPage: vi.fn(),
-      handleSubmit: vi.fn(),
-      incrementPage: vi.fn(),
-      isDataLoaded: true,
-      listData: {
-        count: 0,
-        next: 'next',
-        previous: null,
-        results: [],
-      },
-      pathName: 'mockPath',
-      currentPage: 1,
-      handleSelectChange: vi.fn(),
-      perPage: '5',
-    };
-
+  test('displays appropriate message is if no cards are present', () => {
     render(
       <MemoryRouter>
-        <List {...listDataMockWithoutResults} />
+        <List {...emptyListData} />
       </MemoryRouter>
     );
 
@@ -86,11 +69,11 @@ describe('List component', () => {
   test('renders the specified number of cards', () => {
     render(
       <MemoryRouter>
-        <List {...listDataMock} isDataLoaded={true} />
+        <List {...listData} isDataLoaded={true} />
       </MemoryRouter>
     );
 
     const cards = screen.getAllByTestId('card');
-    expect(cards).toHaveLength(listDataMock.listData.count);
+    expect(cards).toHaveLength(Number(listData.perPage));
   });
 });

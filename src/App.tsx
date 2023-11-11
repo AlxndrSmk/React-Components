@@ -62,6 +62,8 @@ const App: React.FC = () => {
     const data = await getListData(searchString, selectedPage, pathName);
     saveListData(data);
     setIsDataLoaded(true);
+    const str = JSON.stringify(data);
+    console.log(str);
   };
 
   const handleSubmit = async (value: string) => {
