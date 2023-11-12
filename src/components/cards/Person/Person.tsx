@@ -15,22 +15,18 @@ const Person: React.FC = () => {
   const [speciesData, setSpeciesData] = useState<null | ISpecieData>(null);
 
   const fetchPersonData = async (id: string) => {
-    const personData: IPersonData = id && (await getItemData(id, 'people'));
-    await setPersonData(personData);
-  };
+    const itemData: IPersonData = await getItemData(id, 'people');
+    await setPersonData(itemData);
 
-  const fetchElseData = async () => {
-    const planetData: IPlanetData =
-      personData?.homeworld && (await getDataByLink(personData.homeworld));
-    const speciesData: ISpecieData =
-      personData?.species[0] && (await getDataByLink(personData.species[0]));
+    const planetData: IPlanetData = await getDataByLink(itemData.homeworld);
     await setPlanetData(planetData);
+
+    const speciesData: ISpecieData = await getDataByLink(itemData.species[0]);
     await setSpeciesData(speciesData);
   };
 
   useEffect(() => {
     fetchPersonData(params.id as string);
-    fetchElseData();
   }, [params.id]);
 
   if (!personData) {
