@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import List from '../../components/List/List';
 import { listData } from '../mockData/listData';
@@ -28,20 +28,6 @@ describe('List component', () => {
 
     expect(screen.getByText('Prev')).toBeInTheDocument();
     expect(screen.getByText('Next')).toBeInTheDocument();
-  });
-
-  test('closes the card when the close button is clicked', () => {
-    const { container } = render(
-      <MemoryRouter initialEntries={['/pathName/1']}>
-        <List {...listData} isDataLoaded={true} />
-      </MemoryRouter>
-    );
-
-    fireEvent.click(screen.getByText('Luke Skywalker'));
-    expect(container.innerHTML).toContain('items__right');
-
-    fireEvent.click(screen.getByText('Close'));
-    expect(container.innerHTML).toContain('items__right hidden');
   });
 
   test('displays appropriate message is if no cards are present', () => {

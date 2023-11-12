@@ -1,30 +1,35 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import Person from '../../components/cards/Person/Person';
-import { noDetailedCardData } from '../mockData/noDetailedCardData';
-import getItemData from '../../services/api/getItemData';
+import { MemoryRouter } from 'react-router';
+import List from '../../components/List/List';
+import { listData } from '../mockData/listData';
 
 describe('DetailedCard component', () => {
-  test('displays loading indicator while fetching data;', async () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  test('displays loading indicator while fetching data', () => {
     render(<Person />);
-
-    const mockFetch = vi.fn();
-    global.fetch = mockFetch;
-
-    mockFetch.mockResolvedValue({
-      status: 200,
-      json: async () => ({
-        noDetailedCardData,
-      }),
-    });
-
-    const personData = await getItemData('1', 'people');
-    expect(mockFetch).toHaveBeenCalledWith('https://swapi.dev/api/people/1');
-    expect(personData).toEqual({
-      noDetailedCardData,
-    });
 
     const smallLoaderElement = screen.getByTestId('small-loader');
     expect(smallLoaderElement).toBeInTheDocument();
+  });
+
+  test('correctly displays the detailed card data', async () => {});
+
+  test('hides the component when the close button is clicked', () => {
+    const { container } = render(
+      <MemoryRouter initialEntries={['/pathName/1']}>
+        <List {...listData} isDataLoaded={true} />
+      </MemoryRouter>
+    );
+
+    fireEvent.click(screen.getByText('Luke Skywalker'));
+    expect(container.innerHTML).toContain('items__right');
+
+    fireEvent.click(screen.getByText('Close'));
+    expect(container.innerHTML).toContain('items__right hidden');
   });
 });

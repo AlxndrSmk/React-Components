@@ -90,7 +90,9 @@ const List: React.FC<IListProps> = ({
             <button className="button" onClick={decrementPage} disabled={!listData?.previous}>
               Prev
             </button>
-            <div className="pageNumber">{currentPage}</div>
+            <div data-testid="pageNumber" className="pageNumber">
+              {currentPage}
+            </div>
             <button className="button" onClick={incrementPage} disabled={!listData?.next}>
               Next
             </button>
