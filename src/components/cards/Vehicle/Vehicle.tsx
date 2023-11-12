@@ -12,7 +12,7 @@ const Vehicle: React.FC = () => {
   const [vehicleData, setVehicleData] = useState<null | IVehicleData>(null);
 
   const fetchVehicleData = async (id: string) => {
-    const vehicleData: IVehicleData = await getItemData(id, 'vehicles');
+    const vehicleData: IVehicleData = id && (await getItemData(id, 'vehicles'));
     await setVehicleData(vehicleData);
   };
 

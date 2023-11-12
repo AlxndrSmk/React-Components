@@ -13,7 +13,7 @@ const Film: React.FC = () => {
   const [filmData, setFilmData] = useState<null | IFilmData>(null);
 
   const fetchFilmData = async (id: string) => {
-    const filmData: IFilmData = await getItemData(id, 'films');
+    const filmData: IFilmData = id && (await getItemData(id, 'films'));
     await setFilmData(filmData);
   };
 

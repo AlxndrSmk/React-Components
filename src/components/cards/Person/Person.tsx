@@ -10,21 +10,27 @@ import getItemData from '../../../services/api/getItemData';
 
 const Person: React.FC = () => {
   const params = useParams();
-  const [personData, setItemData] = useState<null | IPersonData>(null);
+  const [personData, setPersonData] = useState<null | IPersonData>(null);
   const [planetData, setPlanetData] = useState<null | IPlanetData>(null);
   const [speciesData, setSpeciesData] = useState<null | ISpecieData>(null);
 
   const fetchPersonData = async (id: string) => {
-    const personData: IPersonData = await getItemData(id, 'people');
-    const planetData: IPlanetData = await getDataByLink(personData.homeworld);
-    const speciesData: ISpecieData = await getDataByLink(personData.species[0]);
-    await setItemData(personData);
+    const personData: IPersonData = id && (await getItemData(id, 'people'));
+    await setPersonData(personData);
+  };
+
+  const fetchElseData = async () => {
+    const planetData: IPlanetData =
+      personData?.homeworld && (await getDataByLink(personData.homeworld));
+    const speciesData: ISpecieData =
+      personData?.species[0] && (await getDataByLink(personData.species[0]));
     await setPlanetData(planetData);
     await setSpeciesData(speciesData);
   };
 
   useEffect(() => {
     fetchPersonData(params.id as string);
+    fetchElseData();
   }, [params.id]);
 
   if (!personData) {

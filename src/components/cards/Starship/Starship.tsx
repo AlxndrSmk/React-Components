@@ -12,7 +12,7 @@ const Starship: React.FC = () => {
   const [starshipData, setStarshipData] = useState<null | IStarshipData>(null);
 
   const fetchStarshipData = async (id: string) => {
-    const starshipData: IStarshipData = await getItemData(id, 'starships');
+    const starshipData: IStarshipData = id && (await getItemData(id, 'starships'));
     await setStarshipData(starshipData);
   };
 

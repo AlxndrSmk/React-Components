@@ -12,7 +12,7 @@ const Planet: React.FC = () => {
   const [planetData, setPlanetData] = useState<null | IPlanetData>(null);
 
   const fetchPlanetData = async (id: string) => {
-    const planetData: IPlanetData = await getItemData(id, 'planets');
+    const planetData: IPlanetData = id && (await getItemData(id, 'planets'));
     await setPlanetData(planetData);
   };
 

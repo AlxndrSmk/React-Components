@@ -2,7 +2,7 @@ import './SmallLoader.scss';
 
 const SmallLoader: React.FC = () => {
   return (
-    <h1 className="loader">
+    <h1 data-testid="small-loader" className="loader">
       <span>L</span>
       <span>O</span>
       <span>A</span>

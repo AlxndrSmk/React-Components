@@ -77,7 +77,6 @@ const List: React.FC<IListProps> = ({
                     data={data}
                     imgSrc={imgSrc}
                     path={path}
-                    state={listData}
                   />
                 );
               })

@@ -13,8 +13,8 @@ const Specie: React.FC = () => {
   const [planetData, setPlanetData] = useState<null | IPlanetData>(null);
 
   const fetchSpecieData = async (id: string) => {
-    const specieData: ISpecieData = await getItemData(id, 'species');
-    const planetData: IPlanetData = await getItemData(id, 'planets');
+    const specieData: ISpecieData = id && (await getItemData(id, 'species'));
+    const planetData: IPlanetData = id && (await getItemData(id, 'planets'));
     await setSpecieData(specieData);
     await setPlanetData(planetData);
   };

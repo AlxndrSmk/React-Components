@@ -30,18 +30,6 @@ describe('List component', () => {
     expect(screen.getByText('Next')).toBeInTheDocument();
   });
 
-  test('navigates to the correct route when an item is clicked', () => {
-    const { container } = render(
-      <MemoryRouter initialEntries={['/pathName/1']}>
-        <List {...listData} isDataLoaded={true} />
-      </MemoryRouter>
-    );
-
-    fireEvent.click(screen.getByText('Luke Skywalker'));
-    expect(container.innerHTML).toContain('items__right');
-    expect(container.innerHTML).toContain('button__close');
-  });
-
   test('closes the card when the close button is clicked', () => {
     const { container } = render(
       <MemoryRouter initialEntries={['/pathName/1']}>

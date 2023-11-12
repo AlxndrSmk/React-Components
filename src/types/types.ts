@@ -187,7 +187,6 @@ export interface IListDataContext {
 
 export interface ICardProps {
   path: string;
-  state: IListData;
   imgSrc: string;
   data: TAllCardsDataWithName | IFilmData;
 }
