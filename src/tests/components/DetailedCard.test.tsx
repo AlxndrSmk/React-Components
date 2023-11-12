@@ -13,8 +13,8 @@ describe('DetailedCard component', () => {
   test('displays loading indicator while fetching data', () => {
     render(<Person />);
 
-    const smallLoaderElement = screen.getByTestId('small-loader');
-    expect(smallLoaderElement).toBeInTheDocument();
+    const smallLoader = screen.getByTestId('small-loader');
+    expect(smallLoader).toBeInTheDocument();
   });
 
   // test('correctly displays the detailed card data', async () => {

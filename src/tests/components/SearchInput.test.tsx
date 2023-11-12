@@ -45,33 +45,26 @@ describe('SearchInput component', () => {
     expect(setItemSpy).toHaveBeenCalledWith('inputValue', 'test');
   });
 
-  // test('retrieves the value from the local storage upon mounting', async () => {
-  //   const localStorageMock = {
-  //     getItem: vi.fn(),
-  //   };
-  //   // global.localStorage = localStorageMock;
+  test('retrieves the value from local storage upon mounting', () => {
+    const localStorageMock = {
+      getItem: vi.fn(),
+      clear: vi.fn(),
+    };
 
-  //   localStorageMock.getItem.mockImplementation((key) => {
-  //     if (key === 'inputValue') {
-  //       return 'test';
-  //     }
-  //     return null;
-  //   });
+    localStorageMock.getItem.mockImplementation((key) => {
+      if (key === 'inputValue') {
+        return 'test';
+      }
+      return null;
+    });
 
-  //   // const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
-  //   // const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
+    Object.defineProperty(global, 'localStorage', { value: localStorageMock });
 
-  //   // afterEach(() => {
-  //   //   localStorage.clear();
-  //   //   getItemSpy.mockClear();
-  //   // });
+    render(<SearchInput handleSubmit={(): void => {}} />);
 
-  //   // setItemSpy('inputValue', 'test');
+    const inputField = screen.getByRole('textbox') as HTMLInputElement;
+    expect(inputField.value).toBe('test');
 
-  //   render(<SearchInput handleSubmit={(): void => {}} />);
-
-  //   const inputField = screen.getByRole('textbox');
-  //   localStorageMock.setItem('inputValue', 'test');
-  //   expect(inputField.innerHTML).toBe('test');
-  // });
+    expect(localStorageMock.getItem.mock.calls[0][0]).toBe('inputValue');
+  });
 });

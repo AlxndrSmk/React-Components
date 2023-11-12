@@ -12,6 +12,7 @@ const App: React.FC = () => {
 
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [pathName, setPathName] = useState<string>(location.pathname.slice(1));
+  const [listName, setListName] = useState<string>(location.pathname.slice(1).split('/')[0]);
   const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
   const [perPage, setPerPage] = useState<string>('10');
 
@@ -24,10 +25,11 @@ const App: React.FC = () => {
     setCurrentPage(+page);
     saveSearchString(search);
     setPathName(location.pathname.slice(1));
+    setListName(location.pathname.slice(1).split('/')[0]);
   }, []);
 
   useEffect(() => {
-    if (currentPage > 0 && pathNames.includes(pathName)) {
+    if (currentPage > 0 && pathNames.includes(listName)) {
       navigate(`/${pathName}?search=${searchString}&page=${currentPage}&per_page=${perPage}`);
       getData();
     }
@@ -36,6 +38,7 @@ const App: React.FC = () => {
   useEffect(() => {
     if (currentPage > 0) {
       setPathName(location.pathname.slice(1));
+      setListName(location.pathname.slice(1).split('/')[0]);
       setCurrentPage(1);
     }
   }, [location.pathname]);
@@ -59,7 +62,7 @@ const App: React.FC = () => {
   const getData = async () => {
     const selectedPage = currentPage;
     setIsDataLoaded(false);
-    const data = await getListData(searchString, selectedPage, pathName);
+    const data = await getListData(searchString, selectedPage, listName);
     saveListData(data);
     setIsDataLoaded(true);
   };

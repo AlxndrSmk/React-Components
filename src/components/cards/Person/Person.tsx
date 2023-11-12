@@ -16,13 +16,13 @@ const Person: React.FC = () => {
 
   const fetchPersonData = async (id: string) => {
     const itemData: IPersonData = await getItemData(id, 'people');
-    await setPersonData(itemData);
+    setPersonData(itemData);
 
     const planetData: IPlanetData = await getDataByLink(itemData.homeworld);
-    await setPlanetData(planetData);
+    setPlanetData(planetData);
 
     const speciesData: ISpecieData = await getDataByLink(itemData.species[0]);
-    await setSpeciesData(speciesData);
+    setSpeciesData(speciesData);
   };
 
   useEffect(() => {

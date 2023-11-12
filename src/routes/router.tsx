@@ -22,7 +22,7 @@ export const routerConfig: RouteObject[] = [
         element: <App />,
         children: [
           {
-            path: '/people/:id',
+            path: ':id',
             element: <Person />,
           },
         ],
