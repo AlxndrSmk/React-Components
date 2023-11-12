@@ -1,0 +1,25 @@
+@import '../../variables';
+
+.title {
+  font-size: 8em;
+  color: $active-font-color;
+}
+
+.description {
+  font-size: 3em;
+}
+
+.title,
+.description {
+  font-family: $StarWars;
+  text-align: center;
+  z-index: 3;
+}
+
+.img {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 50%;
+  z-index: 2;
+}
