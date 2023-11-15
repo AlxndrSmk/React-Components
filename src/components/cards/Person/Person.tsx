@@ -18,11 +18,13 @@ const Person: React.FC = () => {
     const itemData: IPersonData = await getItemData(id, 'people');
     setPersonData(itemData);
 
-    const planetData: IPlanetData = await getDataByLink(itemData.homeworld);
-    setPlanetData(planetData);
+    if (itemData) {
+      const planetData: IPlanetData = await getDataByLink(itemData.homeworld);
+      setPlanetData(planetData);
 
-    const speciesData: ISpecieData = await getDataByLink(itemData.species[0]);
-    setSpeciesData(speciesData);
+      const speciesData: ISpecieData = await getDataByLink(itemData.species[0]);
+      setSpeciesData(speciesData);
+    }
   };
 
   useEffect(() => {

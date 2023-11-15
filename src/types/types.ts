@@ -30,6 +30,7 @@ export interface IListProps {
   pathName: string;
   currentPage: number;
   perPage: string;
+  searchString: string;
 }
 
 export interface IAttributesBlockProps {

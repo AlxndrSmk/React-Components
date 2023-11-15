@@ -9,6 +9,7 @@ export const listData: IListProps = {
   currentPage: 1,
   handleSelectChange: vi.fn(),
   perPage: '5',
+  searchString: '',
   listData: {
     count: 82,
     next: 'Next',

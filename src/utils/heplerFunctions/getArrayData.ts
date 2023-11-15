@@ -1,4 +1,5 @@
-import { TAllCardsData } from '../../types/types';
+import fetch from 'node-fetch';
+import { IPersonData, TAllCardsData } from '../../types/types';
 
 const getArrayData = async (links: string[]): Promise<TAllCardsData> => {
   const promises = links.map(async (link) => {
@@ -12,7 +13,7 @@ const getArrayData = async (links: string[]): Promise<TAllCardsData> => {
   });
 
   const data = await Promise.all(promises);
-  return data;
+  return data as IPersonData[];
 };
 
 export default getArrayData;

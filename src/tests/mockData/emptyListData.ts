@@ -15,4 +15,5 @@ export const emptyListData: IListProps = {
   currentPage: 1,
   handleSelectChange: vi.fn(),
   perPage: '5',
+  searchString: '',
 };

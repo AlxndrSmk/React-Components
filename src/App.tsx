@@ -10,19 +10,21 @@ const App: React.FC = () => {
   const location = useLocation();
   const pathNames = ['people', 'planets', 'films', 'species', 'vehicles', 'starships'];
 
-  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(
+    +((new URLSearchParams(location.search).get('page') as string) || '1')
+  );
   const [pathName, setPathName] = useState<string>(location.pathname.slice(1));
   const [listName, setListName] = useState<string>(location.pathname.slice(1).split('/')[0]);
   const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
-  const [perPage, setPerPage] = useState<string>('10');
+  const [perPage, setPerPage] = useState<string>(
+    (new URLSearchParams(location.search).get('per_page') as string) || '10'
+  );
 
   const { listData, saveListData } = useListData();
   const { searchString, saveSearchString } = useListData();
 
   useEffect(() => {
-    const page: string = (new URLSearchParams(location.search).get('page') as string) || '1';
     const search: string = localStorage.getItem('inputValue') || '';
-    setCurrentPage(+page);
     saveSearchString(search);
     setPathName(location.pathname.slice(1));
     setListName(location.pathname.slice(1).split('/')[0]);
@@ -39,14 +41,12 @@ const App: React.FC = () => {
     if (currentPage > 0) {
       setPathName(location.pathname.slice(1));
       setListName(location.pathname.slice(1).split('/')[0]);
-      setCurrentPage(1);
     }
   }, [location.pathname]);
 
   useEffect(() => {
     if (currentPage > 0) {
       navigate(`/${pathName}?search=${searchString}&page=${currentPage}&per_page=${perPage}`);
-      setCurrentPage(1);
       getData();
     }
   }, [perPage]);
@@ -61,10 +61,10 @@ const App: React.FC = () => {
 
   const getData = async () => {
     const selectedPage = currentPage;
-    setIsDataLoaded(false);
+    await setIsDataLoaded(false);
     const data = await getListData(searchString, selectedPage, listName);
     saveListData(data);
-    setIsDataLoaded(true);
+    await setIsDataLoaded(true);
   };
 
   const handleSubmit = async (value: string) => {
@@ -84,10 +84,11 @@ const App: React.FC = () => {
       isDataLoaded={isDataLoaded}
       incrementPage={incrementPage}
       decrementPage={decrementPage}
-      pathName={pathName}
+      pathName={listName}
       currentPage={currentPage}
       handleSelectChange={handleSelectChange}
       perPage={perPage}
+      searchString={searchString}
     />
   );
 };

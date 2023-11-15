@@ -16,6 +16,7 @@ const List: React.FC<IListProps> = ({
   currentPage,
   handleSelectChange,
   perPage,
+  searchString,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -69,7 +70,10 @@ const List: React.FC<IListProps> = ({
               listData.results?.slice(0, +perPage).map((data) => {
                 const listId: string = data.url.replace(/[^0-9]/g, '');
                 const imgSrc = `/images/${pathName.split('/')[0]}/${listId}.jpg`;
-                const path = `/${pathName}/${data.url.replace(/[^0-9]/g, '')}`;
+                const path = `/${pathName}/${data.url.replace(
+                  /[^0-9]/g,
+                  ''
+                )}?search=${searchString}&page=${currentPage}&per_page=${perPage}`;
 
                 return (
                   <Card
@@ -98,10 +102,7 @@ const List: React.FC<IListProps> = ({
             </button>
           </div>
         </div>
-        <div
-          data-testid="items__right"
-          className={`${isOpen ? 'items__right' : 'items__right hidden'}`}
-        >
+        <div className={`${isOpen ? 'items__right' : 'items__right hidden'}`}>
           <button className="button button__close" onClick={closeCard}>
             Close
           </button>
