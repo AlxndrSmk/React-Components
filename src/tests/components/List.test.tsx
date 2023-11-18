@@ -16,11 +16,13 @@ describe('List component', () => {
   test('renders loader when data is not loaded', () => {
     render(
       <Provider store={store}>
-        <List {...listData} />
+        <MemoryRouter>
+          <List {...listData} isLoading={true} />
+        </MemoryRouter>
       </Provider>
     );
 
-    expect(screen.getByTestId('loader')).not.toBeInTheDocument();
+    expect(screen.getByTestId('loader')).toBeInTheDocument();
   });
 
   test('renders list when data is loaded', async () => {
