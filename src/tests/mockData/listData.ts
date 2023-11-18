@@ -4,7 +4,7 @@ export const listData: IListProps = {
   decrementPage: vi.fn(),
   handleSubmit: vi.fn(),
   incrementPage: vi.fn(),
-  isDataLoaded: false,
+  isLoading: false,
   pathName: 'mockPath',
   currentPage: 1,
   handleSelectChange: vi.fn(),

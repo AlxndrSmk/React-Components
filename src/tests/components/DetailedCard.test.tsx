@@ -1,5 +1,8 @@
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { store } from '../../store/store';
+
 import Person from '../../components/cards/Person/Person';
 import { MemoryRouter } from 'react-router';
 import List from '../../components/List/List';
@@ -19,9 +22,11 @@ describe('DetailedCard component', () => {
 
   test('hides the component when the close button is clicked', () => {
     const { container } = render(
-      <MemoryRouter initialEntries={['/pathName/1']}>
-        <List {...listData} isDataLoaded={true} />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/pathName/1']}>
+          <List {...listData} />
+        </MemoryRouter>
+      </Provider>
     );
 
     fireEvent.click(screen.getByText('Luke Skywalker'));

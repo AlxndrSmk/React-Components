@@ -10,13 +10,13 @@ const List: React.FC<IListProps> = ({
   decrementPage,
   handleSubmit,
   incrementPage,
-  isDataLoaded,
-  listData,
   pathName,
   currentPage,
   handleSelectChange,
   perPage,
   searchString,
+  listData,
+  isLoading,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -44,11 +44,11 @@ const List: React.FC<IListProps> = ({
     handleSelectChange((event.target as HTMLSelectElement).value);
   };
 
-  if (!isDataLoaded) {
+  if (isLoading) {
     return <Loader />;
   }
 
-  if (isDataLoaded) {
+  if (!isLoading) {
     return (
       <div className="list__wrapper" data-testid="list">
         <div

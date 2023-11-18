@@ -1,6 +1,9 @@
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from '../../store/store';
+
 import Card from '../../components/Card/Card';
 import { cardData } from '../mockData/cardData';
 import List from '../../components/List/List';
@@ -28,9 +31,11 @@ describe('Card component', () => {
 
   test('opens the detailed card component when clicking on the card', () => {
     const { container } = render(
-      <MemoryRouter initialEntries={['/pathName/1']}>
-        <List {...listData} isDataLoaded={true} />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/pathName/1']}>
+          <List {...listData} />
+        </MemoryRouter>
+      </Provider>
     );
 
     fireEvent.click(screen.getByText('Luke Skywalker'));
@@ -43,7 +48,7 @@ describe('Card component', () => {
 
     render(
       <MemoryRouter initialEntries={['/pathName/1']}>
-        <List {...listData} isDataLoaded={true} />
+        <List {...listData} />
       </MemoryRouter>
     );
 

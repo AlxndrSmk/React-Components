@@ -1,8 +1,8 @@
 const getDataByLink = async (link: string) => {
   try {
     if (link) {
-      const responce = await fetch(link);
-      const data = await responce.json();
+      const response = await fetch(link);
+      const data = await response.json();
 
       return data;
     }

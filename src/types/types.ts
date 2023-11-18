@@ -25,12 +25,12 @@ export interface IListProps {
   handleSubmit: (searchString: string) => void;
   incrementPage: () => void;
   handleSelectChange: (value: string) => void;
-  isDataLoaded: boolean;
-  listData: IListData;
   pathName: string;
   currentPage: number;
   perPage: string;
   searchString: string;
+  listData: IListData | undefined;
+  isLoading: boolean;
 }
 
 export interface IAttributesBlockProps {
@@ -190,4 +190,13 @@ export interface ICardProps {
   path: string;
   imgSrc: string;
   data: TAllCardsDataWithName | IFilmData;
+}
+
+export interface ListDataState {
+  data: IListData | null;
+  loading: 'idle' | 'pending' | 'succeeded' | 'failed';
+  error: string | null;
+  searchString: string;
+  currentPage: number;
+  perPage: string;
 }

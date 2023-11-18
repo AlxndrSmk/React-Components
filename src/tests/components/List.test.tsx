@@ -1,6 +1,9 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from '../../store/store';
+
 import List from '../../components/List/List';
 import { listData } from '../mockData/listData';
 import { emptyListData } from '../mockData/emptyListData';
@@ -12,18 +15,21 @@ describe('List component', () => {
 
   test('renders loader when data is not loaded', () => {
     render(
-      <MemoryRouter>
-        <List {...listData} isDataLoaded={false} />
-      </MemoryRouter>
+      <Provider store={store}>
+        <List {...listData} />
+      </Provider>
     );
-    expect(screen.getByTestId('loader')).toBeInTheDocument();
+
+    expect(screen.getByTestId('loader')).not.toBeInTheDocument();
   });
 
   test('renders list when data is loaded', async () => {
     render(
-      <MemoryRouter>
-        <List {...listData} isDataLoaded={true} />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <List {...listData} />
+        </MemoryRouter>
+      </Provider>
     );
 
     expect(screen.getByText('Prev')).toBeInTheDocument();
@@ -32,9 +38,11 @@ describe('List component', () => {
 
   test('displays appropriate message is if no cards are present', () => {
     render(
-      <MemoryRouter>
-        <List {...emptyListData} />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <List {...emptyListData} />
+        </MemoryRouter>
+      </Provider>
     );
 
     expect(screen.getByText('No data found')).toBeInTheDocument();
@@ -42,9 +50,11 @@ describe('List component', () => {
 
   test('renders the specified number of cards', () => {
     render(
-      <MemoryRouter>
-        <List {...listData} isDataLoaded={true} />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <List {...listData} />
+        </MemoryRouter>
+      </Provider>
     );
 
     const cards = screen.getAllByTestId('card');

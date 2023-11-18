@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import { IPersonData, TAllCardsData } from '../../types/types';
 
 const getArrayData = async (links: string[]): Promise<TAllCardsData> => {
