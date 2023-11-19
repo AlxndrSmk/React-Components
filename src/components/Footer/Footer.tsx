@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './Footer.module.scss';
-import { footerLinks } from '../../constants';
+import { footerLinks } from '../../utils/constants';
 
 const Footer: React.FC = () => (
   <div className={styles.footer_container}>

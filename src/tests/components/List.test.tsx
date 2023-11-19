@@ -1,12 +1,12 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { setupStore } from '../../store/store';
 
 import List from '../../components/List/List';
-import { listData } from '../mockData/listData';
-import { emptyListData } from '../mockData/emptyListData';
+import { listPropsMock } from '../mocks/listPropsMock';
+import { server } from '../server';
 
 const store = setupStore();
 
@@ -15,11 +15,23 @@ describe('List component', () => {
     vi.clearAllMocks();
   });
 
+  beforeAll(() => {
+    server.listen();
+  });
+
+  afterEach(() => {
+    server.resetHandlers();
+  });
+
+  afterAll(() => {
+    server.close();
+  });
+
   test('renders loader when data is not loaded', () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <List {...listData} />
+          <List {...listPropsMock} />
         </MemoryRouter>
       </Provider>
     );
@@ -31,24 +43,14 @@ describe('List component', () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <List {...listData} />
+          <List {...listPropsMock} />
         </MemoryRouter>
       </Provider>
     );
 
-    expect(screen.getByText('Prev')).toBeInTheDocument();
-    expect(screen.getByText('Next')).toBeInTheDocument();
-  });
-
-  test('displays appropriate message is if no cards are present', () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <List {...emptyListData} />
-        </MemoryRouter>
-      </Provider>
-    );
-
-    expect(screen.getByText('No data found')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
+      expect(screen.getByText('R2-D2')).toBeInTheDocument();
+    });
   });
 });

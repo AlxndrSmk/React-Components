@@ -49,7 +49,7 @@ const Person: React.FC = () => {
                 <span id={styles.item__specie_title}></span>
                 <p className="item__description">
                   {data.name} was born
-                  {hasNoData(data.birth_year) ? '' : ` in ${data.birth_year}`}
+                  {hasNoData(data.birth_year) ? '' : ` in ${data.birth_year}.`}
                   <br />
                   {data.gender === 'male' ? 'He' : data.gender === 'female' ? 'She' : 'It'} has{' '}
                   {hasNoData(data.eye_color) ? '' : `${data.eye_color} eyes and `}
@@ -58,10 +58,10 @@ const Person: React.FC = () => {
                 </p>
                 <div>
                   {!hasNoData(data.mass) && isNaN(+data.mass) && (
-                    <p>Mass: {+data.mass.replace(',', '')} kg</p>
+                    <p>Mass: {+data.mass.replace(',', '')} kg.</p>
                   )}
-                  <p>Height: {+data.height / 100} m</p>
-                  {hasNoData(data.skin_color) || <p>Skin color: {data.skin_color}</p>}
+                  <p>Height: {+data.height / 100} m.</p>
+                  {hasNoData(data.skin_color) || <p>Skin color: {data.skin_color}.</p>}
                 </div>
               </div>
               <img className={styles.item__img} alt={data.name} src={peopleImgSrc} />
