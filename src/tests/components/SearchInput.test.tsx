@@ -16,7 +16,6 @@ describe('SearchInput component', () => {
     );
 
     const inputField = screen.getByRole('textbox');
-    console.log(inputField);
     expect(inputField).toBeInTheDocument();
   });
 

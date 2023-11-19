@@ -14,9 +14,6 @@ import { useGetListDataQuery } from '../../store/api/listDataApi';
 import { RootState } from '../../store/store';
 
 const List: React.FC<IListProps> = ({ pathName, listName }) => {
-  console.log(pathName);
-  console.log(listName);
-
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const navigate = useNavigate();
