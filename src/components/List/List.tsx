@@ -57,7 +57,7 @@ const List: React.FC<IListProps> = ({
           data-testid="items__left"
         >
           <div className="inputs__wrapper">
-            <SearchInput handleSubmit={handleSubmit} />
+            <SearchInput searchString={searchString} handleSubmit={handleSubmit} />
             <div className="custom-select">
               <select onChange={selectChange} value={perPage}>
                 <option value="5">5 items</option>

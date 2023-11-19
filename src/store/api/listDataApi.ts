@@ -7,10 +7,10 @@ export const listDataApi = createApi({
   endpoints: (builder) => ({
     getListData: builder.query<
       IListData,
-      { searchString: string; pageNumber: number; pathName: string }
+      { searchString: string; currentPage: number; pathName: string }
     >({
-      query: ({ searchString, pageNumber, pathName }) =>
-        `${pathName}?search=${searchString}&page=${pageNumber}`,
+      query: ({ searchString, currentPage, pathName }) =>
+        `${pathName}?search=${searchString}&page=${currentPage}`,
     }),
   }),
 });

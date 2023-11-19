@@ -17,6 +17,7 @@ export type TAllCardsDataWithName =
   | IStarshipData;
 
 export interface ISearchInputProps {
+  searchString: string;
   handleSubmit: (inputValue: string) => void;
 }
 
@@ -193,11 +194,7 @@ export interface ICardProps {
 }
 
 export interface ListDataState {
-  // data: IListData | null;
-  // loading: 'idle' | 'pending' | 'succeeded' | 'failed';
-  // error: string | null;
   searchString: string;
-  currentPage: string;
-  // perPage: string;
-  // middleware: () => void;
+  currentPage: number;
+  perPage: string;
 }
