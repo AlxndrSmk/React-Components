@@ -5,14 +5,14 @@ export const listDataApi = createApi({
   reducerPath: 'listDataApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://swapi.dev/api/' }),
   endpoints: (builder) => ({
-    getListDataByName: builder.query<
+    getListData: builder.query<
       IListData,
-      { pathName: string; searchString: string; currentPage: number; perPage: string }
+      { searchString: string; pageNumber: number; pathName: string }
     >({
-      query: ({ pathName, searchString, currentPage, perPage }) =>
-        `${pathName}?search=${searchString}&page=${currentPage}&per_page=${perPage}`,
+      query: ({ searchString, pageNumber, pathName }) =>
+        `${pathName}?search=${searchString}&page=${pageNumber}`,
     }),
   }),
 });
 
-export const { useGetListDataByNameQuery } = listDataApi;
+export const { useGetListDataQuery } = listDataApi;

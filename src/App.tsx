@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router';
-import { useListData } from './context/ListDataProvider';
+
 import List from './components/List/List';
-import { useGetListDataByNameQuery } from './store/api/listDataApi';
+import { useGetListDataQuery } from './store/api/listDataApi';
+import { setSearchString } from './store/reducers/listDataSlice';
+import { useAppDispatch } from './hooks';
+import { useListData } from './context/ListDataProvider';
 
 const App: React.FC = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const pathNames = ['people', 'planets', 'films', 'species', 'vehicles', 'starships'];
@@ -18,21 +22,23 @@ const App: React.FC = () => {
   );
   const { searchString, saveSearchString } = useListData();
 
-  const { data, isFetching } = useGetListDataByNameQuery({
+  const { data, isFetching } = useGetListDataQuery({
     pathName: listName,
     searchString,
-    currentPage,
-    perPage,
+    pageNumber: currentPage,
   });
 
   useEffect(() => {
+    const page: string = (new URLSearchParams(location.search).get('page') as string) || '1';
     const search: string = localStorage.getItem('inputValue') || '';
+    setCurrentPage(+page);
     saveSearchString(search);
     setPathName(location.pathname.slice(1));
     setListName(location.pathname.slice(1).split('/')[0]);
   }, []);
 
   useEffect(() => {
+    console.log('searchEffect');
     if (currentPage > 0 && pathNames.includes(listName)) {
       navigate(`/${pathName}?search=${searchString}&page=${currentPage}&per_page=${perPage}`);
     }
@@ -54,8 +60,7 @@ const App: React.FC = () => {
   };
 
   const handleSubmit = async (value: string) => {
-    localStorage.setItem('inputValue', value);
-    saveSearchString(value);
+    dispatch(setSearchString(value));
     setCurrentPage(1);
   };
 

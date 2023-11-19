@@ -193,10 +193,11 @@ export interface ICardProps {
 }
 
 export interface ListDataState {
-  data: IListData | null;
-  loading: 'idle' | 'pending' | 'succeeded' | 'failed';
-  error: string | null;
+  // data: IListData | null;
+  // loading: 'idle' | 'pending' | 'succeeded' | 'failed';
+  // error: string | null;
   searchString: string;
-  currentPage: number;
-  perPage: string;
+  currentPage: string;
+  // perPage: string;
+  // middleware: () => void;
 }

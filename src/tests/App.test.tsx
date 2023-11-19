@@ -1,8 +1,10 @@
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { store } from '../store/store';
+import { setupStore } from '../store/store';
 import App from '../App';
 import { MemoryRouter } from 'react-router';
+
+const store = setupStore();
 
 describe('App component', () => {
   it('renders correctly', () => {

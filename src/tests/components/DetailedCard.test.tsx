@@ -1,12 +1,14 @@
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { store } from '../../store/store';
+import { setupStore } from '../../store/store';
 
 import Person from '../../components/cards/Person/Person';
 import { MemoryRouter } from 'react-router';
 import List from '../../components/List/List';
 import { listData } from '../mockData/listData';
+
+const store = setupStore();
 
 describe('DetailedCard component', () => {
   beforeEach(() => {

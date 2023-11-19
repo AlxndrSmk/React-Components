@@ -2,11 +2,13 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store } from '../../store/store';
+import { setupStore } from '../../store/store';
 
 import List from '../../components/List/List';
 import { listData } from '../mockData/listData';
 import { emptyListData } from '../mockData/emptyListData';
+
+const store = setupStore();
 
 describe('List component', () => {
   beforeEach(() => {
