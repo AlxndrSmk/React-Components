@@ -5,14 +5,14 @@ import SearchInput from '../../components/SearchInput/SearchInput';
 
 describe('SearchInput component', () => {
   test('renders search field correctly', () => {
-    render(<SearchInput searchString="" handleSubmit={(): void => {}} />);
+    render(<SearchInput searchString="" />);
 
     const inputField = screen.getByRole('textbox');
     expect(inputField).toBeInTheDocument();
   });
 
   test('renders search button correctly', () => {
-    render(<SearchInput searchString="" handleSubmit={(): void => {}} />);
+    render(<SearchInput searchString="" />);
 
     const searchButton = screen.getByRole('button');
     expect(searchButton).toBeInTheDocument();
@@ -26,14 +26,7 @@ describe('SearchInput component', () => {
       setItemSpy.mockClear();
     });
 
-    render(
-      <SearchInput
-        searchString=""
-        handleSubmit={(value): void => {
-          localStorage.setItem('inputValue', value);
-        }}
-      />
-    );
+    render(<SearchInput searchString="" />);
 
     const inputField = screen.getByRole('textbox');
     fireEvent.change(inputField, { target: { value: 'test' } });

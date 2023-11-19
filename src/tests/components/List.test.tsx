@@ -19,7 +19,7 @@ describe('List component', () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <List {...listData} isLoading={true} />
+          <List {...listData} />
         </MemoryRouter>
       </Provider>
     );

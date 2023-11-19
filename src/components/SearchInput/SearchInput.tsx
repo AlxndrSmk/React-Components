@@ -1,9 +1,13 @@
 import { ChangeEvent, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { setSearchString, setCurrentPage } from '../../store/reducers/listDataSlice';
 
 import './SearchInput.scss';
-import { ISearchInputProps } from '../../types/types';
+import { RootState } from '../../store/store';
 
-const SearchInput: React.FC<ISearchInputProps> = ({ searchString, handleSubmit }) => {
+const SearchInput: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { searchString } = useAppSelector((state: RootState) => state.listDataReducer);
   const [inputValue, setInputValue] = useState<string>(searchString);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -12,7 +16,8 @@ const SearchInput: React.FC<ISearchInputProps> = ({ searchString, handleSubmit }
 
   const handleSubmitForm = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    handleSubmit(inputValue);
+    dispatch(setSearchString(inputValue));
+    dispatch(setCurrentPage(1));
   };
 
   return (

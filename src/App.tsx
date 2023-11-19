@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router';
 
-import List from './components/List/List';
-import { useGetListDataQuery } from './store/api/listDataApi';
-import { setSearchString, setCurrentPage, setPerPage } from './store/reducers/listDataSlice';
+import { setCurrentPage } from './store/reducers/listDataSlice';
 import { useAppDispatch, useAppSelector } from './hooks';
 import { RootState } from './store/store';
+
+import List from './components/List/List';
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -19,12 +19,6 @@ const App: React.FC = () => {
     (state: RootState) => state.listDataReducer
   );
 
-  const { data, isFetching } = useGetListDataQuery({
-    pathName: listName,
-    searchString,
-    currentPage,
-  });
-
   useEffect(() => {
     const page: string = (new URLSearchParams(location.search).get('page') as string) || '1';
     dispatch(setCurrentPage(+page));
@@ -33,7 +27,6 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log('searchEffect');
     if (currentPage > 0 && pathNames.includes(listName)) {
       navigate(`/${pathName}?search=${searchString}&page=${currentPage}&per_page=${perPage}`);
     }
@@ -46,37 +39,7 @@ const App: React.FC = () => {
     }
   }, [currentPage, location.pathname]);
 
-  const incrementPage = async () => {
-    dispatch(setCurrentPage(currentPage + 1));
-  };
-
-  const decrementPage = async () => {
-    dispatch(setCurrentPage(currentPage - 1));
-  };
-
-  const handleSubmit = async (value: string) => {
-    dispatch(setSearchString(value));
-    dispatch(setCurrentPage(1));
-  };
-
-  const handleSelectChange = (value: string) => {
-    dispatch(setPerPage(value));
-  };
-
-  return (
-    <List
-      isLoading={isFetching}
-      listData={data}
-      handleSubmit={handleSubmit}
-      incrementPage={incrementPage}
-      decrementPage={decrementPage}
-      pathName={listName}
-      currentPage={currentPage}
-      handleSelectChange={handleSelectChange}
-      perPage={perPage}
-      searchString={searchString}
-    />
-  );
+  return <List listName={listName} pathName={listName} />;
 };
 
 export default App;

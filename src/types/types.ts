@@ -16,22 +16,9 @@ export type TAllCardsDataWithName =
   | IVehicleData
   | IStarshipData;
 
-export interface ISearchInputProps {
-  searchString: string;
-  handleSubmit: (inputValue: string) => void;
-}
-
 export interface IListProps {
-  decrementPage: () => void;
-  handleSubmit: (searchString: string) => void;
-  incrementPage: () => void;
-  handleSelectChange: (value: string) => void;
   pathName: string;
-  currentPage: number;
-  perPage: string;
-  searchString: string;
-  listData: IListData | undefined;
-  isLoading: boolean;
+  listName: string;
 }
 
 export interface IAttributesBlockProps {

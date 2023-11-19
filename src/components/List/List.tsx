@@ -1,26 +1,33 @@
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
-import Loader from '../Loader/Loader';
-import SearchInput from '../SearchInput/SearchInput';
-import './List.scss';
 import { IFilmData, IListProps, TAllCardsDataWithName } from '../../types/types';
 import { ChangeEvent, useEffect, useState } from 'react';
-import Card from '../Card/Card';
 
-const List: React.FC<IListProps> = ({
-  decrementPage,
-  handleSubmit,
-  incrementPage,
-  pathName,
-  currentPage,
-  handleSelectChange,
-  perPage,
-  searchString,
-  listData,
-  isLoading,
-}) => {
+import { setCurrentPage, setPerPage } from '../../store/reducers/listDataSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+
+import Card from '../Card/Card';
+import Loader from '../Loader/Loader';
+import SearchInput from '../SearchInput/SearchInput';
+
+import './List.scss';
+import { useGetListDataQuery } from '../../store/api/listDataApi';
+import { RootState } from '../../store/store';
+
+const List: React.FC<IListProps> = ({ pathName, listName }) => {
+  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const navigate = useNavigate();
   const { id } = useParams();
+
+  const { searchString, currentPage, perPage } = useAppSelector(
+    (state: RootState) => state.listDataReducer
+  );
+
+  const { data, isFetching, refetch } = useGetListDataQuery({
+    pathName: listName,
+    searchString,
+    currentPage,
+  });
 
   useEffect(() => {
     if (id) {
@@ -40,15 +47,24 @@ const List: React.FC<IListProps> = ({
     }
   };
 
-  const selectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    handleSelectChange((event.target as HTMLSelectElement).value);
+  const incrementPage = async () => {
+    dispatch(setCurrentPage(currentPage + 1));
   };
 
-  if (isLoading) {
+  const decrementPage = async () => {
+    dispatch(setCurrentPage(currentPage - 1));
+  };
+
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    dispatch(setPerPage((event.target as HTMLSelectElement).value));
+    refetch();
+  };
+
+  if (isFetching) {
     return <Loader />;
   }
 
-  if (!isLoading) {
+  if (!isFetching) {
     return (
       <div className="list__wrapper" data-testid="list">
         <div
@@ -57,17 +73,17 @@ const List: React.FC<IListProps> = ({
           data-testid="items__left"
         >
           <div className="inputs__wrapper">
-            <SearchInput searchString={searchString} handleSubmit={handleSubmit} />
+            <SearchInput />
             <div className="custom-select">
-              <select onChange={selectChange} value={perPage}>
+              <select onChange={handleSelectChange} value={perPage}>
                 <option value="5">5 items</option>
                 <option value="10">10 items</option>
               </select>
             </div>
           </div>
           <div className="items__wrapper">
-            {listData?.results?.length ? (
-              listData.results?.slice(0, +perPage).map((data) => {
+            {data?.results?.length ? (
+              data.results?.slice(0, +perPage).map((data) => {
                 const listId: string = data.url.replace(/[^0-9]/g, '');
                 const imgSrc = `/images/${pathName.split('/')[0]}/${listId}.jpg`;
                 const path = `/${pathName}/${data.url.replace(
@@ -91,13 +107,13 @@ const List: React.FC<IListProps> = ({
             )}
           </div>
           <div className="buttons">
-            <button className="button" onClick={decrementPage} disabled={!listData?.previous}>
+            <button className="button" onClick={decrementPage} disabled={!data?.previous}>
               Prev
             </button>
             <div data-testid="pageNumber" className="pageNumber">
               {currentPage}
             </div>
-            <button className="button" onClick={incrementPage} disabled={!listData?.next}>
+            <button className="button" onClick={incrementPage} disabled={!data?.next}>
               Next
             </button>
           </div>
