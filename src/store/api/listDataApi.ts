@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IListData } from '../../types/types';
+import { IListData, IPersonData, QueryParams } from '../../types/types';
 
 export const listDataApi = createApi({
   reducerPath: 'listDataApi',
@@ -12,7 +12,13 @@ export const listDataApi = createApi({
       query: ({ searchString, currentPage, pathName }) =>
         `${pathName}?search=${searchString}&page=${currentPage}`,
     }),
+    getItemData: builder.query<IPersonData, { id: string; itemsName: string }>({
+      query: (args: QueryParams) => {
+        const { id, itemsName } = args;
+        return `${itemsName}/${id}`;
+      },
+    }),
   }),
 });
 
-export const { useGetListDataQuery } = listDataApi;
+export const { useGetListDataQuery, useGetItemDataQuery } = listDataApi;

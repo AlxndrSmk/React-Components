@@ -2,7 +2,7 @@ import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { IFilmData, IListProps, TAllCardsDataWithName } from '../../types/types';
 import { ChangeEvent, useEffect, useState } from 'react';
 
-import { setCurrentPage, setPerPage } from '../../store/reducers/listDataSlice';
+import { setCurrentPage, setListData, setPerPage } from '../../store/reducers/listDataSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import Card from '../Card/Card';
@@ -30,7 +30,8 @@ const List: React.FC<IListProps> = ({ pathName, listName }) => {
   });
 
   useEffect(() => {
-    if (id) {
+    if (id && data) {
+      dispatch(setListData(data));
       setIsOpen(true);
     }
   }, [id]);
@@ -64,7 +65,7 @@ const List: React.FC<IListProps> = ({ pathName, listName }) => {
     return <Loader />;
   }
 
-  if (!isFetching) {
+  if (data) {
     return (
       <div className="list__wrapper" data-testid="list">
         <div

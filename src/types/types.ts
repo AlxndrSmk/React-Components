@@ -58,8 +58,8 @@ export interface IPersonData {
   species: string[];
   vehicles: string[];
   starships: string[];
-  created: Date;
-  edited: Date;
+  created: string;
+  edited: string;
   url: string;
 }
 
@@ -181,7 +181,16 @@ export interface ICardProps {
 }
 
 export interface ListDataState {
+  itemData: IPersonData;
+  listData: IListData;
   searchString: string;
   currentPage: number;
   perPage: string;
+  isListDataLoading: boolean;
+  isItemDataLoading: boolean;
 }
+
+export type QueryParams = {
+  id: string;
+  itemsName: string;
+};

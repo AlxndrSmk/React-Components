@@ -20,8 +20,8 @@ export const cardData = {
     species: [],
     vehicles: ['https://swapi.dev/api/vehicles/14/', 'https://swapi.dev/api/vehicles/30/'],
     starships: ['https://swapi.dev/api/starships/12/', 'https://swapi.dev/api/starships/22/'],
-    created: new Date(1699643623506),
-    edited: new Date(1699643623506),
+    created: '124213452351235',
+    edited: '124213452351235',
     url: 'https://swapi.dev/api/people/1/',
   },
 };

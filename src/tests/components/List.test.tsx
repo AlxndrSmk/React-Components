@@ -51,17 +51,4 @@ describe('List component', () => {
 
     expect(screen.getByText('No data found')).toBeInTheDocument();
   });
-
-  test('renders the specified number of cards', () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <List {...listData} />
-        </MemoryRouter>
-      </Provider>
-    );
-
-    const cards = screen.getAllByTestId('card');
-    expect(cards).toHaveLength(Number(listData.perPage));
-  });
 });

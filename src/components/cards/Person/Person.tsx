@@ -1,37 +1,29 @@
-import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import styles from './Person.module.scss';
-import getDataByLink from '../../../services/api/getDataByLink';
-import { IPersonData, IPlanetData, ISpecieData } from '../../../types/types';
-import AttributesBlock from '../../AttributesBlock/AttributesBlock';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useGetItemDataQuery } from '../../../store/api/listDataApi';
+import { setItemData } from '../../../store/reducers/listDataSlice';
+
 import hasNoData from '../../../services/hasNoData';
 import SmallLoader from '../../SmallLoader/SmallLoader';
-import getItemData from '../../../services/api/getItemData';
+
+import styles from './Person.module.scss';
+import { useAppDispatch } from '../../../hooks';
 
 const Person: React.FC = () => {
+  const dispatch = useAppDispatch();
+
   const params = useParams();
-  const [personData, setPersonData] = useState<null | IPersonData>(null);
-  const [planetData, setPlanetData] = useState<null | IPlanetData>(null);
-  const [speciesData, setSpeciesData] = useState<null | ISpecieData>(null);
 
-  const fetchPersonData = async (id: string) => {
-    const itemData: IPersonData = await getItemData(id, 'people');
-    setPersonData(itemData);
-
-    if (itemData) {
-      const planetData: IPlanetData = await getDataByLink(itemData.homeworld);
-      setPlanetData(planetData);
-
-      const speciesData: ISpecieData = await getDataByLink(itemData.species[0]);
-      setSpeciesData(speciesData);
-    }
-  };
+  const { data, isFetching } = useGetItemDataQuery({
+    id: params.id as string,
+    itemsName: 'people',
+  });
 
   useEffect(() => {
-    fetchPersonData(params.id as string);
+    if (data) dispatch(setItemData(data));
   }, [params.id]);
 
-  if (!personData) {
+  if (isFetching) {
     return (
       <div className={styles.item__wrapper}>
         <div className={styles.item__container}>
@@ -43,11 +35,9 @@ const Person: React.FC = () => {
     );
   }
 
-  if (personData) {
-    const personId: string = personData.url.replace(/[^0-9]/g, '');
+  if (data) {
+    const personId: string = data.url.replace(/[^0-9]/g, '');
     const peopleImgSrc: string = `/images/people/${personId}.jpg`;
-    const planetLink: string = '/' + planetData?.url.split('/').slice(4).join('/');
-    const specieLink: string = '/' + speciesData?.url.split('/').slice(4).join('/');
 
     return (
       <div className={styles.item__wrapper}>
@@ -55,75 +45,26 @@ const Person: React.FC = () => {
           <div className={styles.item__container_left}>
             <div className={styles.item__data}>
               <div className={styles.description}>
-                <h1 className={styles.item__title}>{personData.name}</h1>
-                <span id={styles.item__specie_title}>
-                  {!!personData.species.length && (
-                    <Link
-                      className={'item__link item__link_specie uppercase inline'}
-                      key={speciesData?.name}
-                      to={specieLink}
-                    >
-                      {speciesData?.name}
-                    </Link>
-                  )}
-                </span>
+                <h1 className={styles.item__title}>{data.name}</h1>
+                <span id={styles.item__specie_title}></span>
                 <p className="item__description">
-                  {personData.name} was born
-                  {hasNoData(personData.birth_year) ? '' : ` in ${personData.birth_year}`}
-                  {hasNoData(planetData?.name) ? (
-                    ' in unknown '
-                  ) : (
-                    <>
-                      {' '}
-                      in{' '}
-                      <Link className="item__link uppercase inline" to={planetLink}>
-                        {planetData?.name}
-                      </Link>
-                    </>
-                  )}{' '}
-                  planet. <br />
-                  {personData.gender === 'male'
-                    ? 'He'
-                    : personData.gender === 'female'
-                    ? 'She'
-                    : 'It'}{' '}
-                  has {hasNoData(personData.eye_color) ? '' : `${personData.eye_color} eyes and `}
-                  {hasNoData(personData.hair_color) ? 'no hair' : `${personData.hair_color} hair`}
+                  {data.name} was born
+                  {hasNoData(data.birth_year) ? '' : ` in ${data.birth_year}`}
+                  <br />
+                  {data.gender === 'male' ? 'He' : data.gender === 'female' ? 'She' : 'It'} has{' '}
+                  {hasNoData(data.eye_color) ? '' : `${data.eye_color} eyes and `}
+                  {hasNoData(data.hair_color) ? 'no hair' : `${data.hair_color} hair`}
                   {'.'}
                 </p>
                 <div>
-                  {!hasNoData(personData.mass) && isNaN(+personData.mass) && (
-                    <p>Mass: {+personData.mass.replace(',', '')} kg</p>
+                  {!hasNoData(data.mass) && isNaN(+data.mass) && (
+                    <p>Mass: {+data.mass.replace(',', '')} kg</p>
                   )}
-                  <p>Height: {+personData.height / 100} m</p>
-                  {hasNoData(personData.skin_color) || <p>Skin color: {personData.skin_color}</p>}
+                  <p>Height: {+data.height / 100} m</p>
+                  {hasNoData(data.skin_color) || <p>Skin color: {data.skin_color}</p>}
                 </div>
               </div>
-              <img className={styles.item__img} alt={personData.name} src={peopleImgSrc} />
-            </div>
-
-            <div className={styles.attributes_container}>
-              {!!personData.films.length && (
-                <AttributesBlock
-                  data={personData.films}
-                  classNames={['item__link']}
-                  title="Films"
-                />
-              )}
-              {!!personData.starships.length && (
-                <AttributesBlock
-                  data={personData.starships}
-                  classNames={['item__link']}
-                  title="Starships"
-                />
-              )}
-              {!!personData.vehicles.length && (
-                <AttributesBlock
-                  data={personData.vehicles}
-                  classNames={['item__link']}
-                  title="Vehicles"
-                />
-              )}
+              <img className={styles.item__img} alt={data.name} src={peopleImgSrc} />
             </div>
           </div>
         </div>

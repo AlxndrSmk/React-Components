@@ -1,16 +1,29 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ListDataState } from '../../types/types';
+import { IListData, IPersonData, ListDataState } from '../../types/types';
+import { initItemData, initListData } from '../../utils/constants';
 
 const initialState: ListDataState = {
+  itemData: initItemData,
+  listData: initListData,
   searchString: '',
   currentPage: 1,
   perPage: '10',
+  isListDataLoading: true,
+  isItemDataLoading: true,
 };
 
 export const listDataSlice = createSlice({
   name: 'listData',
   initialState,
   reducers: {
+    setListData(state, action: PayloadAction<IListData>) {
+      state.listData = action.payload;
+      state.isListDataLoading = false;
+    },
+    setItemData(state, action: PayloadAction<IPersonData>) {
+      state.itemData = action.payload;
+      state.isListDataLoading = false;
+    },
     setSearchString: (state, action: PayloadAction<string>) => {
       state.searchString = action.payload;
     },
@@ -23,6 +36,7 @@ export const listDataSlice = createSlice({
   },
 });
 
-export const { setSearchString, setCurrentPage, setPerPage } = listDataSlice.actions;
+export const { setSearchString, setCurrentPage, setPerPage, setListData, setItemData } =
+  listDataSlice.actions;
 
 export default listDataSlice.reducer;
