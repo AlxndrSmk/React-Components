@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import styles from '../styles/Page404.module.scss';
+import styles from '@/styles/Page404.module.scss';
 
-const Page404: React.FC = () => {
+const NotFound: React.FC = () => {
   return (
     <>
       <h1 className={styles.title}>404</h1>
@@ -15,4 +15,4 @@ const Page404: React.FC = () => {
   );
 };
 
-export default Page404;
+export default NotFound;
