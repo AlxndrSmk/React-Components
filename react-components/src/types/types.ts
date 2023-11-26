@@ -17,8 +17,10 @@ export type TAllCardsDataWithName =
   | IStarshipData;
 
 export interface IListProps {
-  pathName: string;
-  listName: string;
+  // pathName: string;
+  // listName: string;
+  data: IListData;
+  perPage: string;
 }
 
 export interface IAttributesBlockProps {
@@ -170,8 +172,8 @@ export interface IListDataProvider {
 export interface IListDataContext {
   listData: IListData | [];
   searchString: string;
-  saveListData: (data: IListData) => Promise<void>;
-  saveSearchString: (data: string) => Promise<void>;
+  saveListData: (data: IListData) => Promise<void>; // eslint-disable-line no-unused-vars
+  saveSearchString: (data: string) => Promise<void>; // eslint-disable-line no-unused-vars
 }
 
 export interface ICardProps {
@@ -181,20 +183,17 @@ export interface ICardProps {
 }
 
 export interface ListDataState {
-  itemData: IPersonData;
-  listData: IListData;
   searchString: string;
   currentPage: number;
   perPage: string;
-  isListDataLoading: boolean;
-  isItemDataLoading: boolean;
 }
 
 export type QueryParams = {
   id: string;
-  itemsName: string;
 };
 
 export interface LayoutProps {
   children?: React.ReactNode;
 }
+
+export type RouterElement = unknown | undefined;

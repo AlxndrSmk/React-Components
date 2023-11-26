@@ -1,0 +1,95 @@
+import { ChangeEvent, useEffect } from 'react';
+
+import { wrapper } from '@/store/store';
+import { setCurrentPage, setPerPage } from '@/store/reducers/listDataSlice';
+import { getListData, getRunningQueriesThunk } from '@/store/api/listDataApi';
+import { useAppDispatch } from '@/store/hooks';
+
+import Card from '../components/Card/Card';
+import SearchInput from '@/components/SearchInput/SearchInput';
+import { IFilmData, IListProps, TAllCardsDataWithName } from '@/types/types';
+import getRouterElement from '@/utils/getRouterElement';
+import styles from '@/styles/people.module.scss';
+import { useRouter } from 'next/router';
+
+export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
+  console.log('contezzzz', context);
+  const { currentPage, searchString, perPage } = context.query;
+
+  const { data } = await store.dispatch(
+    getListData.initiate({
+      searchString: getRouterElement(searchString, ''),
+      currentPage: getRouterElement(currentPage, 1),
+      perPage: getRouterElement(perPage, '10'),
+    })
+  );
+
+  await Promise.all(store.dispatch(getRunningQueriesThunk()));
+
+  return {
+    props: { data },
+  };
+});
+
+const List: React.FC<IListProps> = ({ data }) => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  console.log(router);
+
+  const { currentPage, perPage, searchString } = router.query;
+  const href = {
+    pathname: '/people',
+    query: {
+      searchString: searchString || '',
+      currentPage: currentPage || 1,
+      perPage: perPage || '10',
+    },
+  };
+
+  useEffect(() => {
+    router.push(href);
+  }, []);
+
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    dispatch(setPerPage((event.target as HTMLSelectElement).value));
+  };
+
+  return (
+    <div className={styles.list__wrapper} data-testid="list">
+      <div className={styles.items__left} data-testid="items__left">
+        <div className={styles.inputs__wrapper}>
+          <SearchInput />
+          <div className={styles.customSelect}>
+            <select onChange={handleSelectChange} value="10">
+              <option value="5">5 items</option>
+              <option value="10">10 items</option>
+            </select>
+          </div>
+        </div>
+        <div className={styles.items__wrapper}>
+          {data?.results?.length ? (
+            data.results?.map((item) => {
+              const id: string = item.url.replace(/[^0-9]/g, '');
+              const imgSrc = `/images/people/${id}.jpg`;
+              const path = `people/${id}`;
+              return (
+                <Card
+                  key={(item as TAllCardsDataWithName).name || (item as IFilmData).title}
+                  data={item}
+                  imgSrc={imgSrc}
+                  path={path}
+                />
+              );
+            })
+          ) : (
+            <div className={styles.noDataFound} data-testid="not-found">
+              No data found
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default List;

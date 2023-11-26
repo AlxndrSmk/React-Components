@@ -8,7 +8,7 @@ const NotFound: React.FC = () => {
       <p className={styles.description}>You lost your own way</p>
       <p className={styles.description}>my son</p>
       <img className={styles.img} src="/images/png/darth_vader.png" alt="Darth Vaider" />
-      <Link className="button" href="/">
+      <Link className="button" href="/people">
         Go to main
       </Link>
     </>

@@ -1,0 +1,93 @@
+@import '@/styles/variables';
+
+.list__wrapper {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  width: 100%;
+}
+
+.noDataFound {
+  z-index: 3;
+}
+
+.items {
+  &__wrapper {
+    cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    max-width: 1500px;
+    transition: 0.1s ease;
+    z-index: 2;
+  }
+
+  &__right {
+    transition: 0.5s ease;
+    width: 100%;
+    z-index: 3;
+
+    &.hidden {
+      transition: 0.5s ease;
+      visibility: hidden;
+      width: 0;
+    }
+  }
+
+  &__left {
+    &.disabled {
+      position: relative;
+
+      &:after {
+        background-color: rgba(0, 0, 0, 0.5);
+        bottom: 0;
+        content: '';
+        height: inherit;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 100%;
+        z-index: 10;
+      }
+    }
+  }
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+
+  @media screen and (max-width: 300px) {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+.inputs {
+  &__wrapper {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.customSelect {
+  position: relative;
+  z-index: 4;
+
+  select {
+    appearance: none;
+    background-color: #1d1e1f;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    color: rgb(181, 183, 183, 0.5);
+    font-family: 'Urbanist', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans';
+    font-size: 1.2em;
+    font-weight: 700;
+    height: 50px;
+    padding: 10px;
+    transition: width 0.5s;
+    width: 120px;
+  }
+}
