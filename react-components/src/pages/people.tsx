@@ -1,9 +1,7 @@
 import { ChangeEvent, useEffect } from 'react';
 
 import { wrapper } from '@/store/store';
-import { setCurrentPage, setPerPage } from '@/store/reducers/listDataSlice';
 import { getListData, getRunningQueriesThunk } from '@/store/api/listDataApi';
-import { useAppDispatch } from '@/store/hooks';
 
 import Card from '../components/Card/Card';
 import SearchInput from '@/components/SearchInput/SearchInput';
@@ -13,7 +11,6 @@ import styles from '@/styles/people.module.scss';
 import { useRouter } from 'next/router';
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
-  console.log('contezzzz', context);
   const { currentPage, searchString, perPage } = context.query;
 
   const { data } = await store.dispatch(
@@ -33,12 +30,11 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async (c
 
 const List: React.FC<IListProps> = ({ data }) => {
   const router = useRouter();
-  const dispatch = useAppDispatch();
   console.log(router);
 
   const { currentPage, perPage, searchString } = router.query;
+
   const href = {
-    pathname: '/people',
     query: {
       searchString: searchString || '',
       currentPage: currentPage || 1,
@@ -51,7 +47,13 @@ const List: React.FC<IListProps> = ({ data }) => {
   }, []);
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    dispatch(setPerPage((event.target as HTMLSelectElement).value));
+    router.push({
+      query: {
+        searchString: searchString || '',
+        currentPage: currentPage || 1,
+        perPage: (event.target as HTMLSelectElement).value,
+      },
+    });
   };
 
   return (
@@ -60,15 +62,15 @@ const List: React.FC<IListProps> = ({ data }) => {
         <div className={styles.inputs__wrapper}>
           <SearchInput />
           <div className={styles.customSelect}>
-            <select onChange={handleSelectChange} value="10">
+            <select onChange={handleSelectChange} value={perPage}>
               <option value="5">5 items</option>
               <option value="10">10 items</option>
             </select>
           </div>
         </div>
         <div className={styles.items__wrapper}>
-          {data?.results?.length ? (
-            data.results?.map((item) => {
+          {data?.results?.length && perPage ? (
+            data.results?.slice(0, +perPage).map((item) => {
               const id: string = item.url.replace(/[^0-9]/g, '');
               const imgSrc = `/images/people/${id}.jpg`;
               const path = `people/${id}`;

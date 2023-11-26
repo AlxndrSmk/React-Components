@@ -10,7 +10,7 @@ import { setCurrentPage, setSearchString } from '@/store/reducers/listDataSlice'
 const SearchInput: React.FC = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  let { searchString } = router.query;
+  let { searchString, perPage } = router.query;
   searchString = getRouterElement(searchString, '');
   const [inputValue, setInputValue] = useState<RouterElement>(searchString);
 
@@ -24,11 +24,13 @@ const SearchInput: React.FC = () => {
     dispatch(setSearchString(inputValue as string));
     dispatch(setCurrentPage(1));
 
-    if (router.pathname === '/people') {
-      router.push({
-        query: { searchString: inputValue as string, currentPage: 1 },
-      });
-    }
+    router.push({
+      query: {
+        searchString: inputValue as string,
+        currentPage: 1,
+        perPage: perPage || '10',
+      },
+    });
   };
 
   return (
