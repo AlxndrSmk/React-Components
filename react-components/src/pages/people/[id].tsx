@@ -1,6 +1,6 @@
-import Person from '@/components/Person/Person';
 import { getItemData, listDataApi } from '@/store/api/listDataApi';
 import { wrapper } from '@/store/store';
+import Person from '@/components/Person/Person';
 import { PersonProps } from '@/types/types';
 import getRouterElement from '@/utils/getRouterElement';
 

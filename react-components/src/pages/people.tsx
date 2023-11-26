@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-
+import { useRouter } from 'next/router';
 import { wrapper } from '@/store/store';
 import { getListData, getRunningQueriesThunk } from '@/store/api/listDataApi';
 
@@ -8,7 +8,6 @@ import SearchInput from '@/components/SearchInput/SearchInput';
 import { IFilmData, IListProps, TAllCardsDataWithName } from '@/types/types';
 import getRouterElement from '@/utils/getRouterElement';
 import styles from '@/styles/people.module.scss';
-import { useRouter } from 'next/router';
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
   const { currentPage, searchString, perPage } = context.query;
@@ -29,7 +28,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async (c
 });
 
 const List: React.FC<IListProps> = ({ children, data }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const router = useRouter();
   const { currentPage, perPage, searchString } = router.query;
 
@@ -77,13 +76,11 @@ const List: React.FC<IListProps> = ({ children, data }) => {
 
   const closeCard = () => {
     setIsOpen(false);
-    // navigate(-1);
   };
 
   const handleLeftClick = () => {
     if (isOpen) {
       setIsOpen(false);
-      // navigate(-1);
     }
   };
 
