@@ -17,10 +17,9 @@ export type TAllCardsDataWithName =
   | IStarshipData;
 
 export interface IListProps {
-  // pathName: string;
-  // listName: string;
   data: IListData;
   perPage: string;
+  children?: ReactNode;
 }
 
 export interface IAttributesBlockProps {
@@ -197,3 +196,7 @@ export interface LayoutProps {
 }
 
 export type RouterElement = unknown | undefined;
+
+export type PersonProps = {
+  itemData: IPersonData;
+};

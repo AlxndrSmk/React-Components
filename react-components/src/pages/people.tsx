@@ -28,7 +28,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async (c
   };
 });
 
-const List: React.FC<IListProps> = ({ data }) => {
+const List: React.FC<IListProps> = ({ children, data }) => {
   const router = useRouter();
   const { currentPage, perPage, searchString } = router.query;
 
@@ -88,7 +88,7 @@ const List: React.FC<IListProps> = ({ data }) => {
         </div>
         <div className={styles.items__wrapper}>
           {data?.results?.length ? (
-            data.results?.slice(0, Number(perPage)).map((item) => {
+            data.results?.map((item) => {
               const id: string = item.url.replace(/[^0-9]/g, '');
               const imgSrc = `/images/people/${id}.jpg`;
               const path = `people/${id}`;
@@ -119,6 +119,7 @@ const List: React.FC<IListProps> = ({ data }) => {
           </button>
         </div>
       </div>
+      {children}
     </div>
   );
 };

@@ -1,10 +1,6 @@
 import styles from './Person.module.scss';
 import hasNoData from '@/utils/hasNoData';
-import { IPersonData } from '@/types/types';
-
-type PersonProps = {
-  itemData: IPersonData;
-};
+import { PersonProps } from '@/types/types';
 
 const Person: React.FC<PersonProps> = ({ itemData }) => {
   const data = itemData;
