@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import { wrapper } from '@/store/store';
 import { getListData, getRunningQueriesThunk } from '@/store/api/listDataApi';
@@ -29,6 +29,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async (c
 });
 
 const List: React.FC<IListProps> = ({ children, data }) => {
+  const [isOpen, setIsOpen] = useState<boolean>(true);
   const router = useRouter();
   const { currentPage, perPage, searchString } = router.query;
 
@@ -74,9 +75,27 @@ const List: React.FC<IListProps> = ({ children, data }) => {
     });
   };
 
+  const closeCard = () => {
+    setIsOpen(false);
+    // navigate(-1);
+  };
+
+  const handleLeftClick = () => {
+    if (isOpen) {
+      setIsOpen(false);
+      // navigate(-1);
+    }
+  };
+
   return (
     <div className={styles.list__wrapper} data-testid="list">
-      <div className={styles.items__left} data-testid="items__left">
+      <div
+        className={`${
+          isOpen ? `${styles.items__left} ${styles.disabled}` : `${styles.items__left}`
+        }`}
+        onClick={handleLeftClick}
+        data-testid="items__left"
+      >
         <div className={styles.inputs__wrapper}>
           <SearchInput />
           <div className={styles.customSelect}>
@@ -119,7 +138,16 @@ const List: React.FC<IListProps> = ({ children, data }) => {
           </button>
         </div>
       </div>
-      {children}
+      <div
+        className={`${
+          isOpen ? `${styles.items__right}` : `${styles.items__right} ${styles.hidden}`
+        }`}
+      >
+        <button className={`${styles.button} ${styles.button__close}`} onClick={closeCard}>
+          Close
+        </button>
+        {children}
+      </div>
     </div>
   );
 };

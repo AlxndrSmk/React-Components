@@ -3,7 +3,6 @@ import { getItemData, listDataApi } from '@/store/api/listDataApi';
 import { wrapper } from '@/store/store';
 import { PersonProps } from '@/types/types';
 import getRouterElement from '@/utils/getRouterElement';
-import { useRouter } from 'next/router';
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
   const { id } = context.query;
@@ -24,14 +23,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async (c
 });
 
 const Details: React.FC<PersonProps> = ({ itemData }) => {
-  const data = itemData;
-  console.log(data);
-  const router = useRouter();
-  const itemId = router.query.id;
-
-  // const { itemData } = props;
-  // return <h1>Item {itemId}</h1>;
-  return <Person itemData={data} />;
+  return <Person itemData={itemData} />;
 };
 
 export default Details;
