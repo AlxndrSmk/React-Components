@@ -30,8 +30,6 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async (c
 
 const List: React.FC<IListProps> = ({ data }) => {
   const router = useRouter();
-  console.log(router);
-
   const { currentPage, perPage, searchString } = router.query;
 
   const href = {
@@ -56,6 +54,26 @@ const List: React.FC<IListProps> = ({ data }) => {
     });
   };
 
+  const incrementPage = async () => {
+    router.push({
+      query: {
+        searchString,
+        currentPage: Number(currentPage) + 1,
+        perPage,
+      },
+    });
+  };
+
+  const decrementPage = async () => {
+    router.push({
+      query: {
+        searchString,
+        currentPage: Number(currentPage) - 1,
+        perPage,
+      },
+    });
+  };
+
   return (
     <div className={styles.list__wrapper} data-testid="list">
       <div className={styles.items__left} data-testid="items__left">
@@ -63,14 +81,14 @@ const List: React.FC<IListProps> = ({ data }) => {
           <SearchInput />
           <div className={styles.customSelect}>
             <select onChange={handleSelectChange} value={perPage}>
-              <option value="5">5 items</option>
               <option value="10">10 items</option>
+              <option value="5">5 items</option>
             </select>
           </div>
         </div>
         <div className={styles.items__wrapper}>
-          {data?.results?.length && perPage ? (
-            data.results?.slice(0, +perPage).map((item) => {
+          {data?.results?.length ? (
+            data.results?.slice(0, Number(perPage)).map((item) => {
               const id: string = item.url.replace(/[^0-9]/g, '');
               const imgSrc = `/images/people/${id}.jpg`;
               const path = `people/${id}`;
@@ -88,6 +106,17 @@ const List: React.FC<IListProps> = ({ data }) => {
               No data found
             </div>
           )}
+        </div>
+        <div className={styles.buttons}>
+          <button className={styles.button} onClick={decrementPage} disabled={!data?.previous}>
+            Prev
+          </button>
+          <div data-testid="pageNumber" className={styles.pageNumber}>
+            {currentPage}
+          </div>
+          <button className={styles.button} onClick={incrementPage} disabled={!data?.next}>
+            Next
+          </button>
         </div>
       </div>
     </div>

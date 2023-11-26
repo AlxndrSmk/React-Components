@@ -54,6 +54,35 @@
   }
 }
 
+.button {
+  background-color: transparent;
+  border: none;
+  color: $font-color;
+  cursor: pointer;
+  font-weight: 600;
+  margin: 0 10px;
+  padding: 5px;
+  text-transform: uppercase;
+  transition: 0.1s ease;
+  z-index: 2;
+
+  &:hover {
+    color: $active-font-color;
+    filter: drop-shadow(0px 0px 4px $active-font-color);
+  }
+
+  &:disabled,
+  &[disabled] {
+    border: none;
+    color: #666666;
+    cursor: default;
+
+    &:hover {
+      filter: none;
+    }
+  }
+}
+
 .buttons {
   display: flex;
   justify-content: center;
