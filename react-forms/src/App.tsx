@@ -5,7 +5,7 @@ import router from './routes/router';
 const App: React.FC = () => {
   return (
     <>
-      <RouterProvider router={router} />;
+      <RouterProvider router={router} />
     </>
   );
 };

@@ -1,0 +1,67 @@
+.header {
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 0 auto;
+  max-width: 700px;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  height: 60px;
+  position: relative;
+}
+
+.error {
+  bottom: 0;
+  color: rgb(211, 47, 47);
+  display: block;
+  font-size: 0.8em;
+  position: absolute;
+}
+
+.submitButton {
+  margin: 40px auto 0 auto;
+  width: 200px;
+}
+
+.showPassword {
+  background-image: url('../../../public/display.png');
+  background-size: cover;
+  height: 24.4px;
+  width: 24.4px;
+}
+
+.hidePassword {
+  background-image: url('../../../public/hide.png');
+  background-size: cover;
+  height: 24.4px;
+  width: 24.4px;
+}
+
+.passwordInputWrapper {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.password {
+  width: 50%;
+}
+
+.passwordInput {
+  width: 95%;
+}
+
+.passwordsContainer {
+  display: flex;
+  gap: 20px;
+}
+
+.passwordRow {
+  height: 100px;
+}
