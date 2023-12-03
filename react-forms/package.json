@@ -11,9 +11,10 @@
     "lint:fix": "eslint --fix --ext .ts,.tsx ./src",
     "format": "prettier --check \"./src/**/*.{ts,tsx,json}\"",
     "format:fix": "prettier --write \"./src/**/*.{ts,tsx,json,scss}\"",
-    "prepare": "cd .. && husky install react-forms/.husky",
     "test": "vitest run",
     "test:ui": "vitest --ui",
+    "prepare": "cd .. && husky install react-forms/.husky",
+    "create-hook": "husky add .husky/pre-commit \"npm test\"",
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
@@ -62,7 +63,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
-    "husky": "^4.3.8",
+    "husky": "^8.0.3",
     "jsdom": "^22.1.0",
     "lint-staged": "^14.0.1",
     "msw": "^2.0.8",
@@ -76,12 +77,12 @@
     "vitest": "^0.34.6"
   },
   "lint-staged": {
-    "src/**/*.{json,scss}": "npm run format:fix",
-    "src/**/*.{ts,tsx}": "npm run lint:fix"
+    "*.{json,scss}": "cd .. && npm run format:fix",
+    "*.{ts,tsx}": "cd .. && npm run lint:fix"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npx lint-staged"
+      "pre-commit": "lint-staged"
     }
   }
 }

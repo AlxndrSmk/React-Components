@@ -3,10 +3,12 @@
 }
 
 .form {
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   gap: 3px;
   margin: 0 auto;
+  padding: 25px;
   width: 600px;
 }
 
@@ -26,8 +28,31 @@
 }
 
 .submitButton {
-  margin: 40px auto 0 auto;
+  margin: 25px auto 0 auto;
   width: 200px;
+
+  border: none;
+  box-shadow:
+    rgba(0, 0, 0, 0.2) 0px 3px 1px -2px,
+    rgba(0, 0, 0, 0.14) 0px 2px 2px 0px,
+    rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+  color: #000000;
+  cursor: pointer;
+  font-size: 1.4em;
+  outline: none;
+  padding: 0.5em;
+  transition: 0.3s ease;
+
+  &:hover {
+    background-color: #000000;
+    color: #ffffff;
+  }
+
+  &:disabled {
+    cursor: auto;
+    background-color: #c1c1c1;
+    color: #7b7b7b;
+  }
 }
 
 .showPassword {
@@ -46,6 +71,7 @@
 
 .passwordInputWrapper {
   display: flex;
+  flex-direction: row;
 }
 
 .password {
@@ -73,5 +99,21 @@
 
   span {
     bottom: -20px;
+  }
+}
+
+.radio_buttons {
+  height: 40px;
+  padding-left: 40px;
+  width: 400px;
+
+  input,
+  label {
+    margin-right: 8px;
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: row;
   }
 }

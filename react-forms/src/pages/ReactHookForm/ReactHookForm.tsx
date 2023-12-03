@@ -5,14 +5,14 @@ import * as yup from 'yup';
 import styles from './ReactHookForm.module.scss';
 import { useState } from 'react';
 import PasswordStrength from '../../components/PasswordStrength/PasswordStrength';
-import { schema } from './validationSchema';
 import { convertImageToBase64 } from '../../utils/heplers/convertImageToBase64';
 import { useNavigate } from 'react-router';
-import CountrySelect from '../../components/CountrySelect/CountrySelect';
 import { Link } from 'react-router-dom';
 import { setFormData } from '../../store/reducers/formSlice';
 import { SubmitForm } from '../../types/types';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import ControlledAutocomplete from '../../components/ControlledAutocomplete/ControlledAutocomplete';
+import { schema } from '../../validation/validationSchema';
 
 type FormData = yup.InferType<typeof schema>;
 
@@ -48,14 +48,22 @@ const ReactHookForm = () => {
   });
 
   const onSubmit = async (data: FormData) => {
-    const { image } = data;
-    const image64 = image ? await convertImageToBase64(image[0]) : '';
+    if (data.image instanceof File) {
+      const image64 = await convertImageToBase64(data.image);
+      const dataForSubmit: SubmitForm = { ...data, image: image64 };
+      const newFormsData: SubmitForm[] = [dataForSubmit, ...availableData];
+      dispatch(setFormData(newFormsData));
 
-    const dataForSubmit: SubmitForm = { ...data, image: image64 };
-    const newFormsData: SubmitForm[] = [dataForSubmit, ...availableData];
-    dispatch(setFormData(newFormsData));
+      navigate('/');
+    }
+  };
 
-    navigate('/');
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0] instanceof File) {
+      const image = event.target.files[0];
+      setValue('image', image);
+      trigger('image');
+    }
   };
 
   return (
@@ -132,12 +140,17 @@ const ReactHookForm = () => {
       <div className={styles.row}>
         <label htmlFor="image">Upload image: * </label>
         <div>
-          <input type="file" id="image" {...register('image')} />
+          <input
+            type="file"
+            onChange={(e) => {
+              handleImageChange(e);
+            }}
+          />
           <span className={styles.error}>{errors.image?.message}</span>
         </div>
       </div>
       <div className={styles.row}>
-        <CountrySelect
+        <ControlledAutocomplete
           countriesFilteredVisible={countriesFilteredVisible}
           setCountriesFilteredVisible={setCountriesFilteredVisible}
           register={register}

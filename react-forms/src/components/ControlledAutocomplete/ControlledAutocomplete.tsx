@@ -1,19 +1,9 @@
 import { useState } from 'react';
 import { COUNTRIES } from '../../constatns/countries';
-import styles from './CountrySelect.module.scss';
-import { Register, SetValue, Trigger } from '../../types/types';
+import styles from './ControlledAutocomplete.module.scss';
+import { ControlledAutocompleteProps } from '../../types/types';
 
-interface CountrySelectProps {
-  setCountriesFilteredVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  register: Register;
-  setValue: SetValue;
-  trigger: Trigger;
-  countriesFilteredVisible: boolean;
-  watchCountry: string | undefined;
-  error: string | undefined;
-}
-
-const CountrySelect: React.FC<CountrySelectProps> = (props) => {
+const ControlledAutocomplete: React.FC<ControlledAutocompleteProps> = (props) => {
   const {
     register,
     setValue,
@@ -70,4 +60,4 @@ const CountrySelect: React.FC<CountrySelectProps> = (props) => {
   );
 };
 
-export default CountrySelect;
+export default ControlledAutocomplete;

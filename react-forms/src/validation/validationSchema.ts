@@ -1,7 +1,7 @@
 import * as yup from 'yup';
-import { COUNTRIES } from '../../constatns/countries';
+import { COUNTRIES } from '../constatns/countries';
 
-export const schema = yup.object({
+export const schema = yup.object().shape({
   name: yup
     .string()
     .required('Name is required')
@@ -45,20 +45,18 @@ export const schema = yup.object({
     )
     .required('Password is required'),
   confirmPassword: yup.string().oneOf([yup.ref('password'), undefined], 'Passwords must match'),
-  sex: yup.string().required(),
+  sex: yup.string().required('Gender is required').oneOf(['male', 'female']),
   acceptTerms: yup.bool().oneOf([true], 'You must accept the terms and conditions'),
   image: yup
-    .mixed<FileList>()
-    .test('extension', 'Image is required', (value) => {
-      return value?.length == 1;
-    })
-    .test('extension', 'Only the following formats are accepted: .jpeg, .png', (value) => {
-      if (!value?.length) return false;
-      return value[0].type == 'image/png' || value[0].type === 'image/jpeg';
+    .mixed()
+    .required('Image is required')
+    .test('fileType', 'Invalid file type, only JPEG and PNG are allowed', (value) => {
+      const file = value as File;
+      return !file || ['image/jpeg', 'image/png'].includes(file.type);
     })
     .test('fileSize', 'Max allowed size is 100KB', (value) => {
-      if (!value?.length) return false;
-      return value[0].size <= 102400;
+      const file = value as File;
+      return !file || file.size <= 102400;
     }),
   country: yup
     .string()
