@@ -17,7 +17,7 @@ const UncontrolledForm: React.FC = () => {
   const [isPasswordShown, setIsPasswordShown] = useState(false);
   const [isConfirmPasswordShown, setIsConfirmPasswordShown] = useState(false);
 
-  const availableData = useAppSelector((store) => store.userForms);
+  const availableData = useAppSelector((store) => store.form.userForms);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -83,14 +83,11 @@ const UncontrolledForm: React.FC = () => {
     };
 
     const isValid = await validateData(formData);
-    console.log(isValid);
-    console.log(formData);
 
     if (isValid && formData.image) {
       const image64 = await convertImageToBase64(formData.image);
       const dataForSubmit = { ...formData, image: image64 };
       const newFormsData = [dataForSubmit, ...availableData];
-      console.log(newFormsData);
       dispatch(setFormData(newFormsData));
       navigate('/');
     }

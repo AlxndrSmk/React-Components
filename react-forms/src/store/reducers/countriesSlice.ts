@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState = {
-  countries: [
+  countryList: [
     'Afghanistan',
     'Alland Islands',
     'Albania',
@@ -256,7 +256,12 @@ const initialState = {
 export const countriesSlice = createSlice({
   name: 'countries',
   initialState,
-  reducers: {},
+  reducers: {
+    setCountries: (state, action: PayloadAction<string[]>) => {
+      state.countryList = action.payload;
+    },
+  },
 });
 
+export const { setCountries } = countriesSlice.actions;
 export default countriesSlice.reducer;

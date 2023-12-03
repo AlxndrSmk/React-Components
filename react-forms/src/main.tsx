@@ -6,6 +6,10 @@ import App from './App';
 import store from './store/store';
 
 import './index.scss';
+import { setCountries } from './store/reducers/countriesSlice';
+import { COUNTRIES } from './constatns/countries';
+
+store.dispatch(setCountries(COUNTRIES));
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

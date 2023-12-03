@@ -1,4 +1,6 @@
 import * as yup from 'yup';
+import { useAppSelector } from '../store/hooks';
+import { RootState } from '../store/store';
 import { COUNTRIES } from '../constatns/countries';
 
 export const schema = yup.object().shape({
@@ -61,7 +63,7 @@ export const schema = yup.object().shape({
   country: yup
     .string()
     .required('Country is required')
-    .test('does country exist', 'Country not found', (value) => {
-      return COUNTRIES.map((el) => el.toLowerCase()).includes(value.toLowerCase());
+    .test('isValidCountry', 'Invalid country selected', function (value) {
+      return COUNTRIES.map((el) => el.toLowerCase()).includes(value?.toLowerCase());
     }),
 });

@@ -1,11 +1,11 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from './Main.module.scss';
 import { useAppSelector } from '../../store/hooks';
-import { useEffect, useState } from 'react';
 
 const Main: React.FC = () => {
-  const userForms = useAppSelector((store) => store.userForms);
+  const userForms = useAppSelector((store) => store.form.userForms);
   const [newId, setNewId] = useState<number | null>(null);
 
   useEffect(() => {

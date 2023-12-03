@@ -1,9 +1,13 @@
 import { useState } from 'react';
-import { COUNTRIES } from '../../constatns/countries';
 import styles from './ControlledAutocomplete.module.scss';
 import { ControlledAutocompleteProps } from '../../types/types';
+import { useAppSelector } from '../../store/hooks';
+import { RootState } from '../../store/store';
 
 const ControlledAutocomplete: React.FC<ControlledAutocompleteProps> = (props) => {
+  const [countriesFiltered, setCountriesFiltered] = useState<string[]>([]);
+  const countries = useAppSelector((state: RootState) => state.countries.countryList);
+
   const {
     register,
     setValue,
@@ -14,12 +18,10 @@ const ControlledAutocomplete: React.FC<ControlledAutocompleteProps> = (props) =>
     countriesFilteredVisible,
   } = props;
 
-  const [countriesFiltered, setCountriesFiltered] = useState<string[]>([]);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCountriesFilteredVisible(true);
     setCountriesFiltered(
-      COUNTRIES.filter((country) =>
+      countries.filter((country) =>
         country.toLowerCase().startsWith(e.target.value?.toLowerCase() || '')
       )
     );
