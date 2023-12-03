@@ -5,53 +5,8 @@ import * as yup from 'yup';
 import styles from './ReactHookForm.module.scss';
 import { useState } from 'react';
 import PasswordStrength from '../../components/PasswordStrength/PasswordStrength';
-
-const schema = yup.object({
-  name: yup
-    .string()
-    .required('Name is required')
-    .matches(/^[A-Z]/, 'First letter must be uppercase')
-    .matches(/^[a-zA-Z]+$/, 'Age should not contain special characters or numbers'),
-  age: yup
-    .number()
-    .required()
-    .typeError('Age must be an integer')
-    .integer()
-    .positive('Age must be a positive number'),
-  email: yup
-    .string()
-    .trim()
-    .required('Email is required')
-    .email('Enter a valid email (e.g., user@example.com)')
-    .matches(/^.+@.+\..+$/, 'Email address must contain a domain name'),
-  password: yup
-    .string()
-    .trim()
-    .test(
-      'digit',
-      'Must include at least one digit (0-9)',
-      (value) => value !== undefined && /[0-9]/.test(value)
-    )
-    .test(
-      'uppercase',
-      'Must include at least one uppercase letter (A-Z)',
-      (value) => value !== undefined && /[A-Z]/.test(value)
-    )
-    .test(
-      'lowercase',
-      'Must include at least one lowercase letter (a-z)',
-      (value) => value !== undefined && /[a-z]/.test(value)
-    )
-
-    .test(
-      'specialCharacters',
-      'Must include at least one special character (!@#$%^&*)',
-      (value) => value !== undefined && /[!@#$%^&*]/.test(value)
-    )
-    .required('Password is required'),
-  confirmPassword: yup.string().oneOf([yup.ref('password'), undefined], 'Passwords must match'),
-  sex: yup.string().required(),
-});
+import { schema } from './validationSchema';
+import { convertImageToBase64 } from '../../utils/heplers/convertImageToBase64';
 
 type FormData = yup.InferType<typeof schema>;
 
@@ -73,13 +28,18 @@ const ReactHookForm = () => {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<FormData>({
     mode: 'all',
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: FormData) => console.log(data);
+  const onSubmit = async (data: FormData) => {
+    const { image } = data;
+    const image64 = image ? await convertImageToBase64(image[0]) : '';
+    console.log(data);
+    console.log(image64);
+  };
 
   return (
     <>
@@ -152,7 +112,22 @@ const ReactHookForm = () => {
             ))}
           </select>
         </div>
-        <input className={styles.submitButton} type="submit" />
+
+        <div className={`${styles.inlineRow}`}>
+          <input type="checkbox" {...register('acceptTerms')} />
+          <label htmlFor="acceptTerms">Accept Terms & Conditions *</label>
+          <span className={styles.error}>{errors.acceptTerms?.message}</span>
+        </div>
+
+        <div className={styles.row}>
+          <label htmlFor="image">Upload image: * </label>
+          <div>
+            <input type="file" id="image" {...register('image')} />
+            <span className={styles.error}>{errors.image?.message}</span>
+          </div>
+        </div>
+
+        <input className={styles.submitButton} type="submit" disabled={!isValid} />
       </form>
     </>
   );

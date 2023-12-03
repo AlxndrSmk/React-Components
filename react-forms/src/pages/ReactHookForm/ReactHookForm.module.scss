@@ -65,3 +65,14 @@
 .passwordRow {
   height: 100px;
 }
+
+.inlineRow {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+
+  span {
+    bottom: -20px;
+  }
+}
