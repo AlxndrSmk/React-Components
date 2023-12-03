@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import { COUNTRIES } from '../../constatns/countries';
 
 export const schema = yup.object({
   name: yup
@@ -58,5 +59,11 @@ export const schema = yup.object({
     .test('fileSize', 'Max allowed size is 100KB', (value) => {
       if (!value?.length) return false;
       return value[0].size <= 102400;
+    }),
+  country: yup
+    .string()
+    .required('Country is required')
+    .test('does country exist', 'Country not found', (value) => {
+      return COUNTRIES.map((el) => el.toLowerCase()).includes(value.toLowerCase());
     }),
 });

@@ -7,7 +7,7 @@
   flex-direction: column;
   gap: 3px;
   margin: 0 auto;
-  max-width: 700px;
+  width: 600px;
 }
 
 .row {
@@ -46,7 +46,6 @@
 
 .passwordInputWrapper {
   display: flex;
-  margin-bottom: 15px;
 }
 
 .password {
@@ -67,10 +66,10 @@
 }
 
 .inlineRow {
-  position: relative;
   display: flex;
-  justify-content: center;
   gap: 5px;
+  justify-content: center;
+  position: relative;
 
   span {
     bottom: -20px;

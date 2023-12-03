@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Main from '../pages/Main';
-import UncontrolledForm from '../pages/UncontrolledForm';
+import Main from '../pages/Main/Main';
 import ReactHookForm from '../pages/ReactHookForm/ReactHookForm';
+import UncontrolledForm from '../pages/UncontrolledForm/UncontrolledForm';
 
 const router = createBrowserRouter([
   {
@@ -9,7 +9,7 @@ const router = createBrowserRouter([
     element: <Main />,
   },
   {
-    path: 'uncontrolled',
+    path: 'uncontrolled-form',
     element: <UncontrolledForm />,
   },
   {
