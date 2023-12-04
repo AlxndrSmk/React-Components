@@ -1,0 +1,119 @@
+.header {
+  text-align: center;
+}
+
+.form {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 0 auto;
+  padding: 25px;
+  width: 600px;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  height: 60px;
+  position: relative;
+}
+
+.error {
+  bottom: 0;
+  color: rgb(211, 47, 47);
+  display: block;
+  font-size: 0.8em;
+  position: absolute;
+}
+
+.submitButton {
+  margin: 25px auto 0 auto;
+  width: 200px;
+
+  border: none;
+  box-shadow:
+    rgba(0, 0, 0, 0.2) 0px 3px 1px -2px,
+    rgba(0, 0, 0, 0.14) 0px 2px 2px 0px,
+    rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+  color: #000000;
+  cursor: pointer;
+  font-size: 1.4em;
+  outline: none;
+  padding: 0.5em;
+  transition: 0.3s ease;
+
+  &:hover {
+    background-color: #000000;
+    color: #ffffff;
+  }
+
+  &:disabled {
+    cursor: auto;
+    background-color: #c1c1c1;
+    color: #7b7b7b;
+  }
+}
+
+.showPassword {
+  background-image: url('../../../public/display.png');
+  background-size: cover;
+  height: 24.4px;
+  width: 24.4px;
+}
+
+.hidePassword {
+  background-image: url('../../../public/hide.png');
+  background-size: cover;
+  height: 24.4px;
+  width: 24.4px;
+}
+
+.passwordInputWrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.password {
+  width: 50%;
+}
+
+.passwordInput {
+  width: 95%;
+}
+
+.passwordsContainer {
+  display: flex;
+  gap: 20px;
+}
+
+.passwordRow {
+  height: 100px;
+}
+
+.inlineRow {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  position: relative;
+
+  span {
+    bottom: -20px;
+  }
+}
+
+.radio_buttons {
+  height: 40px;
+  padding-left: 40px;
+  width: 400px;
+
+  input,
+  label {
+    margin-right: 8px;
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: row;
+  }
+}
