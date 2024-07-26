@@ -6,7 +6,7 @@ import { footerLinks } from '@/utils/constatnts';
 
 const Footer: React.FC = () => (
   <div className={styles.footer_container}>
-    <p className={styles.footer_copyright}> © 2023 Alexander Samak</p>
+    <p className={styles.footer_copyright}> © {new Date().getFullYear()} Alexander Samak</p>
     {footerLinks.map((link) => {
       return (
         <Link key={link.name} href={link.src} className={styles.footer_icon} target="blank">
